@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card-item {
+  @apply h-40 w-[12rem] p-4 flex justify-center items-center shadow-lg mb-10 hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md;
+}
+
+.action-icon {
+  @apply text-lg transition-transform duration-300 hover:scale-110 hover:cursor-pointer;
+}
+
+* {
+  @apply transition-colors duration-200;
+}
+
+/* body.dark {
+  background-color: #121212;
+  color: #ffffff;
+} */
+
+.active {
+  font-weight: bold;
+  border-left: none;
+  border-bottom: solid white 2px;
+}

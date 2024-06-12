@@ -1,0 +1,11 @@
+.icons-enter-active {
+  transition: all 0.1s ease;
+}
+.icons-leave-active {
+  transition: all 0.1s ease;
+  position: absolute;
+}
+.icons-enter,
+.icons-leave-to {
+  opacity: 0;
+}
