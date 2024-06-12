@@ -11,9 +11,9 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useWorkouts } from "../context/WorkoutContext";
 
-const WorkoutCard = ({ workout }) => {
+const WorkoutCard = ({ workout, onRemoveWorkout }) => {
   const navigate = useNavigate();
-  const { toggleLikeWorkout, deleteWorkout } = useWorkouts();
+  const { toggleLikeWorkout } = useWorkouts();
 
   const handleWorkoutSelection = () => {
     console.log("workout", workout);
@@ -27,7 +27,7 @@ const WorkoutCard = ({ workout }) => {
 
   const handleDeleteWorkout = (e) => {
     e.stopPropagation();
-    deleteWorkout(workout.workoutId);
+    onRemoveWorkout(workout);
   };
 
   return (
@@ -77,6 +77,7 @@ const WorkoutCard = ({ workout }) => {
 
 WorkoutCard.propTypes = {
   workout: PropTypes.object.isRequired,
+  onRemoveWorkout: PropTypes.func.isRequired,
 };
 
 export default WorkoutCard;

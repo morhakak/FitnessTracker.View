@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import spinner from "../assets/spinner.gif";
-import EditableText from "./EditableText";
+import { toast, Toaster } from "sonner";
 
 export default function ExerciseList({ workoutId }) {
   const {
@@ -15,10 +15,12 @@ export default function ExerciseList({ workoutId }) {
     updateExerciseInDB,
     saveWorkoutToDB,
   } = useWorkouts();
+
   const [localWorkout, setLocalWorkout] = useState(null);
   const [isChanged, setIsChanged] = useState(false);
   const [isSetChanged, setIsSetChanged] = useState({});
   const [originalSets, setOriginalSets] = useState({}); // To store original set values
+  const [originalWorkout, setOriginalWorkout] = useState(null); // To store original workout
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -26,6 +28,7 @@ export default function ExerciseList({ workoutId }) {
       (workout) => workout.workoutId === workoutId
     );
     setLocalWorkout(workout);
+    setOriginalWorkout(JSON.parse(JSON.stringify(workout))); // Store original workout
   }, [state.workouts, workoutId]);
 
   const handleExerciseNameChange = (exerciseId, name) => {
@@ -74,32 +77,28 @@ export default function ExerciseList({ workoutId }) {
     setIsChanged(true);
   };
 
-  const handleSave = async (setId) => {
+  const handleSave = async () => {
     setIsLoading(true);
-    console.log("Local workout before save:", localWorkout);
-    // Update exercises directly in the database
     try {
       const promises = localWorkout.exercises.map((exercise) =>
         updateExerciseInDB(exercise.exerciseId, exercise)
       );
       await Promise.all(promises);
 
-      // Save the workout directly in the database
       await saveWorkoutToDB(localWorkout);
-
-      console.log("Local workout after save:", localWorkout); // Debug log after saving
+      toast.success("Workout saved successfully!");
     } catch (error) {
+      toast.error("Failed to save workout", error);
       console.error("Failed to save workout", error);
     } finally {
       setIsLoading(false);
+      setIsChanged(false);
     }
+  };
 
+  const handleDiscard = () => {
+    setLocalWorkout(JSON.parse(JSON.stringify(originalWorkout))); // Revert to original workout
     setIsChanged(false);
-    setIsSetChanged((prevIsSetChanged) => {
-      const newIsSetChanged = { ...prevIsSetChanged };
-      delete newIsSetChanged[setId];
-      return newIsSetChanged;
-    });
   };
 
   if (!localWorkout) {
@@ -116,6 +115,7 @@ export default function ExerciseList({ workoutId }) {
 
   return (
     <div>
+      <Toaster richColors position="top-right" />
       {localWorkout.exercises.length > 0 ? (
         localWorkout.exercises.map((exercise) => (
           <div
@@ -204,17 +204,24 @@ export default function ExerciseList({ workoutId }) {
         <p className="dark:text-white">No exercises available</p>
       )}
       {isChanged && (
-        <button
-          className="w-full py-2 px-2 mt-4 self-center relative bg-green-500 rounded-md text-center text-white hover:bg-green-300"
-          onClick={handleSave}
-        >
-          {true && (
-            <img className="w-6 absolute top-[0.5rem] left-3" src={spinner} />
-          )}
-          Save
-        </button>
+        <div className="flex justify-between mt-4">
+          <button
+            className="w-[48%] py-2 px-2 bg-green-500 rounded-md text-center text-white hover:bg-green-300"
+            onClick={handleSave}
+          >
+            {isLoading && (
+              <img className="w-6 absolute top-[0.5rem] left-3" src={spinner} />
+            )}
+            Save Changes
+          </button>
+          <button
+            className="w-[48%] py-2 px-2 bg-red-500 rounded-md text-center text-white hover:bg-red-300"
+            onClick={handleDiscard}
+          >
+            Discard Changes
+          </button>
+        </div>
       )}
-      <EditableText />
     </div>
   );
 }

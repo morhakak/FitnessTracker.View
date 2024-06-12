@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthContext";
 import spinner from "../assets/spinner.gif";
+import { toast, Toaster } from "sonner";
 
 const LoginView = () => {
   const navigate = useNavigate();
@@ -22,6 +23,12 @@ const LoginView = () => {
   useEffect(() => {
     if (errors.length > 0) {
       setFormErrors((prevErrors) => ({ ...prevErrors, form: errors[0] }));
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    if (errors.length > 0) {
+      toast.error(errors[0]);
     }
   }, [errors]);
 
@@ -41,6 +48,7 @@ const LoginView = () => {
 
     const response = await login(formData.userName, formData.password);
     if (response) {
+      toast.success(`${formData.userName} logged in successfully`);
       navigate("/");
     }
   };
@@ -66,6 +74,7 @@ const LoginView = () => {
 
   return (
     <div className="max-w-md mx-auto shadow-lg mt-10 rounded-md md:max-w-lg lg:max-w-xl p-4 relative shadow-slate-400 dark:bg-blue-950 dark:shadow-slate-700">
+      <Toaster richColors position="top-right" />
       <form className="flex flex-col relative" onSubmit={loginHandler}>
         <div className="flex items-center relative mb-4">
           <FontAwesomeIcon

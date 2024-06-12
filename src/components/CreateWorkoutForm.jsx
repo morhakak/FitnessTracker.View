@@ -16,7 +16,7 @@ export default function NewWorkoutView() {
     <div className="w-full flex flex-col items-center">
       <form className="flex flex-col rounded-md h-[12rem] p-6 justify-center w-[25rem] shadow-md bg-white mt-8 dark:bg-blue-950">
         <input
-          maxLength={12}
+          maxLength={50}
           value={workoutName}
           onChange={(e) => setWorkoutName(e.target.value)}
           type="text"

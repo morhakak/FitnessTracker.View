@@ -40,6 +40,10 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token, user, isAdmin]);
 
+  const addError = (error) => {
+    setErrors((prevErrors) => [...prevErrors, error]);
+  };
+
   const resetErrors = () => {
     setErrors([]);
   };
@@ -58,12 +62,12 @@ export const AuthProvider = ({ children }) => {
         return response.data;
       } else {
         console.log("register error, response.data:", response.data);
-        setErrors([`Failed to register: ${response.data}`, ...errors]);
+        addError(`Failed to register: ${response.data}`);
         return null;
       }
     } catch (error) {
       console.log("register error, response.data:", error.message);
-      setErrors([`Failed to register: ${error.message}`, ...errors]);
+      addError(`Failed to register: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -83,17 +87,14 @@ export const AuthProvider = ({ children }) => {
         return handleLoginSuccess(jwtKey);
       } else {
         console.log("Login error, response.data:", response.data);
-        setErrors([response.data, ...errors]);
+        addError(`Failed to login: ${response.data}`);
         return false;
       }
     } catch (error) {
       if (error.response && error.response.data) {
-        setErrors([
-          `Failed to login: ${error.response.data.Message}`,
-          ...errors,
-        ]);
+        addError(`Failed to login: ${error.response.data.Message}`);
       } else {
-        setErrors([`Failed to login: ${error.message}`, ...errors]);
+        addError(`Failed to login: ${error.message}`);
       }
       console.error("Failed to login", error.message);
       return false;
@@ -179,7 +180,6 @@ export const AuthProvider = ({ children }) => {
         token,
         isLoggedIn,
         user,
-        // getTokenFromLocalStorage,
       }}
     >
       {children}

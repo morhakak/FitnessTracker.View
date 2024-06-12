@@ -4,6 +4,7 @@ import {
   useReducer,
   useEffect,
   useCallback,
+  useState,
 } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
@@ -129,6 +130,11 @@ const workoutReducer = (state, action) => {
 export const WorkoutProvider = ({ children }) => {
   const [state, dispatch] = useReducer(workoutReducer, initialState);
   const { user, token } = useAuth();
+  const [errors, setErrors] = useState([]);
+
+  const addError = (error) => {
+    setErrors((prevErrors) => [...prevErrors, error]);
+  };
 
   const fetchWorkouts = useCallback(async () => {
     if (!token) {
@@ -145,14 +151,15 @@ export const WorkoutProvider = ({ children }) => {
       if (res.status >= 200 && res.status <= 300) {
         dispatch({ type: "SET_WORKOUTS", payload: res.data });
       } else {
-        console.error(`Failed to fetch workouts. Status code: ${res.status}`);
+        addError(`Failed to load workouts: ${res.data.message}`);
+        console.error(`Failed to load workouts. ${res.data.message}`);
       }
     } catch (error) {
-      console.error("Failed to fetch workouts", error);
+      addError(`Failed to load workouts: ${error.message}`);
+      console.error(`Failed to load workouts. ${error.message}`);
     }
   }, [token]);
 
-  // Load workouts from local storage when the user is available
   useEffect(() => {
     async function fetchData() {
       if (user) await fetchWorkouts();
@@ -182,8 +189,11 @@ export const WorkoutProvider = ({ children }) => {
         if (postRes.status >= 200 && postRes.status <= 300) {
           dispatch({ type: "ADD_WORKOUT", payload: postRes.data });
           await fetchWorkouts();
+        } else {
+          addError(`Failed to create workout: ${postRes.data.message}`);
         }
       } catch (error) {
+        addError(`Failed to save workouts: ${error.message}`);
         console.error("Failed to save workout", error);
       }
     },
@@ -203,12 +213,16 @@ export const WorkoutProvider = ({ children }) => {
         });
         if (res.status >= 200 && res.status <= 300) {
           await fetchWorkouts();
+        } else {
+          addError(`Failed to delete workout: ${res.data.message}`);
         }
       } catch (error) {
+        setErrors(error, ...errors);
+        addError(`Failed to delete workout: ${error.message}`);
         console.log("Failed to delete workout", error);
       }
     },
-    [fetchWorkouts, token]
+    [fetchWorkouts, token, errors]
   );
 
   const toggleLikeWorkout = useCallback(
@@ -226,13 +240,15 @@ export const WorkoutProvider = ({ children }) => {
         if (res.status >= 200 && res.status <= 300) {
           await fetchWorkouts();
         } else {
+          addError("Failed to toggle like");
           console.error(`Failed to toggle like. Status code: ${res.status}`);
         }
       } catch (error) {
+        addError(`Failed to toggle like: ${error.message}`);
         console.error("Failed to toggle like", error);
       }
     },
-    [token]
+    [token, fetchWorkouts]
   );
 
   const addExercise = useCallback(
@@ -253,8 +269,12 @@ export const WorkoutProvider = ({ children }) => {
         );
         if (res.status >= 200 && res.status <= 300) {
           await fetchWorkouts();
+        } else {
+          addError(`Failed to add exercise: ${res.data.message}`);
+          console.error(`Failed to add exercise. Status code: ${res.status}`);
         }
       } catch (error) {
+        addError(`Failed to add exercise: ${error.message}`);
         console.log("Failed to add exercise", error);
       }
     },
@@ -274,8 +294,11 @@ export const WorkoutProvider = ({ children }) => {
         });
         if (res.status >= 200 && res.status <= 300) {
           await fetchWorkouts();
+        } else {
+          addError(`Failed to delete exercise: ${res.data.message}`);
         }
       } catch (error) {
+        addError(`Failed to delete exercise: ${error.message}`);
         console.log("Failed to delete exercise", error);
       }
     },
@@ -296,8 +319,11 @@ export const WorkoutProvider = ({ children }) => {
         );
         if (res.status >= 200 && res.status <= 300) {
           await fetchWorkouts();
+        } else {
+          addError(`Failed to add set: ${res.data.message}`);
         }
       } catch (error) {
+        addError(`Failed to add set: ${error.message}`);
         console.log("Failed to add set", error);
       }
     },
@@ -320,8 +346,11 @@ export const WorkoutProvider = ({ children }) => {
         );
         if (res.status >= 200 && res.status <= 300) {
           await fetchWorkouts();
+        } else {
+          addError(`Failed to delete set: ${res.data.message}`);
         }
       } catch (error) {
+        addError(`Failed to delete set: ${error.message}`);
         console.log("Failed to delete set", error);
       }
     },
@@ -353,6 +382,7 @@ export const WorkoutProvider = ({ children }) => {
         });
         // await fetchWorkouts();
       } catch (error) {
+        addError(`Failed to save workout: ${error.message}`);
         console.error("Failed to save workout", error);
       }
     },
@@ -369,6 +399,7 @@ export const WorkoutProvider = ({ children }) => {
           },
         });
       } catch (error) {
+        addError(`Failed to update exercise: ${error.message}`);
         console.error("Failed to update exercise in DB", error);
       }
     },
@@ -385,6 +416,7 @@ export const WorkoutProvider = ({ children }) => {
           },
         });
       } catch (error) {
+        addError(`Failed to save workout: ${error.message}`);
         console.error("Failed to save workout to DB", error);
       }
     },
@@ -407,6 +439,7 @@ export const WorkoutProvider = ({ children }) => {
         fetchWorkouts,
         saveWorkoutToDB,
         updateExerciseInDB,
+        errors,
       }}
     >
       {children}
