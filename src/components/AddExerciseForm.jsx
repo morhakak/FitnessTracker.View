@@ -1,15 +1,39 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useWorkouts } from "../context/WorkoutContext";
+import { toast } from "sonner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function AddExerciseForm({ workoutId }) {
   const [exerciseName, setExerciseName] = useState("");
   const { addExercise } = useWorkouts();
 
   const handleSubmit = (e) => {
+    toast(
+      <>
+        <FontAwesomeIcon icon={faSpinner} className="text-md text-black " />
+        <span className="text-xs font-medium text-black">
+          Adding new exercise
+        </span>
+      </>,
+      { duration: 1500 }
+    );
     e.preventDefault();
     addExercise(workoutId, exerciseName);
     setExerciseName("");
+    toast(
+      <>
+        <FontAwesomeIcon
+          icon={faCircleCheck}
+          className="text-md text-green-500 "
+        />
+        <span className="text-xs font-medium text-black">
+          Exercise added successfully
+        </span>
+      </>,
+      { duration: 1500 }
+    );
   };
 
   return (

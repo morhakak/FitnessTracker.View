@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import spinner from "../assets/spinner.gif";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 
 export default function ExerciseList({ workoutId }) {
   const {
@@ -115,7 +115,6 @@ export default function ExerciseList({ workoutId }) {
 
   return (
     <div>
-      <Toaster richColors position="top-right" />
       {localWorkout.exercises.length > 0 ? (
         localWorkout.exercises.map((exercise) => (
           <div

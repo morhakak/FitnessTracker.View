@@ -1,32 +1,38 @@
 import AddExerciseForm from "../components/AddExerciseForm";
 import ExerciseList from "../components/ExerciseList";
-import SaveWorkoutButton from "../components/SaveWorkoutButton";
 import { useParams } from "react-router-dom";
 import { useWorkouts } from "../context/WorkoutContext";
-import spinner from "../assets/spinner.gif";
+import { toast } from "sonner";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function WorkoutView() {
   const { id } = useParams();
-  const { state } = useWorkouts();
+  const { state, loader } = useWorkouts();
 
   const workout = state.workouts.find((workout) => workout.workoutId === id);
 
-  if (!workout) {
-    return (
-      <div className="mx-auto">
-        <img className="w-8 mx-auto mt-2" src={spinner} />
-      </div>
+  if (loader.loadWorkouts && !workout) {
+    toast(
+      <>
+        <FontAwesomeIcon icon={faSpinner} className="text-md text-black " />
+        <span className="text-xs font-medium text-black">loading...</span>
+      </>,
+      { duration: 1500 }
     );
   }
 
   return (
     <div className="flex flex-col items-center mt-8">
-      <h1 className="text-3xl tracking-wider mb-8 first-letter:uppercase font-semibold dark:text-white">
-        {workout.name}
-      </h1>
-      <AddExerciseForm workoutId={id} />
-      <ExerciseList workoutId={id} />
-      {/* <SaveWorkoutButton workoutId={id} /> */}
+      {workout && (
+        <>
+          <h1 className="text-3xl tracking-wider mb-8 first-letter:uppercase font-semibold dark:text-white">
+            {workout.name}
+          </h1>
+          <AddExerciseForm workoutId={id} />
+          <ExerciseList workoutId={id} />
+        </>
+      )}
     </div>
   );
 }

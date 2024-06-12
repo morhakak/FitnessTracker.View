@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useWorkouts } from "../context/WorkoutContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function NewWorkoutView() {
   const [workoutName, setWorkoutName] = useState("");
-  const { createWorkout } = useWorkouts();
+  const { createWorkout, loader } = useWorkouts();
 
   const handleAddWorkout = (e) => {
     e.preventDefault();
@@ -26,8 +28,14 @@ export default function NewWorkoutView() {
         <button
           disabled={!workoutName}
           onClick={handleAddWorkout}
-          className="w-full bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:bg-slate-300 dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
+          className="w-full relative bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:bg-slate-300 dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
         >
+          {loader.addWorkout && (
+            <FontAwesomeIcon
+              icon={faSpinner}
+              className="text-md text-black absolute left-3 top-3"
+            />
+          )}
           Create Workout
         </button>
       </form>

@@ -10,6 +10,7 @@ import {
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useWorkouts } from "../context/WorkoutContext";
+import { format } from "date-fns";
 
 const WorkoutCard = ({ workout, onRemoveWorkout }) => {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ const WorkoutCard = ({ workout, onRemoveWorkout }) => {
     onRemoveWorkout(workout);
   };
 
+  const formattedDate = format(new Date(workout.createdAt), "dd-MM-yyyy HH:mm");
+
   return (
     <div className="card-item">
       <div
@@ -47,7 +50,7 @@ const WorkoutCard = ({ workout, onRemoveWorkout }) => {
         </p>
         <div className="flex gap-6 sm:w-full sm:justify-between">
           <p className="text-gray-500 text-[10px] italic dark:text-gray-200">
-            {workout.createdAt}
+            {formattedDate}
           </p>
           <div className="flex self-end gap-2">
             {workout.isLiked ? (

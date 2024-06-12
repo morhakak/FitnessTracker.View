@@ -131,6 +131,13 @@ export const WorkoutProvider = ({ children }) => {
   const [state, dispatch] = useReducer(workoutReducer, initialState);
   const { user, token } = useAuth();
   const [errors, setErrors] = useState([]);
+  const [loader, setIsLoader] = useState({
+    addWorkout: false,
+    addExercise: false,
+    addSet: false,
+    loadWorkouts: false,
+    save: false,
+  });
 
   const addError = (error) => {
     setErrors((prevErrors) => [...prevErrors, error]);
@@ -142,6 +149,7 @@ export const WorkoutProvider = ({ children }) => {
     }
 
     try {
+      setIsLoader((prev) => ({ ...prev, loadWorkouts: true }));
       const res = await axios.get(`${BASE_URL}/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -157,6 +165,8 @@ export const WorkoutProvider = ({ children }) => {
     } catch (error) {
       addError(`Failed to load workouts: ${error.message}`);
       console.error(`Failed to load workouts. ${error.message}`);
+    } finally {
+      setIsLoader((prev) => ({ ...prev, loadWorkouts: false }));
     }
   }, [token]);
 
@@ -169,13 +179,14 @@ export const WorkoutProvider = ({ children }) => {
 
   useEffect(() => {
     if (user && state.workouts.length > 0) {
-      console.log("Saving workouts to local storage:", state.workouts);
+      // console.log("Saving workouts to local storage:", state.workouts);
       localStorage.setItem("workouts", JSON.stringify(state.workouts));
     }
   }, [state.workouts, user]);
 
   const createWorkout = useCallback(
     async (name) => {
+      setIsLoader((prev) => ({ ...prev, addWorkout: true }));
       const newWorkout = {
         name,
       };
@@ -195,6 +206,8 @@ export const WorkoutProvider = ({ children }) => {
       } catch (error) {
         addError(`Failed to save workouts: ${error.message}`);
         console.error("Failed to save workout", error);
+      } finally {
+        setIsLoader((prev) => ({ ...prev, addWorkout: false }));
       }
     },
     [token, fetchWorkouts]
@@ -253,6 +266,7 @@ export const WorkoutProvider = ({ children }) => {
 
   const addExercise = useCallback(
     async (workoutId, name) => {
+      setIsLoader((prev) => ({ ...prev, addExercise: true }));
       const newExercise = {
         name,
       };
@@ -276,6 +290,8 @@ export const WorkoutProvider = ({ children }) => {
       } catch (error) {
         addError(`Failed to add exercise: ${error.message}`);
         console.log("Failed to add exercise", error);
+      } finally {
+        setIsLoader((prev) => ({ ...prev, addExercise: false }));
       }
     },
     [fetchWorkouts, token]
@@ -307,6 +323,7 @@ export const WorkoutProvider = ({ children }) => {
 
   const addSet = useCallback(
     async (workoutId, exerciseId) => {
+      setIsLoader((prev) => ({ ...prev, addSet: true }));
       try {
         const res = await axios.post(
           `${BASE_URL}/exercise/add-set`,
@@ -325,6 +342,8 @@ export const WorkoutProvider = ({ children }) => {
       } catch (error) {
         addError(`Failed to add set: ${error.message}`);
         console.log("Failed to add set", error);
+      } finally {
+        setIsLoader((prev) => ({ ...prev, addSet: false }));
       }
     },
     [fetchWorkouts, token]
@@ -391,6 +410,7 @@ export const WorkoutProvider = ({ children }) => {
 
   const updateExerciseInDB = useCallback(
     async (exerciseId, updates) => {
+      setIsLoader((prev) => ({ ...prev, save: true }));
       console.log("Updating exercise in DB with updates:", updates); // Debug log
       try {
         await axios.put(`${BASE_URL}/exercise/${exerciseId}`, updates, {
@@ -401,6 +421,8 @@ export const WorkoutProvider = ({ children }) => {
       } catch (error) {
         addError(`Failed to update exercise: ${error.message}`);
         console.error("Failed to update exercise in DB", error);
+      } finally {
+        setIsLoader((prev) => ({ ...prev, save: false }));
       }
     },
     [token]
@@ -408,6 +430,7 @@ export const WorkoutProvider = ({ children }) => {
 
   const saveWorkoutToDB = useCallback(
     async (workout) => {
+      setIsLoader((prev) => ({ ...prev, save: true }));
       console.log("Saving workout to DB:", workout); // Debug log
       try {
         await axios.put(`${BASE_URL}/${workout.workoutId}`, workout, {
@@ -418,6 +441,8 @@ export const WorkoutProvider = ({ children }) => {
       } catch (error) {
         addError(`Failed to save workout: ${error.message}`);
         console.error("Failed to save workout to DB", error);
+      } finally {
+        setIsLoader((prev) => ({ ...prev, save: false }));
       }
     },
     [token]
@@ -440,6 +465,7 @@ export const WorkoutProvider = ({ children }) => {
         saveWorkoutToDB,
         updateExerciseInDB,
         errors,
+        loader,
       }}
     >
       {children}

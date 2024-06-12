@@ -2,23 +2,53 @@ import { useState, useEffect } from "react";
 import WorkoutCard from "../components/WorkoutCard";
 import { useWorkouts } from "../context/WorkoutContext";
 import CreateWorkoutForm from "../components/CreateWorkoutForm";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import Modal from "react-modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 Modal.setAppElement("#root");
 
 export default function WorkoutsView() {
-  const { state, updateWorkout, fetchWorkouts, errors, deleteWorkout } =
+  const { state, updateWorkout, fetchWorkouts, errors, deleteWorkout, loader } =
     useWorkouts();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
+  useEffect(() => {
+    console.log("Component mounted or state changed");
+    console.log("load workouts state:", loader.loadWorkouts);
+  }, [loader.loadWorkouts]);
+
+  useEffect(() => {
+    if (loader.loadWorkouts) {
+      toast(
+        <>
+          <FontAwesomeIcon icon={faSpinner} className="text-md text-black " />
+          <span className="text-xs font-medium text-black">
+            Loading workouts
+          </span>
+        </>,
+        { duration: 1500 }
+      );
+    } else if (!loader.loadWorkouts && state.workouts.length > 0) {
+      toast(
+        <>
+          <FontAwesomeIcon
+            icon={faCircleCheck}
+            className="text-md text-green-500 "
+          />
+          <span className="text-xs font-medium text-black">
+            Workouts Loaded successfully
+          </span>
+        </>,
+        { duration: 1500 }
+      );
+    }
+  }, [loader.loadWorkouts]);
 
   useEffect(() => {
     async function fetch() {
       await fetchWorkouts();
-      if (state.workouts.length > 0) {
-        toast.message("Workouts loaded successfully");
-      }
     }
     fetch();
   }, [fetchWorkouts]);
@@ -64,8 +94,7 @@ export default function WorkoutsView() {
   );
 
   return (
-    <div className="flex flex-col justify-center items-center w-full h-full">
-      <Toaster richColors position="top-right" />
+    <div className="relative flex flex-col justify-center items-center w-full h-full">
       <CreateWorkoutForm />
       <div className="justify-start grid grid-cols-2 px-4 gap-4 mt-8 mb-6 sm:grid-cols-2 md:grid-cols-3">
         {sortedWorkouts.length > 0 && errors.length === 0 ? (
@@ -92,10 +121,7 @@ export default function WorkoutsView() {
           overlayClassName="fixed inset-0 bg-black bg-opacity-50"
         >
           <div className="flex justify-end">
-            <button
-              className=" px-4 py-2"
-              onClick={() => setModalIsOpen(false)}
-            >
+            <button className="px-4 py-2" onClick={() => setModalIsOpen(false)}>
               X
             </button>
           </div>
@@ -108,7 +134,7 @@ export default function WorkoutsView() {
               onClick={() => setModalIsOpen(false)}
               className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
             >
-              Cancle
+              Cancel
             </button>
             <button
               onClick={confirmDelete}

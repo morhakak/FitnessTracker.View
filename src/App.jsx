@@ -9,6 +9,7 @@ import RegisterView from "./views/RegisterView";
 import LoginView from "./views/LoginView";
 import { AuthProvider } from "./context/AuthContext";
 import { useEffect } from "react";
+import { Toaster } from "sonner";
 
 function App() {
   useEffect(() => {
@@ -34,6 +35,7 @@ function App() {
               <Route path="/workouts" element={<WorkoutsView />} />
               <Route path="/workouts/:id" element={<WorkoutView />} />
             </Routes>
+            <Toaster richColors position="bottom-right" />
           </BrowserRouter>
         </WorkoutProvider>
       </AuthProvider>
