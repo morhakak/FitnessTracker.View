@@ -47,7 +47,7 @@ export default function AddExerciseForm({ workoutId }) {
         </h2>
         <div className="flex items-center mb-4">
           <input
-            className="flex-1 border border-gray-300 px-4 py-2 rounded-md mr-4 outline-none focus:shadow-md dark:text-white dark:bg-slate-700"
+            className="flex-1 border border-gray-300 px-4 py-2 rounded-md mr-4 outline-none focus:shadow-md dark:text-white dark:bg-transparent "
             type="text"
             value={exerciseName}
             onChange={(e) => setExerciseName(e.target.value)}

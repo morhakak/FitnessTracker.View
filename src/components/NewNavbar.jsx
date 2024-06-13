@@ -7,7 +7,6 @@ import {
   faBars,
   faX,
   faDoorOpen,
-  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthContext.jsx";
 
@@ -20,7 +19,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-blue-500 relative sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-slate-300 shadow-lg dark:bg-blue-950 dark:shadow-slate-700">
+    <header className="bg-blue-500 relative sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-slate-300  dark:bg-[#10192E]">
       <div className="flex items-center justify-between px-4 py-3 sm:p-0">
         <h1 className="text-white text-2xl">
           <FontAwesomeIcon icon={faDumbbell} className="text-white mr-2" />
@@ -41,7 +40,7 @@ const Header = () => {
         </div>
       </div>
       <nav
-        className={`px-4 pt-2 pb-4 sm:flex items-center sm:p-0 sm:static sm:top-0 sm:shadow-none dark:bg-blue-950 dark:shadow-slate-700 ${
+        className={`px-4 pt-2 pb-4 sm:flex items-center sm:p-0 sm:static sm:top-0 sm:shadow-none dark:bg-[#10192E] dark:shadow-slate-700 ${
           isOpen
             ? "block absolute top-18 bg-blue-500 z-10 w-full sm:w-auto shadow-slate-400 shadow-lg"
             : "hidden"
@@ -54,7 +53,6 @@ const Header = () => {
               className="rounded-full w-10 inline-block mr-2"
               src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
             />
-            <FontAwesomeIcon icon={faUser} className="text-white mr-1" />
             Hi,&nbsp;
             <span className="font-semibold">{user.firstName}</span>
             <span className="hidden sm:inline-block"> &nbsp; &nbsp;|</span>

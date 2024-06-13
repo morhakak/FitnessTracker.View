@@ -1,8 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faDumbbell,
-  faHeart as fasHeart,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart as farHeart,
   faTrashCan,
@@ -37,19 +34,15 @@ const WorkoutCard = ({ workout, onRemoveWorkout }) => {
     <div className="card-item">
       <div
         onClick={handleWorkoutSelection}
-        className="flex flex-col gap-2 h-full w-full"
+        className="card-content flex flex-col gap-2 h-full w-full"
       >
-        <p className={`text-lg font-semibold break-keep self-center`}>
+        <p
+          className={`text-lg flex-grow  font-semibold break-keep self-center`}
+        >
           {workout.name}
         </p>
-        <p className={`flex-grow break-keep self-center`}>
-          <FontAwesomeIcon
-            icon={faDumbbell}
-            className="text-black text-4xl dark:text-white"
-          />
-        </p>
         <div className="flex gap-6 sm:w-full sm:justify-between">
-          <p className="text-gray-500 text-[10px] italic dark:text-gray-200">
+          <p className="text-gray-200 text-[10px] italic dark:text-gray-200">
             {formattedDate}
           </p>
           <div className="flex self-end gap-2">

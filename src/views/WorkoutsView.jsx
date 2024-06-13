@@ -89,16 +89,12 @@ export default function WorkoutsView() {
     }
   };
 
-  const sortedWorkouts = [...state.workouts].sort(
-    (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-  );
-
   return (
     <div className="relative flex flex-col justify-center items-center w-full h-full">
       <CreateWorkoutForm />
       <div className="justify-start grid grid-cols-2 px-4 gap-4 mt-8 mb-6 sm:grid-cols-2 md:grid-cols-3">
-        {sortedWorkouts.length > 0 && errors.length === 0 ? (
-          sortedWorkouts.map((workout) => (
+        {state.workouts.length > 0 && errors.length === 0 ? (
+          state.workouts.map((workout) => (
             <WorkoutCard
               key={workout.workoutId}
               workout={workout}
@@ -117,28 +113,34 @@ export default function WorkoutsView() {
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={() => setModalIsOpen(false)}
-          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded shadow-md w-96"
-          overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+          className="h-[12rem] w-[20rem] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:text-white dark:bg-[#10192E] p-2 rounded shadow-md flex flex-col justify-between"
+          overlayClassName="fixed inset-0 bg-black z-20 bg-opacity-50"
         >
           <div className="flex justify-end">
-            <button className="px-4 py-2" onClick={() => setModalIsOpen(false)}>
+            <button
+              className="px-2 font-bold"
+              onClick={() => setModalIsOpen(false)}
+            >
               X
             </button>
           </div>
-          <h2 className="text-lg text-center font-semibold">
-            Delete {workoutToDelete?.name}?
-          </h2>
-
-          <div className="mt-4 flex justify-center gap-2">
+          <div className="flex-grow flex flex-col justify-center">
+            <h2 className="text-center text-md px-8 mb-2">
+              Delete workout{" "}
+              <span className="italic">{workoutToDelete?.name}</span>
+            </h2>
+            <p className="text-lg text-center">Are you sure?</p>
+          </div>
+          <div className="flex justify-center gap-2 ">
             <button
               onClick={() => setModalIsOpen(false)}
-              className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+              className="bg-blue-500 hover:bg-blue-400 dark:bg-[#0D2247] text-white px-2 py-1 rounded mt-2 text-sm dark:hover:bg-[#0E2855]"
             >
               Cancel
             </button>
             <button
               onClick={confirmDelete}
-              className="bg-red-500 text-white px-4 py-2 rounded mt-2"
+              className="bg-red-500 text-white px-2 py-1 rounded mt-2 text-sm hover:bg-red-400"
             >
               Delete
             </button>

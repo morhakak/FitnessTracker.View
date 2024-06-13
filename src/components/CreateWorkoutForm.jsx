@@ -16,7 +16,7 @@ export default function NewWorkoutView() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <form className="flex flex-col rounded-md h-[12rem] p-6 justify-center w-[25rem] shadow-md bg-white mt-8 dark:bg-blue-950">
+      <form className="flex flex-col rounded-md h-[10rem] py-1 px-6 justify-center w-[25rem] shadow-md bg-white mt-8 dark:bg-[#10192E]">
         <input
           maxLength={50}
           value={workoutName}
@@ -28,7 +28,7 @@ export default function NewWorkoutView() {
         <button
           disabled={!workoutName}
           onClick={handleAddWorkout}
-          className="w-full relative bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:bg-slate-300 dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
+          className="w-full relative bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:bg-slate-300 dark:bg-[#0D2247] dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
         >
           {loader.addWorkout && (
             <FontAwesomeIcon

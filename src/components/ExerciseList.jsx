@@ -19,8 +19,8 @@ export default function ExerciseList({ workoutId }) {
   const [localWorkout, setLocalWorkout] = useState(null);
   const [isChanged, setIsChanged] = useState(false);
   const [isSetChanged, setIsSetChanged] = useState({});
-  const [originalSets, setOriginalSets] = useState({}); // To store original set values
-  const [originalWorkout, setOriginalWorkout] = useState(null); // To store original workout
+  const [originalSets, setOriginalSets] = useState({});
+  const [originalWorkout, setOriginalWorkout] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function ExerciseList({ workoutId }) {
       (workout) => workout.workoutId === workoutId
     );
     setLocalWorkout(workout);
-    setOriginalWorkout(JSON.parse(JSON.stringify(workout))); // Store original workout
+    setOriginalWorkout(JSON.parse(JSON.stringify(workout)));
   }, [state.workouts, workoutId]);
 
   const handleExerciseNameChange = (exerciseId, name) => {
@@ -41,7 +41,6 @@ export default function ExerciseList({ workoutId }) {
     setIsChanged(true);
   };
 
-  // Save original set values before changing
   const saveOriginalSet = (setId, set) => {
     setOriginalSets((prevOriginalSets) => ({
       ...prevOriginalSets,
@@ -54,7 +53,6 @@ export default function ExerciseList({ workoutId }) {
   };
 
   const handleSetChange = (exerciseId, setId, field, value) => {
-    // Save original set if not already saved
     const currentSet = localWorkout.exercises
       .flatMap((exercise) => exercise.sets)
       .find((set) => set.setId === setId);
@@ -86,7 +84,7 @@ export default function ExerciseList({ workoutId }) {
       await Promise.all(promises);
 
       await saveWorkoutToDB(localWorkout);
-      toast.success("Workout saved successfully!");
+      toast.success("Workout was saved successfully!");
     } catch (error) {
       toast.error("Failed to save workout", error);
       console.error("Failed to save workout", error);
@@ -97,8 +95,13 @@ export default function ExerciseList({ workoutId }) {
   };
 
   const handleDiscard = () => {
-    setLocalWorkout(JSON.parse(JSON.stringify(originalWorkout))); // Revert to original workout
+    setLocalWorkout(JSON.parse(JSON.stringify(originalWorkout)));
     setIsChanged(false);
+  };
+
+  const handleDeleteExericse = (exercise) => {
+    deleteExercise(exercise.exerciseId);
+    toast.message(`Exercise ${exercise.name} was deleted`);
   };
 
   if (!localWorkout) {
@@ -123,7 +126,7 @@ export default function ExerciseList({ workoutId }) {
           >
             <div className="flex justify-between border-b-2 items-center mb-2 pb-2">
               <input
-                className="text-xl font-semibold text-center mr-2 dark:text-white dark:bg-slate-700"
+                className="text-xl font-semibold text-center mr-2 dark:text-white dark:bg-transparent "
                 type="text"
                 value={exercise.name}
                 onChange={(e) =>
@@ -132,7 +135,7 @@ export default function ExerciseList({ workoutId }) {
               />
               <button
                 className="bg-blue-500 text-white text-xs py-1 px-2 rounded-md hover:bg-blue-300"
-                onClick={() => deleteExercise(exercise.exerciseId)}
+                onClick={() => handleDeleteExericse(exercise)}
               >
                 <FontAwesomeIcon className="text-xs" icon={faTrashCan} />
               </button>
@@ -151,7 +154,7 @@ export default function ExerciseList({ workoutId }) {
                 className="mb-2 flex justify-evenly relative border-b-2 pb-4 pt-2"
               >
                 <input
-                  className="font-semibold border-2 ml-4 text-sm text-center w-10 mx-2 focus:outline-none dark:text-white dark:bg-slate-700"
+                  className="font-semibold border-2 ml-4 text-sm text-center w-10 mx-2 focus:outline-none dark:text-white dark:bg-transparent "
                   type="number"
                   value={set.reps}
                   onChange={(e) => {
@@ -164,7 +167,7 @@ export default function ExerciseList({ workoutId }) {
                   }}
                 />
                 <input
-                  className="font-semibold border-2 text-sm text-center w-10 mx-2 focus:outline-none dark:text-white dark:bg-slate-700"
+                  className="font-semibold border-2 text-sm text-center w-10 mx-2 focus:outline-none dark:text-white dark:bg-transparent "
                   type="number"
                   value={set.weight}
                   onChange={(e) => {

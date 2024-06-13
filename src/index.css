@@ -3,7 +3,17 @@
 @tailwind utilities;
 
 .card-item {
-  @apply h-40 w-[12rem] p-4 flex justify-center items-center shadow-lg mb-10 hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md;
+  @apply relative h-44 w-[14rem] text-white bg-[url('./assets/workoutImages/weights.jpg')] bg-cover bg-center p-4 flex justify-center items-center shadow-lg mb-10 hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md;
+}
+
+.card-item::before {
+  @apply absolute inset-0 bg-black opacity-50 rounded-md;
+  content: "";
+  z-index: 0;
+}
+
+.card-content {
+  @apply relative z-10;
 }
 
 .action-icon {
@@ -25,7 +35,7 @@
   border-bottom: solid white 2px;
 }
 
-.modal {
+/* .modal {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -45,4 +55,4 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.75);
-}
+} */
