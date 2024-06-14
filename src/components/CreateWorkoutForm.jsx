@@ -16,19 +16,19 @@ export default function NewWorkoutView() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <form className="flex flex-col rounded-md h-[10rem] py-1 px-6 justify-center w-[25rem] shadow-md bg-white mt-8 dark:bg-[#10192E]">
+      <form className="flex flex-col rounded-md h-[8rem] py-1 px-6 justify-center w-[25rem] shadow-md bg-white mt-8 dark:bg-[#10192E]">
         <input
           maxLength={50}
           value={workoutName}
           onChange={(e) => setWorkoutName(e.target.value)}
           type="text"
-          className="w-full mb-2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none  focus:border-gray-300 dark:placeholder:text-gray-500 dark:text-white dark:bg-slate-700"
+          className="w-full mb-2 px-4 py-2 border text-black placeholder:text-gray-700 border-gray-300 rounded-lg focus:outline-none  focus:border-gray-300 dark:placeholder:text-gray-500 dark:text-white dark:bg-slate-700"
           placeholder="workout name"
         />
         <button
           disabled={!workoutName}
           onClick={handleAddWorkout}
-          className="w-full relative bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:bg-slate-300 dark:bg-[#0D2247] dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
+          className="w-full relative bg-[#191C29] hover:bg-[#2f354d] text-white font-bold py-2 px-4 rounded-lg focus:outline-none  focus:ring-opacity-50 disabled:bg-slate-300 dark:bg-[#0D2247] hover:dark:bg-[#122e60] dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
         >
           {loader.addWorkout && (
             <FontAwesomeIcon

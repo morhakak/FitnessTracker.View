@@ -438,6 +438,7 @@ export const WorkoutProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         });
+        await fetchWorkouts();
       } catch (error) {
         addError(`Failed to save workout: ${error.message}`);
         console.error("Failed to save workout to DB", error);
@@ -445,7 +446,7 @@ export const WorkoutProvider = ({ children }) => {
         setIsLoader((prev) => ({ ...prev, save: false }));
       }
     },
-    [token]
+    [token, fetchWorkouts]
   );
 
   return (

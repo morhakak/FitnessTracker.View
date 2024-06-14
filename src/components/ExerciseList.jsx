@@ -1,38 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useWorkouts } from "../context/WorkoutContext";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import spinner from "../assets/spinner.gif";
-import { toast } from "sonner";
+// import spinner from "../assets/spinner.gif";
+// import { toast } from "sonner";
 
 export default function ExerciseList({ workoutId }) {
-  const {
-    state,
-    addSet,
-    deleteSet,
-    deleteExercise,
-    updateExerciseInDB,
-    saveWorkoutToDB,
-  } = useWorkouts();
+  const { state, saveWorkoutToDB } = useWorkouts();
 
-  const [localWorkout, setLocalWorkout] = useState(null);
+  // const [localWorkout, setLocalWorkout] = useState(null);
   const [isChanged, setIsChanged] = useState(false);
-  const [isSetChanged, setIsSetChanged] = useState({});
-  const [originalSets, setOriginalSets] = useState({});
-  const [originalWorkout, setOriginalWorkout] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const toastIdRef = useRef(null);
+  const [workout, setWorkout] = useState(null);
 
   useEffect(() => {
-    const workout = state.workouts.find(
+    const existingWorkout = state.workouts.find(
       (workout) => workout.workoutId === workoutId
     );
-    setLocalWorkout(workout);
-    setOriginalWorkout(JSON.parse(JSON.stringify(workout)));
+
+    setWorkout({ ...existingWorkout });
+
+    // return () => {
+    //   toast.dismiss();
+    // };
   }, [state.workouts, workoutId]);
 
+  // useEffect(() => {
+  //   const workout = state.workouts.find(
+  //     (workout) => workout.workoutId === workoutId
+  //   );
+  //   setLocalWorkout(workout ? { ...workout } : null);
+
+  //   return () => {
+  //     toast.dismiss();
+  //   };
+  // }, [state.workouts, workoutId]);
+
   const handleExerciseNameChange = (exerciseId, name) => {
-    setLocalWorkout((prevWorkout) => {
+    setWorkout((prevWorkout) => {
       const updatedExercises = prevWorkout.exercises.map((exercise) =>
         exercise.exerciseId === exerciseId ? { ...exercise, name } : exercise
       );
@@ -41,26 +48,8 @@ export default function ExerciseList({ workoutId }) {
     setIsChanged(true);
   };
 
-  const saveOriginalSet = (setId, set) => {
-    setOriginalSets((prevOriginalSets) => ({
-      ...prevOriginalSets,
-      [setId]: { ...set },
-    }));
-    setIsSetChanged((prevIsSetChanged) => ({
-      ...prevIsSetChanged,
-      [setId]: true,
-    }));
-  };
-
-  const handleSetChange = (exerciseId, setId, field, value) => {
-    const currentSet = localWorkout.exercises
-      .flatMap((exercise) => exercise.sets)
-      .find((set) => set.setId === setId);
-    if (!originalSets[setId]) {
-      saveOriginalSet(setId, currentSet);
-    }
-
-    setLocalWorkout((prevWorkout) => {
+  const handleSetChange = useCallback((exerciseId, setId, field, value) => {
+    setWorkout((prevWorkout) => {
       const updatedExercises = prevWorkout.exercises.map((exercise) => {
         if (exercise.exerciseId === exerciseId) {
           const updatedSets = exercise.sets.map((set) =>
@@ -73,56 +62,148 @@ export default function ExerciseList({ workoutId }) {
       return { ...prevWorkout, exercises: updatedExercises };
     });
     setIsChanged(true);
-  };
+  }, []);
 
-  const handleSave = async () => {
-    setIsLoading(true);
-    try {
-      const promises = localWorkout.exercises.map((exercise) =>
-        updateExerciseInDB(exercise.exerciseId, exercise)
+  const handleAddSet = useCallback((exerciseId) => {
+    setWorkout((prevWorkout) => {
+      const updatedExercises = prevWorkout.exercises.map((exercise) => {
+        if (exercise.exerciseId === exerciseId) {
+          const newSet = {
+            setId: `${Date.now().toString()}temp`,
+            reps: 0,
+            weight: 0,
+          };
+          return { ...exercise, sets: [...exercise.sets, newSet] };
+        }
+        return exercise;
+      });
+      return { ...prevWorkout, exercises: updatedExercises };
+    });
+    setIsChanged(true);
+  }, []);
+
+  const handleDeleteSet = useCallback((exerciseId, setId) => {
+    setWorkout((prevWorkout) => {
+      const updatedExercises = prevWorkout.exercises.map((exercise) => {
+        if (exercise.exerciseId === exerciseId) {
+          const updatedSets = exercise.sets.filter(
+            (set) => set.setId !== setId
+          );
+          return { ...exercise, sets: updatedSets };
+        }
+        return exercise;
+      });
+      return { ...prevWorkout, exercises: updatedExercises };
+    });
+    setIsChanged(true);
+  }, []);
+
+  // const handleSave = useCallback(async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     const promises = localWorkout.exercises.map((exercise) =>
+  //       updateExerciseInDB(exercise.exerciseId, exercise)
+  //     );
+  //     await Promise.all(promises);
+
+  //     await saveWorkoutToDB(localWorkout);
+  //     toast.success("Workout was saved successfully!");
+
+  //     // Update originalWorkout state after saving changes
+  //     setLocalWorkout((prev) => ({ ...prev }));
+  //   } catch (error) {
+  //     toast.error("Failed to save workout", error);
+  //     console.error("Failed to save workout", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //     setIsChanged(false);
+  //     toast.dismiss(toastIdRef.current); // Dismiss the specific toast
+  //   }
+  // }, [localWorkout, saveWorkoutToDB, updateExerciseInDB]);
+
+  // const handleDiscard = useCallback(() => {
+  //   const originalWorkout = state.workouts.find(
+  //     (workout) => workout.workoutId === workoutId
+  //   );
+  //   setLocalWorkout(originalWorkout ? { ...originalWorkout } : null);
+  //   setIsChanged(false);
+  //   toast.dismiss(toastIdRef.current); // Dismiss the specific toast
+  // }, [state.workouts, workoutId]);
+
+  const handleDeleteExercise = useCallback((exerciseId) => {
+    setWorkout((prevWorkout) => {
+      const updatedExercises = prevWorkout.exercises.filter(
+        (exercise) => exercise.exerciseId !== exerciseId
       );
-      await Promise.all(promises);
+      return { ...prevWorkout, exercises: updatedExercises };
+    });
+    setIsChanged(true);
+  }, []);
 
-      await saveWorkoutToDB(localWorkout);
-      toast.success("Workout was saved successfully!");
-    } catch (error) {
-      toast.error("Failed to save workout", error);
-      console.error("Failed to save workout", error);
-    } finally {
-      setIsLoading(false);
-      setIsChanged(false);
-    }
-  };
+  // // Show toast only once when isChanged changes to true
+  // useEffect(() => {
+  //   if (isChanged) {
+  //     toastIdRef.current = toast(
+  //       <>
+  //         <button
+  //           className="w-[48%] py-2 px-2 bg-green-500 rounded-md text-center text-white hover:bg-green-300"
+  //           onClick={handleSave}
+  //         >
+  //           {isLoading && (
+  //             <img className="w-6 absolute top-[0.5rem] left-3" src={spinner} />
+  //           )}
+  //           Save Changes
+  //         </button>
+  //         <button
+  //           className="w-[48%] py-2 px-2 bg-red-500 rounded-md text-center text-white hover:bg-red-300"
+  //           onClick={handleDiscard}
+  //         >
+  //           Discard Changes
+  //         </button>
+  //       </>,
+  //       { duration: Infinity }
+  //     );
+  //   } else if (!isChanged && toastIdRef.current) {
+  //     toast.dismiss(toastIdRef.current);
+  //     toastIdRef.current = null;
+  //   }
+  // }, [handleSave, handleDiscard, isChanged, isLoading]);
 
-  const handleDiscard = () => {
-    setLocalWorkout(JSON.parse(JSON.stringify(originalWorkout)));
-    setIsChanged(false);
-  };
+  // const handleAddExercise = useCallback(() => {
+  //   setWorkout((prevWorkout) => {
+  //     const newExercise = {
+  //       exerciseId: Date.now().toString(), // Unique ID for the new exercise
+  //       name: "New Exercise",
+  //       sets: [],
+  //       workoutId: workoutId,
+  //       createdAt: new Date().toISOString(),
+  //     };
+  //     return {
+  //       ...prevWorkout,
+  //       exercises: [...prevWorkout.exercises, newExercise],
+  //     };
+  //   });
+  // }, [workoutId]);
 
-  const handleDeleteExericse = (exercise) => {
-    deleteExercise(exercise.exerciseId);
-    toast.message(`Exercise ${exercise.name} was deleted`);
-  };
-
-  if (!localWorkout) {
+  if (!workout) {
     return null;
   }
 
-  if (!localWorkout && isLoading) {
-    return (
-      <div>
-        <img className="w-4 absolute top-1" src={spinner} />
-      </div>
-    );
-  }
+  // if (!localWorkout && isLoading) {
+  //   return (
+  //     <div>
+  //       <img className="w-4 absolute top-1" src={spinner} />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>
-      {localWorkout.exercises.length > 0 ? (
-        localWorkout.exercises.map((exercise) => (
+      {workout.exercises.length > 0 ? (
+        workout.exercises.map((exercise) => (
           <div
             key={exercise.exerciseId}
-            className="flex flex-col bg-white shadow-md rounded-md p-4 mb-8 dark:bg-blue-950 dark:shadow-slate-800"
+            className="flex flex-col bg-white shadow-md rounded-md p-4 mb-8 dark:bg-[#10192E] dark:shadow-slate-800"
           >
             <div className="flex justify-between border-b-2 items-center mb-2 pb-2">
               <input
@@ -134,8 +215,8 @@ export default function ExerciseList({ workoutId }) {
                 }
               />
               <button
-                className="bg-blue-500 text-white text-xs py-1 px-2 rounded-md hover:bg-blue-300"
-                onClick={() => handleDeleteExericse(exercise)}
+                className="text-white text-xs py-1 px-2 rounded-md bg-[#191C29] hover:bg-[#2f354d] font-bold focus:outline-none  focus:ring-opacity-50 disabled:bg-slate-300 dark:bg-[#0D2247] hover:dark:bg-[#122e60] dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
+                onClick={() => handleDeleteExercise(exercise)}
               >
                 <FontAwesomeIcon className="text-xs" icon={faTrashCan} />
               </button>
@@ -154,9 +235,10 @@ export default function ExerciseList({ workoutId }) {
                 className="mb-2 flex justify-evenly relative border-b-2 pb-4 pt-2"
               >
                 <input
-                  className="font-semibold border-2 ml-4 text-sm text-center w-10 mx-2 focus:outline-none dark:text-white dark:bg-transparent "
+                  className="font-semibold border-2 ml-4 text-sm text-center w-12 py-1 mx-2 placeholder:text-gray-700 border-gray-300 focus:outline-none  focus:border-gray-300 dark:placeholder:text-gray-500 dark:text-white dark:bg-slate-700"
                   type="number"
                   value={set.reps}
+                  min={0}
                   onChange={(e) => {
                     handleSetChange(
                       exercise.exerciseId,
@@ -167,9 +249,10 @@ export default function ExerciseList({ workoutId }) {
                   }}
                 />
                 <input
-                  className="font-semibold border-2 text-sm text-center w-10 mx-2 focus:outline-none dark:text-white dark:bg-transparent "
+                  className="font-semibold border-2 ml-4 text-sm text-center w-12 mx-2 py-1 placeholder:text-gray-700 border-gray-300 focus:outline-none  focus:border-gray-300 dark:placeholder:text-gray-500 dark:text-white dark:bg-slate-700"
                   type="number"
                   value={set.weight}
+                  min={0}
                   onChange={(e) => {
                     handleSetChange(
                       exercise.exerciseId,
@@ -182,7 +265,7 @@ export default function ExerciseList({ workoutId }) {
                 <button
                   className="ml-4"
                   onClick={() => {
-                    deleteSet(set.setId);
+                    handleDeleteSet(exercise.exerciseId, set.setId);
                   }}
                 >
                   <FontAwesomeIcon
@@ -193,9 +276,9 @@ export default function ExerciseList({ workoutId }) {
               </div>
             ))}
             <button
-              className="w-6 mt-4 self-center bg-blue-500 rounded-md text-center text-white hover:bg-blue-300"
+              className="w-6 mt-4 self-center rounded-md text-center text-white  bg-[#191C29] hover:bg-[#2f354d] font-bold focus:outline-none  focus:ring-opacity-50 disabled:bg-slate-300 dark:bg-[#0D2247] hover:dark:bg-[#122e60] dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
               onClick={() => {
-                addSet(workoutId, exercise.exerciseId);
+                handleAddSet(exercise.exerciseId);
               }}
             >
               +
@@ -206,23 +289,12 @@ export default function ExerciseList({ workoutId }) {
         <p className="dark:text-white">No exercises available</p>
       )}
       {isChanged && (
-        <div className="flex justify-between mt-4">
-          <button
-            className="w-[48%] py-2 px-2 bg-green-500 rounded-md text-center text-white hover:bg-green-300"
-            onClick={handleSave}
-          >
-            {isLoading && (
-              <img className="w-6 absolute top-[0.5rem] left-3" src={spinner} />
-            )}
-            Save Changes
-          </button>
-          <button
-            className="w-[48%] py-2 px-2 bg-red-500 rounded-md text-center text-white hover:bg-red-300"
-            onClick={handleDiscard}
-          >
-            Discard Changes
-          </button>
-        </div>
+        <button
+          onClick={() => saveWorkoutToDB(workout)}
+          className="bg-green-500 py-4 px-2 text-xl"
+        >
+          Save Changes
+        </button>
       )}
     </div>
   );

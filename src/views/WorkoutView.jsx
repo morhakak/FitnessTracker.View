@@ -5,6 +5,7 @@ import { useWorkouts } from "../context/WorkoutContext";
 import { toast } from "sonner";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useCallback } from "react";
 
 export default function WorkoutView() {
   const { id } = useParams();
@@ -21,6 +22,22 @@ export default function WorkoutView() {
       { duration: 1500 }
     );
   }
+
+  // const handleAddExercise = useCallback(() => {
+  //   setWorkout((prevWorkout) => {
+  //     const newExercise = {
+  //       exerciseId: Date.now().toString(), // Unique ID for the new exercise
+  //       name: "New Exercise",
+  //       sets: [],
+  //       workoutId: workoutId,
+  //       createdAt: new Date().toISOString(),
+  //     };
+  //     return {
+  //       ...prevWorkout,
+  //       exercises: [...prevWorkout.exercises, newExercise],
+  //     };
+  //   });
+  // }, [workoutId]);
 
   return (
     <div className="flex flex-col items-center mt-8">

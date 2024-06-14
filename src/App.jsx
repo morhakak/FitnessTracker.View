@@ -35,7 +35,7 @@ function App() {
               <Route path="/workouts" element={<WorkoutsView />} />
               <Route path="/workouts/:id" element={<WorkoutView />} />
             </Routes>
-            <Toaster richColors position="bottom-right" />
+            <Toaster visibleToasts={1} richColors position="bottom-right" />
           </BrowserRouter>
         </WorkoutProvider>
       </AuthProvider>

@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-blue-500 relative sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-slate-300  dark:bg-[#10192E]">
+    <header className="bg-[#395756] relative sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-slate-300  dark:bg-[#10192E]">
       <div className="flex items-center justify-between px-4 py-3 sm:p-0">
         <h1 className="text-white text-2xl">
           <FontAwesomeIcon icon={faDumbbell} className="text-white mr-2" />

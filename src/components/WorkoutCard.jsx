@@ -46,6 +46,11 @@ const WorkoutCard = ({ workout, onRemoveWorkout }) => {
             {formattedDate}
           </p>
           <div className="flex self-end gap-2">
+            <FontAwesomeIcon
+              icon={faTrashCan}
+              onClick={handleDeleteWorkout}
+              className="action-icon"
+            />
             {workout.isLiked ? (
               <FontAwesomeIcon
                 icon={fasHeart}
@@ -59,11 +64,6 @@ const WorkoutCard = ({ workout, onRemoveWorkout }) => {
                 className="action-icon"
               />
             )}
-            <FontAwesomeIcon
-              icon={faTrashCan}
-              onClick={handleDeleteWorkout}
-              className="action-icon"
-            />
           </div>
         </div>
       </div>

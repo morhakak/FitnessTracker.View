@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .card-item {
-  @apply relative h-44 w-[14rem] text-white bg-[url('./assets/workoutImages/weights.jpg')] bg-cover bg-center p-4 flex justify-center items-center shadow-lg mb-10 hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md;
+  @apply relative h-44 w-[12rem] text-white bg-[url('./assets/workoutImages/weights.jpg')] bg-cover bg-center p-4 flex justify-center items-center shadow-lg mb-10 hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md;
 }
 
 .card-item::before {
@@ -17,7 +17,7 @@
 }
 
 .action-icon {
-  @apply text-lg transition-transform duration-300 hover:scale-110 hover:cursor-pointer;
+  @apply text-[1rem] transition-transform duration-300 hover:scale-110 hover:cursor-pointer;
 }
 
 * {

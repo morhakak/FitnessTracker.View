@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import Modal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import WorkoutFilter from "../components/WorkoutFilter";
 
 Modal.setAppElement("#root");
 
@@ -14,6 +15,10 @@ export default function WorkoutsView() {
     useWorkouts();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showLikedOnly, setShowLikedOnly] = useState(false);
+  const [sortOption, setSortOption] = useState("createdDate");
+
   useEffect(() => {
     console.log("Component mounted or state changed");
     console.log("load workouts state:", loader.loadWorkouts);
@@ -89,12 +94,38 @@ export default function WorkoutsView() {
     }
   };
 
+  const filteredWorkouts = state.workouts
+    .filter((workout) =>
+      workout.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((workout) => (showLikedOnly ? workout.isLiked : true));
+
+  const sortedWorkouts = filteredWorkouts.sort((a, b) => {
+    if (sortOption === "aToZ") {
+      return a.name.localeCompare(b.name);
+    } else if (sortOption === "zToA") {
+      return b.name.localeCompare(a.name);
+    } else {
+      return new Date(a.createdAt) - new Date(b.createdAt);
+    }
+  });
+
   return (
     <div className="relative flex flex-col justify-center items-center w-full h-full">
-      <CreateWorkoutForm />
-      <div className="justify-start grid grid-cols-2 px-4 gap-4 mt-8 mb-6 sm:grid-cols-2 md:grid-cols-3">
-        {state.workouts.length > 0 && errors.length === 0 ? (
-          state.workouts.map((workout) => (
+      <div className="h-[300px] bg-center flex flex-col items-center bg-[url('./assets/workoutImages/athlete-with-weights.jpg')] bg-cover w-full">
+        <CreateWorkoutForm />
+        <WorkoutFilter
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          showLikedOnly={showLikedOnly}
+          setShowLikedOnly={setShowLikedOnly}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+        />
+      </div>
+      <div className="justify-start rounded-md pt-4 grid grid-cols-2 px-4 gap-4 mt-8 mb-6 sm:grid-cols-2 md:grid-cols-3">
+        {sortedWorkouts.length > 0 && errors.length === 0 ? (
+          sortedWorkouts.map((workout) => (
             <WorkoutCard
               key={workout.workoutId}
               workout={workout}
