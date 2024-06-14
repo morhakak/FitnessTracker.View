@@ -6,6 +6,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import PropTypes from "prop-types";
+import { useWorkouts } from "../context/WorkoutContext";
+import { useState, useEffect } from "react";
 
 const WorkoutFilter = ({
   searchTerm,
@@ -15,6 +17,16 @@ const WorkoutFilter = ({
   sortOption,
   setSortOption,
 }) => {
+  const { state } = useWorkouts();
+  const [hasLiked, setHasLiked] = useState(false);
+
+  useEffect(() => {
+    if (state.workouts.length == 0) return;
+    {
+      setHasLiked(state.workouts.filter((w) => w.isLiked).length > 0);
+    }
+  }, [state.workouts]);
+
   return (
     <div className="relative flex justify-center w-[25rem] rounded-md py-[10px] bg-white shadow-sm dark:bg-[#10192E] mt-4">
       <input
@@ -22,11 +34,11 @@ const WorkoutFilter = ({
         placeholder="Search workouts..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="p-[0.3rem] border border-gray-300  text-black placeholder:text-gray-300 placeholder:text-sm rounded-md pl-6 dark:bg-slate-700 focus:outline-none dark:text-white"
+        className="p-[0.3rem] border text-sm border-gray-300 text-black placeholder:text-gray-300 placeholder:text-sm rounded-md pl-6 dark:bg-slate-700 focus:outline-none dark:text-white"
       />
       <FontAwesomeIcon
         icon={faMagnifyingGlass}
-        className="absolute top-[20px] left-[0.8rem] dark:text-slate-900"
+        className="absolute top-[18px] left-[1.3rem] dark:text-slate-900"
       />
       <select
         value={sortOption}
@@ -39,23 +51,22 @@ const WorkoutFilter = ({
       </select>
       <FontAwesomeIcon
         icon={faArrowUpAZ}
-        className="absolute top-[20px] left-[14.7rem] dark:text-slate-900"
+        className="absolute top-[18px] left-[13.5rem] dark:text-slate-900"
       />
-      <div className="flex items-center space-x-2">
+      <button
+        disabled={!hasLiked}
+        onClick={() => setShowLikedOnly((prev) => !prev)}
+        className="flex items-center ml-2 disabled:cursor-not-allowed"
+      >
         {showLikedOnly ? (
-          <FontAwesomeIcon
-            icon={fasHeart}
-            onClick={() => setShowLikedOnly((prev) => !prev)}
-            className="text-red-500 text-xl cursor-pointer"
-          />
+          <FontAwesomeIcon icon={fasHeart} className="text-red-500 text-xl" />
         ) : (
           <FontAwesomeIcon
             icon={farHeart}
-            onClick={() => setShowLikedOnly((prev) => !prev)}
-            className="dark:text-white text-xl cursor-pointer"
+            className="dark:text-white text-xl"
           />
         )}
-      </div>
+      </button>
     </div>
   );
 };

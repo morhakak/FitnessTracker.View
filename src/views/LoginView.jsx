@@ -73,15 +73,15 @@ const LoginView = () => {
   const passwordVisibilityIcon = isPasswordVisible ? faEye : faEyeSlash;
 
   return (
-    <div className="max-w-md mx-auto shadow-lg mt-10 rounded-md md:max-w-lg lg:max-w-xl p-4 relative shadow-slate-400 dark:bg-blue-950 dark:shadow-slate-700">
+    <div className="max-w-md mx-auto shadow-lg mt-10 rounded-md md:max-w-lg lg:max-w-xl p-4 relative shadow-slate-400 bg-[#395756] dark:bg-[#10192E] dark:shadow-slate-700">
       <form className="flex flex-col relative" onSubmit={loginHandler}>
         <div className="flex items-center relative mb-4">
           <FontAwesomeIcon
             icon={faUser}
-            className="text-md text-blue-500 absolute dark:text-blue-100"
+            className="text-md text-white absolute dark:text-blue-100"
           />
           <input
-            className="h-10 pl-6 w-full border-b-2 mb-2 focus:outline-none dark:bg-blue-950 dark:text-white"
+            className="h-10 pl-6 w-full border-b-2 mb-2 focus:outline-none dark:text-white bg-[#395756] dark:bg-[#10192E]"
             value={formData.userName}
             onChange={handleInputChange}
             type="text"
@@ -98,10 +98,10 @@ const LoginView = () => {
         <div className="flex items-center relative mb-4">
           <FontAwesomeIcon
             icon={faLock}
-            className="text-md text-blue-500 absolute dark:text-blue-100"
+            className="text-md text-white absolute"
           />
           <input
-            className="h-10 pl-6 pr-6 w-full border-b-2 mb-2 focus:outline-none dark:bg-blue-950 dark:text-white"
+            className="h-10 pl-6 pr-6 w-full border-b-2 mb-2 focus:outline-none bg-[#395756] dark:bg-[#10192E] dark:text-white"
             value={formData.password}
             onChange={handleInputChange}
             type={isPasswordVisible ? "text" : "password"}
@@ -111,7 +111,7 @@ const LoginView = () => {
           <FontAwesomeIcon
             icon={passwordVisibilityIcon}
             onClick={togglePasswordVisibility}
-            className="text-md text-blue-500 absolute cursor-pointer right-4 dark:text-blue-100"
+            className="text-md text-white absolute cursor-pointer right-4"
           />
         </div>
         {formErrors.password && (

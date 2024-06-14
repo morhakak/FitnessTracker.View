@@ -17,8 +17,6 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({
     id: "",
-    firstName: "",
-    lastName: "",
     username: "",
     email: "",
     role: "",
@@ -122,16 +120,6 @@ export const AuthProvider = ({ children }) => {
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
       ];
 
-    const firstName =
-      decodedToken[
-        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"
-      ];
-
-    const lastName =
-      decodedToken[
-        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname"
-      ];
-
     const username =
       decodedToken[
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
@@ -148,8 +136,6 @@ export const AuthProvider = ({ children }) => {
 
     setUser({
       id,
-      firstName,
-      lastName,
       username,
       email,
       role,
@@ -179,6 +165,7 @@ export const AuthProvider = ({ children }) => {
         resetErrors,
         token,
         isLoggedIn,
+        setIsLoggedIn,
         user,
       }}
     >

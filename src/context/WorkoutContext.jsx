@@ -131,6 +131,7 @@ export const WorkoutProvider = ({ children }) => {
   const [state, dispatch] = useReducer(workoutReducer, initialState);
   const { user, token } = useAuth();
   const [errors, setErrors] = useState([]);
+  const [hasLiked, setHasLiked] = useState(false);
   const [loader, setIsLoader] = useState({
     addWorkout: false,
     addExercise: false,
@@ -142,6 +143,12 @@ export const WorkoutProvider = ({ children }) => {
   const addError = (error) => {
     setErrors((prevErrors) => [...prevErrors, error]);
   };
+
+  const getHasLiked = useCallback(() => {
+    if (state.workouts.length > 0) {
+      return state.workouts.filter((w) => w.isLiked).length > 0;
+    }
+  }, [state.workouts]);
 
   const fetchWorkouts = useCallback(async () => {
     if (!token) {

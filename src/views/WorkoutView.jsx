@@ -46,7 +46,7 @@ export default function WorkoutView() {
           <h1 className="text-3xl tracking-wider mb-8 first-letter:uppercase font-semibold dark:text-white">
             {workout.name}
           </h1>
-          <AddExerciseForm workoutId={id} />
+          {/* <AddExerciseForm workoutId={id} /> */}
           <ExerciseList workoutId={id} />
         </>
       )}
