@@ -1,17 +1,18 @@
 import About from "./components/About";
 import Contact from "./components/Contact";
 import NewNavbar from "./components/NewNavbar";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import WorkoutsView from "./views/WorkoutsView";
 import WorkoutView from "./views/WorkoutView";
 import { WorkoutProvider } from "./context/WorkoutContext";
 import RegisterView from "./views/RegisterView";
 import LoginView from "./views/LoginView";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import AuthProvider from "./context/AuthContext";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
-import PropTypes from "prop-types";
 import WelcomeView from "./views/WelcomeView";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Initializer from "./components/Initializer";
 
 function App() {
   useEffect(() => {
@@ -24,9 +25,10 @@ function App() {
   });
   return (
     <>
-      <AuthProvider>
-        <WorkoutProvider>
-          <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
+          <WorkoutProvider>
+            <Initializer />
             <NewNavbar />
             <Routes>
               <Route
@@ -48,20 +50,11 @@ function App() {
               <Route path="/welcome" element={<WelcomeView />} />
             </Routes>
             <Toaster visibleToasts={1} richColors position="bottom-right" />
-          </BrowserRouter>
-        </WorkoutProvider>
-      </AuthProvider>
+          </WorkoutProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </>
   );
 }
 
-const ProtectedRoute = ({ component: Component }) => {
-  const { isLoggedIn } = useAuth();
-  return isLoggedIn ? <Component /> : <Navigate to="/welcome" />;
-};
-
 export default App;
-
-ProtectedRoute.propTypes = {
-  component: PropTypes.elementType.isRequired,
-};

@@ -1,42 +1,47 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 const BASE_URL = "https://localhost:7088/api/auth";
 
-export const useAuth = () => useContext(AuthContext);
-
-export const AuthProvider = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [token, setToken] = useState("");
+const AuthProvider = ({ children }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [errors, setErrors] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({
-    id: "",
-    username: "",
-    email: "",
-    role: "",
-  });
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  const getToken = () => {
     const tokenFromStorage = localStorage.getItem("token");
     if (tokenFromStorage) {
       setToken(tokenFromStorage);
-      let decodedToken = jwtDecode(tokenFromStorage);
       setIsLoggedIn(true);
-      updateUser(decodedToken);
-    }
-  }, []);
 
-  useEffect(() => {
-    if (token) {
-      setIsAdmin(user.role.toLocaleLowerCase() == "admin");
+      const decodedToken = jwtDecode(tokenFromStorage);
+
+      const username =
+        decodedToken[
+          "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+        ];
+      const email =
+        decodedToken[
+          "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+        ];
+
+      const role =
+        decodedToken[
+          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ];
+
+      setUser((prev) => ({ ...prev, username, email, role }));
     }
-  }, [token, user, isAdmin]);
+    setIsLoading(false);
+  };
 
   const addError = (error) => {
     setErrors((prevErrors) => [...prevErrors, error]);
@@ -79,10 +84,20 @@ export const AuthProvider = ({ children }) => {
         userName,
         password,
       });
-
+      console.log("response:", response);
       if (response.status >= 200 && response.status <= 300) {
-        const jwtKey = await response.data.token;
-        return handleLoginSuccess(jwtKey);
+        const resData = response.data;
+        localStorage.setItem("token", resData.token);
+        setToken(resData.token);
+        setIsLoggedIn(true);
+        setUser((u) => ({
+          ...u,
+          username: resData.username,
+          email: resData.email,
+          isAdmin: resData.isAdmin,
+        }));
+        navigate("/");
+        toast.success(`${userName} logged in successfully`);
       } else {
         console.log("Login error, response.data:", response.data);
         addError(`Failed to login: ${response.data}`);
@@ -101,55 +116,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleLoginSuccess = (jwtToken) => {
-    setToken(jwtToken);
-    setIsLoggedIn(true);
-    localStorage.setItem("token", jwtToken);
-    const decodedToken = jwtDecode(jwtToken);
-    updateUser(decodedToken);
-    if (user.role) {
-      setIsAdmin(user.role.toLocaleLowerCase() == "admin");
-    }
-
-    return true;
-  };
-
-  const updateUser = (decodedToken) => {
-    const id =
-      decodedToken[
-        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-      ];
-
-    const username =
-      decodedToken[
-        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
-      ];
-    const email =
-      decodedToken[
-        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
-      ];
-
-    const role =
-      decodedToken[
-        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-      ];
-
-    setUser({
-      id,
-      username,
-      email,
-      role,
-    });
-  };
-
   const logout = () => {
     localStorage.removeItem("token");
     resetErrors();
     setToken(null);
-    setUserName("");
-    setIsAdmin(false);
     setIsLoggedIn(false);
-    setUser({});
+    setUser(null);
   };
 
   return (
@@ -159,20 +131,23 @@ export const AuthProvider = ({ children }) => {
         register,
         logout,
         isLoading,
-        userName,
-        isAdmin,
         errors,
         resetErrors,
         token,
         isLoggedIn,
         setIsLoggedIn,
         user,
+        getToken,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
+
+export default AuthProvider;
+
+export const useAuth = () => useContext(AuthContext);
 
 AuthProvider.propTypes = {
   children: PropTypes.node,

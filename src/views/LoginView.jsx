@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -12,7 +12,6 @@ import spinner from "../assets/spinner.gif";
 import { toast } from "sonner";
 
 const LoginView = () => {
-  const navigate = useNavigate();
   const { login, errors, resetErrors, isLoading } = useAuth();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const userNameInput = useRef(null);
@@ -45,12 +44,8 @@ const LoginView = () => {
     setFormErrors({ userName: "", password: "", form: "" });
 
     if (!validateInputs()) return;
-
-    const response = await login(formData.userName, formData.password);
-    if (response) {
-      toast.success(`${formData.userName} logged in successfully`);
-      navigate("/");
-    }
+    await login(formData.userName, formData.password);
+    return;
   };
 
   const validateInputs = () => {
@@ -78,10 +73,10 @@ const LoginView = () => {
         <div className="flex items-center relative mb-4">
           <FontAwesomeIcon
             icon={faUser}
-            className="text-md text-white absolute dark:text-blue-100"
+            className="text-md text-white absolute"
           />
           <input
-            className="h-10 pl-6 w-full border-b-2 mb-2 focus:outline-none dark:text-white bg-[#395756] dark:bg-[#10192E]"
+            className="h-10 pl-6 w-full border-b-2 mb-2 focus:outline-none text-white bg-[#395756] dark:bg-[#10192E]"
             value={formData.userName}
             onChange={handleInputChange}
             type="text"
@@ -101,7 +96,7 @@ const LoginView = () => {
             className="text-md text-white absolute"
           />
           <input
-            className="h-10 pl-6 pr-6 w-full border-b-2 mb-2 focus:outline-none bg-[#395756] dark:bg-[#10192E] dark:text-white"
+            className="h-10 pl-6 pr-6 w-full border-b-2 mb-2 focus:outline-none bg-[#395756] dark:bg-[#10192E] text-white"
             value={formData.password}
             onChange={handleInputChange}
             type={isPasswordVisible ? "text" : "password"}
@@ -143,7 +138,7 @@ const LoginView = () => {
         Don&apos;t have an account yet?{" "}
         <Link
           to="/register"
-          className="text-blue-900 font-semibold hover:cursor-pointer hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-50"
+          className=" hover:text-white text-[#639796] font-semibold hover:cursor-pointer  dark:text-blue-300 dark:hover:text-blue-50"
         >
           Register
         </Link>

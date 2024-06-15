@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle as regularCircle } from "@fortawesome/free-regular-svg-icons";
-import { faCheckCircle as solidCircle } from "@fortawesome/free-solid-svg-icons";
 import {
   faEnvelope,
   faLock,
@@ -10,6 +9,7 @@ import {
   faEyeSlash,
   faUser,
   faSpinner,
+  faCheckCircle as solidCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthContext";
 

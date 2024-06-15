@@ -1,10 +1,12 @@
-import image from "../assets/workoutImages/cables.jpg";
+import { faDumbbell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import image from "../assets/workoutImages/cables.jpg"; // Replace with the path to your image
 
 export default function About() {
   return (
     <div className="max-w-4xl mt-8 mx-auto p-6 bg-white shadow-md rounded-md dark:bg-[#10192E] dark:text-white">
-      <div className="flex mb-4">
-        <div className="flex flex-col ">
+      <div className="flex flex-col md:flex-row mb-4">
+        <div className="flex flex-col md:w-1/2">
           <h1 className="text-3xl font-bold mb-4">About Fitness Tracker</h1>
           <h2 className="text-2xl font-semibold mb-3">
             Welcome to Fitness Tracker!
@@ -16,18 +18,26 @@ export default function About() {
             personalized strength training routines, track your exercises, and
             monitor your progress seamlessly.
           </p>
+          <div className="flex items-center mt-6 gap-5">
+            <hr className="w-1/3 text-black dark:text-white" />
+            <FontAwesomeIcon
+              icon={faDumbbell}
+              className="text-xl text-black dark:text-white"
+            />
+            <hr className="w-1/3 text-black dark:text-white" />
+          </div>
         </div>
         <img
           src={image}
           alt="A guy working out"
-          className="w-full md:w-1/2 rounded-md shadow-md ml-2"
+          className="w-full md:w-1/2 rounded-md shadow-md mt-4 md:mt-0 md:ml-4"
         />
       </div>
 
       <h2 className="text-2xl font-semibold mb-3">
         What You Can Do with Fitness Tracker
       </h2>
-      <ul className="list-disc list-inside mb-4">
+      <ul className="list-disc list-inside mb-4 space-y-2">
         <li>
           <strong>Create Strength Training Workouts:</strong> Easily create
           custom strength training routines tailored to your fitness goals.
@@ -55,7 +65,7 @@ export default function About() {
       <h2 className="text-2xl font-semibold mb-3">
         Why Choose Fitness Tracker?
       </h2>
-      <ul className="list-disc list-inside mb-4">
+      <ul className="list-disc list-inside mb-4 space-y-2">
         <li>
           <strong>User-Friendly Interface:</strong> Our intuitive design makes
           it easy for you to navigate through the app and quickly access the

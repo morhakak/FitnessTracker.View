@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isAdmin, isLoggedIn, user, logout } = useAuth();
+  const { isLoggedIn, user, logout } = useAuth();
 
   const navigate = useNavigate();
   const toggleMenu = () => {
@@ -53,11 +53,11 @@ const Header = () => {
               src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
             />
             Hi,&nbsp;
-            <span className="font-semibold">{user.firstName}</span>
+            <span className="font-semibold">{user.username}</span>
             <span className="hidden sm:inline-block"> &nbsp; &nbsp;|</span>
           </p>
         )}
-        {isAdmin && (
+        {isLoggedIn && user && user.isAdmin && (
           <NavLink
             className="block px-2 mb-2 text-sm text-white hover:text-gray-200 sm:px-0 sm:mr-3 sm:mb-0"
             to="/dashboard"
@@ -65,7 +65,7 @@ const Header = () => {
             Dashboard
           </NavLink>
         )}
-        {isLoggedIn && !isAdmin && (
+        {isLoggedIn && user && !user.isAdmin && (
           <NavLink
             className="block px-2 text-gray-300 hover:text-white mb-2 text-sm sm:px-0 sm:mr-3 sm:mb-0"
             to="/workouts"

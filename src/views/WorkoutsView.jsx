@@ -20,11 +20,6 @@ export default function WorkoutsView() {
   const [sortOption, setSortOption] = useState("createdDate");
 
   useEffect(() => {
-    console.log("Component mounted or state changed");
-    console.log("load workouts state:", loader.loadWorkouts);
-  }, [loader.loadWorkouts]);
-
-  useEffect(() => {
     if (loader.loadWorkouts) {
       toast(
         <>
