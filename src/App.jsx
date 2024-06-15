@@ -13,6 +13,9 @@ import { Toaster } from "sonner";
 import WelcomeView from "./views/WelcomeView";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Initializer from "./components/Initializer";
+import DashboardView from "./views/DashboardView";
+import ManageUsersView from "./views/ManageUsersView";
+import { DashboardProvider } from "./context/DashboardContext";
 
 function App() {
   useEffect(() => {
@@ -27,30 +30,34 @@ function App() {
     <>
       <BrowserRouter>
         <AuthProvider>
-          <WorkoutProvider>
-            <Initializer />
-            <NewNavbar />
-            <Routes>
-              <Route
-                path="/"
-                element={<ProtectedRoute component={WorkoutsView} />}
-              />
-              <Route path="/register" element={<RegisterView />} />
-              <Route path="/login" element={<LoginView />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route
-                path="/workouts"
-                element={<ProtectedRoute component={WorkoutsView} />}
-              />
-              <Route
-                path="/workouts/:id"
-                element={<ProtectedRoute component={WorkoutView} />}
-              />
-              <Route path="/welcome" element={<WelcomeView />} />
-            </Routes>
-            <Toaster visibleToasts={1} richColors position="bottom-right" />
-          </WorkoutProvider>
+          <DashboardProvider>
+            <WorkoutProvider>
+              <Initializer />
+              <NewNavbar />
+              <Routes>
+                <Route
+                  path="/"
+                  element={<ProtectedRoute component={WorkoutsView} />}
+                />
+                <Route path="/register" element={<RegisterView />} />
+                <Route path="/login" element={<LoginView />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route
+                  path="/workouts"
+                  element={<ProtectedRoute component={WorkoutsView} />}
+                />
+                <Route
+                  path="/workouts/:id"
+                  element={<ProtectedRoute component={WorkoutView} />}
+                />
+                <Route path="/welcome" element={<WelcomeView />} />
+                <Route path="/Dashboard" element={<DashboardView />} />
+                <Route path="/Dashboard/users" element={<ManageUsersView />} />
+              </Routes>
+              <Toaster visibleToasts={1} richColors position="bottom-right" />
+            </WorkoutProvider>
+          </DashboardProvider>
         </AuthProvider>
       </BrowserRouter>
     </>

@@ -28,3 +28,25 @@
   border-left: none;
   color: white;
 }
+
+.userslist-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.userslist-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.4s ease;
+}
+.userslist-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.userslist-exit-active {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.4s ease;
+}
+.userslist-move {
+  transition: all 0.4s ease;
+}

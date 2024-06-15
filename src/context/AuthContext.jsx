@@ -76,44 +76,144 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // const login = async (userName, password) => {
+  //   resetErrors();
+  //   try {
+  //     setIsLoading(true);
+  //     const response = await axios.post(`${BASE_URL}/login`, {
+  //       userName,
+  //       password,
+  //     });
+
+  //     console.log("response:", response);
+
+  //     if (response.status >= 200 && response.status <= 300) {
+  //       const resData = response.data;
+  //       localStorage.setItem("token", resData.token);
+  //       setToken(resData.token);
+  //       setIsLoggedIn(true);
+  //       setUser({
+  //         username: resData.username,
+  //         email: resData.email,
+  //         isAdmin: resData.isAdmin,
+  //       });
+  //       navigate("/");
+  //       toast.success(`${userName} logged in successfully`);
+  //     }
+  //   } catch (error) {
+  //     if (error.response) {
+  //       if (error.response.status === 404) {
+  //         addError(`Failed to login: User not found`);
+  //         toast.error("Failed to login: User not found");
+  //       } else {
+  //         addError(
+  //           `Failed to login: ${
+  //             error.response.data.Message || error.response.statusText
+  //           }`
+  //         );
+  //         toast.error(
+  //           `Failed to login: ${
+  //             error.response.data.Message || error.response.statusText
+  //           }`
+  //         );
+  //       }
+  //     } else {
+  //       addError(`Failed to login: ${error.message}`);
+  //       toast.error(`Failed to login: ${error.message}`);
+  //     }
+  //     console.error("Failed to login", error.message);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const login = async (userName, password) => {
     resetErrors();
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
-      const response = await axios.post(`${BASE_URL}/login`, {
-        userName,
-        password,
-      });
-      console.log("response:", response);
-      if (response.status >= 200 && response.status <= 300) {
-        const resData = response.data;
-        localStorage.setItem("token", resData.token);
-        setToken(resData.token);
-        setIsLoggedIn(true);
-        setUser((u) => ({
-          ...u,
-          username: resData.username,
-          email: resData.email,
-          isAdmin: resData.isAdmin,
-        }));
-        navigate("/");
-        toast.success(`${userName} logged in successfully`);
-      } else {
-        console.log("Login error, response.data:", response.data);
-        addError(`Failed to login: ${response.data}`);
-        return false;
-      }
+      const response = await sendLoginRequest(userName, password);
+      handleSuccessfulLogin(response, userName);
     } catch (error) {
-      if (error.response && error.response.data) {
-        addError(`Failed to login: ${error.response.data.Message}`);
-      } else {
-        addError(`Failed to login: ${error.message}`);
-      }
-      console.error("Failed to login", error.message);
-      return false;
+      handleLoginError(error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const sendLoginRequest = async (userName, password) => {
+    return await axios.post(`${BASE_URL}/login`, {
+      userName,
+      password,
+    });
+  };
+
+  const handleSuccessfulLogin = (response, userName) => {
+    if (response.status >= 200 && response.status <= 300) {
+      const resData = response.data;
+      localStorage.setItem("token", resData.token);
+      setToken(resData.token);
+      setIsLoggedIn(true);
+      console.log("data", resData);
+      setUser({
+        userId: resData.userId,
+        username: resData.username,
+        email: resData.email,
+        isAdmin: resData.isAdmin,
+      });
+      navigate("/");
+      toast.success(`${userName} logged in successfully`);
+    }
+  };
+
+  const handleLoginError = (error) => {
+    if (error.response) {
+      const statusCode = error.response.status;
+      const errorMessage =
+        error.response.data.Message || error.response.statusText;
+
+      switch (statusCode) {
+        case 400:
+          addError("Invalid request. Please check your input.");
+          toast.error("Invalid request. Please check your input.");
+          break;
+        case 401:
+          addError("Invalid credentials. Please try again.");
+          toast.error("Invalid credentials. Please try again.");
+          break;
+        case 403:
+          addError(
+            "Access denied. You do not have permission to perform this action."
+          );
+          toast.error(
+            "Access denied. You do not have permission to perform this action."
+          );
+          break;
+        case 404:
+          addError("User not found. Please check your username.");
+          toast.error("User not found. Please check your username.");
+          break;
+        case 500:
+          addError("Internal server error. Please try again later.");
+          toast.error("Internal server error. Please try again later.");
+          break;
+        default:
+          addError(`Unexpected error: ${errorMessage}`);
+          toast.error(`Unexpected error: ${errorMessage}`);
+          break;
+      }
+    } else if (error.request) {
+      addError(
+        "No response from server. Please check your network connection."
+      );
+      toast.error(
+        "No response from server. Please check your network connection."
+      );
+    } else {
+      addError(`Request error: ${error.message}`);
+      toast.error(`Request error: ${error.message}`);
+    }
+    console.error("Failed to login", error.message);
   };
 
   const logout = () => {

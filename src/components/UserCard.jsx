@@ -1,0 +1,86 @@
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserCircle, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import Modal from "react-modal";
+import { useState } from "react";
+
+const UserCard = ({ user, onDeleteUser }) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleDeleteClick = () => {
+    setModalIsOpen(true);
+  };
+
+  const confirmDelete = () => {
+    onDeleteUser(user.userId);
+    setModalIsOpen(false);
+  };
+
+  return (
+    <div className="flex items-center justify-around h-20 w-[400px] sm:w-[500px] shadow-md hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md">
+      <div className="flex items-center">
+        <FontAwesomeIcon
+          icon={faUserCircle}
+          className="text-xl text-gray-500 dark:text-blue-100 mr-2"
+        />
+        <p className="w-36 truncate">{user.email}</p>
+      </div>
+      <div className="flex items-center">
+        <p className="w-36 truncate">{user.roles.join(", ")}</p>
+        <FontAwesomeIcon
+          icon={faTrashCan}
+          className="text-xl text-gray-500 dark:text-blue-100 ml-2"
+          onClick={() => handleDeleteClick()}
+        />
+      </div>
+      {modalIsOpen && (
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={() => setModalIsOpen(false)}
+          className="h-[12rem] w-[20rem] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:text-white dark:bg-[#10192E] p-2 rounded shadow-md flex flex-col justify-between"
+          overlayClassName="fixed inset-0 bg-black z-20 bg-opacity-50"
+        >
+          <div className="flex justify-end">
+            <button
+              className="px-2 font-bold"
+              onClick={() => setModalIsOpen(false)}
+            >
+              X
+            </button>
+          </div>
+          <div className="flex-grow flex flex-col justify-center">
+            <h2 className="text-center text-md px-8 mb-2">
+              Delete user <span className="italic">{user.email}</span>
+            </h2>
+            <p className="text-lg text-center">Are you sure?</p>
+          </div>
+          <div className="flex justify-center gap-2 ">
+            <button
+              onClick={() => setModalIsOpen(false)}
+              className="bg-blue-500 hover:bg-blue-400 dark:bg-[#0D2247] text-white px-2 py-1 rounded mt-2 text-sm dark:hover:bg-[#0E2855]"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={confirmDelete}
+              className="bg-red-500 text-white px-2 py-1 rounded mt-2 text-sm hover:bg-red-400"
+            >
+              Delete
+            </button>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+};
+
+UserCard.propTypes = {
+  user: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    roles: PropTypes.arrayOf(PropTypes.string).isRequired,
+    userId: PropTypes.string.isRequired,
+  }).isRequired,
+  onDeleteUser: PropTypes.func.isRequired,
+};
+
+export default UserCard;
