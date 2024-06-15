@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -14,11 +14,11 @@ const DarkModeToggle = () => {
     if (isDark) {
       localStorage.setItem("theme", "light");
       document.documentElement.classList.remove("dark");
-      document.body.classList.remove("dark:bg-[#03070F]");
+      // document.body.classList.remove("bg-[#03070F]");
     } else {
-      document.documentElement.classList.add("dark");
-      document.body.classList.add("dark:bg-[#03070F]");
       localStorage.setItem("theme", "dark");
+      document.documentElement.classList.add("dark");
+      // document.body.classList.add("bg-[#03070F]");
     }
   };
 

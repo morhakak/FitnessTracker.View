@@ -20,14 +20,9 @@
   @apply text-[1rem] transition-transform duration-300 hover:scale-110 hover:cursor-pointer;
 }
 
-/* * {
-  @apply transition-colors duration-700;
-} */
-
-/* body.dark {
-  background-color: #121212;
-  color: #ffffff;
-} */
+.dark body {
+  @apply bg-slate-900 text-white;
+}
 
 .active {
   border-left: none;
