@@ -115,7 +115,7 @@ const LoginView = () => {
           </p>
         )}
         <button
-          className="h-10 bg-blue-500 text-white mb-4 hover:bg-blue-300 disabled:bg-blue-200 dark:bg-blue-800 dark:disabled:bg-blue-500"
+          className="h-10  bg-[#639796] text-white mb-14 hover:bg-[#7abbba] disabled:bg-[#4a6063] dark:bg-[#0D2247] dark:hover:bg-[#2f354d] dark:disabled:bg-[#63666c]"
           disabled={!formData.userName || !formData.password || isLoading}
           type="submit"
         >
@@ -134,11 +134,11 @@ const LoginView = () => {
           {formErrors.form}
         </p>
       )}
-      <p className="text-center text-xs dark:text-blue-100">
+      <p className="text-center text-xs text-gray-300">
         Don&apos;t have an account yet?{" "}
         <Link
           to="/register"
-          className=" hover:text-white text-[#639796] font-semibold hover:cursor-pointer  dark:text-blue-300 dark:hover:text-blue-50"
+          className=" text-white font-semibold hover:cursor-pointer"
         >
           Register
         </Link>

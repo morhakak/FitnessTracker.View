@@ -216,14 +216,14 @@ export default function ExerciseList({ workoutId }) {
       <div className="max-w-md mx-auto mb-10 relative">
         <form
           onSubmit={handleAddExercise}
-          className="bg-white shadow-md rounded-md p-6 dark:bg-[#10192E] dark:shadow-slate-800"
+          className="text-white shadow-md rounded-md p-6 bg-[#395756] dark:bg-[#10192E] dark:shadow-slate-800"
         >
           <h2 className="text-xl text-center font-semibold mb-4 dark:text-white">
             Add New Exercise
           </h2>
           <div className="flex items-center mb-4">
             <input
-              className="flex-1 border text-black placeholder:text-gray-700 border-gray-300 px-4 py-2 rounded-md mr-4 outline-none focus:shadow-md dark:text-white  dark:placeholder:text-gray-500 dark:bg-slate-700"
+              className="flex-1 border bg-[#395756] text-white placeholder:text-gray-300 border-gray-300 px-4 py-2 rounded-md mr-4 outline-none focus:shadow-md dark:text-white  dark:placeholder:text-gray-500 dark:bg-slate-700"
               type="text"
               value={exerciseName}
               onChange={(e) => setExerciseName(e.target.value)}
@@ -233,7 +233,7 @@ export default function ExerciseList({ workoutId }) {
             <button
               type="submit"
               disabled={!exerciseName}
-              className="px-2 bg-[#191C29] hover:bg-[#2f354d] text-white text-xl rounded-md transition duration-300  disabled:bg-slate-300 dark:bg-[#0D2247] hover:dark:bg-[#122e60] dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
+              className="px-2 bg-[#191C29] outline-style: solid bg-transparent border-2 hover:bg-white hover:text-[#395756] dark:hover:bg-white dark:hover:text-[#122e60]  text-white text-xl rounded-md transition duration-300  disabled:bg-slate-300 dark:bg-[#0D2247] hover:dark:bg-[#122e60] dark:disabled:bg-slate-500 disabled:cursor-not-allowed disabled:hover:text-white"
             >
               +
             </button>
@@ -245,11 +245,11 @@ export default function ExerciseList({ workoutId }) {
           workout.exercises.map((exercise) => (
             <div
               key={exercise.exerciseId}
-              className="flex flex-col bg-white shadow-md rounded-md p-4 mb-8 dark:bg-[#10192E] dark:shadow-slate-800"
+              className="flex flex-col bg-[#395756] shadow-md rounded-md p-4 mb-8 dark:bg-[#10192E] dark:shadow-slate-800"
             >
               <div className="flex justify-between border-b-2 items-center mb-2 pb-2">
                 <input
-                  className="text-xl font-semibold text-center mr-2 dark:text-white dark:bg-transparent "
+                  className="text-xl font-semibold bg-[#395756] text-center mr-2 text-white dark:bg-transparent "
                   type="text"
                   value={exercise.name}
                   onChange={(e) =>
@@ -263,14 +263,17 @@ export default function ExerciseList({ workoutId }) {
                   className="text-white text-xs py-1 px-2 rounded-md bg-[#191C29] hover:bg-[#2f354d] font-bold focus:outline-none  focus:ring-opacity-50 disabled:bg-slate-300 dark:bg-[#0D2247] hover:dark:bg-[#122e60] dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
                   onClick={() => handleDeleteExercise(exercise.exerciseId)}
                 >
-                  <FontAwesomeIcon className="text-xs" icon={faTrashCan} />
+                  <FontAwesomeIcon
+                    className="text-xs text-white"
+                    icon={faTrashCan}
+                  />
                 </button>
               </div>
               <div className="mb-2">
-                <span className="ml-[18%] font-semibold text-sm dark:text-white">
+                <span className="ml-[18%] font-semibold text-sm text-white">
                   Reps
                 </span>
-                <span className="ml-[20%] font-semibold text-sm dark:text-white">
+                <span className="ml-[20%] font-semibold text-sm text-white">
                   Weight
                 </span>
               </div>
@@ -280,7 +283,7 @@ export default function ExerciseList({ workoutId }) {
                   className="mb-2 flex justify-evenly relative border-b-2 pb-4 pt-2"
                 >
                   <input
-                    className="font-semibold border-2 ml-4 text-sm text-center w-12 py-1 mx-2 placeholder:text-gray-700 border-gray-300 focus:outline-none  focus:border-gray-300 dark:placeholder:text-gray-500 dark:text-white dark:bg-slate-700"
+                    className="font-semibold bg-[#395756] text-white border-2 ml-4 text-sm text-center w-12 py-1 mx-2 placeholder:text-gray-700 border-gray-300 focus:outline-none  focus:border-gray-300 dark:placeholder:text-gray-500 dark:text-white dark:bg-slate-700"
                     type="number"
                     value={set.reps}
                     min={0}
@@ -294,7 +297,7 @@ export default function ExerciseList({ workoutId }) {
                     }}
                   />
                   <input
-                    className="font-semibold border-2 ml-4 text-sm text-center w-12 mx-2 py-1 placeholder:text-gray-700 border-gray-300 focus:outline-none  focus:border-gray-300 dark:placeholder:text-gray-500 dark:text-white dark:bg-slate-700"
+                    className="font-semibold border-2 bg-[#395756] text-white ml-4 text-sm text-center w-12 mx-2 py-1 placeholder:text-gray-700 border-gray-300 focus:outline-none  focus:border-gray-300 dark:placeholder:text-gray-500 dark:text-white dark:bg-slate-700"
                     type="number"
                     value={set.weight}
                     min="0"
@@ -314,7 +317,7 @@ export default function ExerciseList({ workoutId }) {
                     }}
                   >
                     <FontAwesomeIcon
-                      className="text-sm dark:text-white"
+                      className="text-sm text-white"
                       icon={faTrashCan}
                     />
                   </button>
@@ -331,22 +334,24 @@ export default function ExerciseList({ workoutId }) {
             </div>
           ))
         ) : (
-          <p className="dark:text-white">No exercises available</p>
+          <p className="dark:text-white text-center font-semibold">
+            No exercises available
+          </p>
         )}
         {isChanged && (
-          <div className="bg-white shadow-md rounded-md p-4 flex justify-center items-center mb-8 sticky right-20.5 bottom-6 sm:right-[8rem] sm:bottom-6 dark:bg-[#10192E] dark:shadow-slate-800">
+          <div className="bg-[#395756] text-white shadow-md rounded-md p-4 flex justify-center items-center mb-8 sticky right-20.5 bottom-6 sm:right-[8rem] sm:bottom-6 dark:bg-[#10192E] dark:shadow-slate-800">
             <button
               onClick={() => {
                 saveWorkoutToDB(workout);
                 setIsChanged(false);
               }}
-              className="bg-green-300 text-sm text-gray-600 hover:text-white mr-2 hover:bg-green-500 font-semibold py-1 px-4 border border-gray-400 rounded shadow"
+              className="bg-green-500 text-sm text-white hover:text-white mr-2 hover:bg-green-300 font-semibold py-1 px-4 border border-gray-400 rounded shadow"
             >
               Save
             </button>
             <button
               onClick={handleDiscardChanges}
-              className="bg-red-300 text-sm hover:bg-red-500 text-gray-600 hover:text-white  font-semibold py-1 px-4 border border-gray-400 rounded shadow"
+              className="bg-red-500 text-sm hover:bg-red-300 text-white hover:text-white  font-semibold py-1 px-4 border border-gray-400 rounded shadow"
             >
               Discard
             </button>

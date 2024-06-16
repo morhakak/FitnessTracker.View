@@ -14,7 +14,6 @@ const WorkoutCard = ({ workout, onRemoveWorkout }) => {
   const { toggleLikeWorkout } = useWorkouts();
 
   const handleWorkoutSelection = () => {
-    console.log("workout", workout);
     navigate(`/workouts/${workout.workoutId}`);
   };
 

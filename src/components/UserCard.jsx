@@ -12,8 +12,6 @@ import { toast } from "sonner";
 const UserCard = ({ user, onDeleteUser }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  console.log("user", user);
-
   const handleDeleteClick = (userId) => {
     if (user && user.userId == userId) {
       toast.error("You cannot delete yourself.");
@@ -28,7 +26,7 @@ const UserCard = ({ user, onDeleteUser }) => {
   };
 
   return (
-    <div className="flex items-center justify-between h-20 w-[400px] sm:w-[500px] shadow-md hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md p-4">
+    <div className="flex items-center justify-between h-12 w-[400px] sm:w-[500px] shadow-md hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md p-4">
       <div className="flex items-center flex-1 space-x-4">
         <FontAwesomeIcon
           icon={faUserCircle}

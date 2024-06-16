@@ -22,8 +22,6 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
 
-  // const isAdmin = user && user.role == "admin";
-
   return (
     <header className="bg-[#395756] relative sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-slate-300  dark:bg-[#10192E]">
       <div className="flex items-center justify-between px-4 py-3 sm:p-0">
@@ -75,7 +73,7 @@ const Header = () => {
             Dashboard
           </NavLink>
         )}
-        {isLoggedIn && user && user.isAdmin && (
+        {isLoggedIn && user && !user.isAdmin && (
           <NavLink
             className="block px-2 text-gray-300 hover:text-white mb-2 text-sm sm:px-0 sm:mr-3 sm:mb-0"
             to="/workouts"

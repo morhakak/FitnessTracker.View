@@ -120,6 +120,7 @@ const RegisterView = () => {
         <form
           className="flex flex-col relative justify-center"
           onSubmit={handleSubmit}
+          autoComplete="off"
         >
           <div className="flex items-center relative">
             <FontAwesomeIcon
@@ -133,6 +134,7 @@ const RegisterView = () => {
               type="text"
               placeholder="User Name"
               name="username"
+              autoComplete="off"
             />
           </div>
           {formErrors.username && (
@@ -152,6 +154,7 @@ const RegisterView = () => {
               type="email"
               placeholder="Email"
               name="email"
+              autoComplete="off"
             />
           </div>
           {formData.email.length > 0 && (
@@ -213,8 +216,8 @@ const RegisterView = () => {
             </ul>
           </div>
           <button
-            className="hover:cursor-pointer h-10 bg-[#639796] text-white mb-14 hover:bg-[#7abbba] disabled:bg-[#63666c] w-full dark:bg-[#63666c] dark:disabled:bg-[#63666c]"
-            // disabled={!isValidInputs()}
+            className="hover:cursor-pointer h-10 bg-[#639796] dark:bg-[#0D2247] dark:hover:bg-[#2f354d] text-white mb-14 hover:bg-[#7abbba] disabled:bg-[#4a6063] w-full dark:disabled:bg-[#63666c]"
+            disabled={!isValidInputs()}
             type="submit"
           >
             {isLoading && (
@@ -232,11 +235,11 @@ const RegisterView = () => {
             Registration failed: {errors[0]}
           </p>
         )}
-        <p className="text-center text-[#7abbba] font-medium text-xs dark:text-[#639796]">
+        <p className="text-center font-medium text-xs text-gray-300">
           Already registered?{" "}
           <Link
             to="/login"
-            className=" hover:text-white text-[#639796] font-semibold hover:cursor-pointer"
+            className=" text-white font-semibold hover:cursor-pointer"
           >
             Login
           </Link>

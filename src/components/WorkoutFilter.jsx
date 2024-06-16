@@ -28,13 +28,13 @@ const WorkoutFilter = ({
   }, [state.workouts]);
 
   return (
-    <div className="relative flex justify-center w-[25rem] rounded-md py-[10px] bg-white shadow-sm dark:bg-[#10192E] mt-4">
+    <div className="relative flex justify-center text-white w-[25rem] rounded-md py-[10px] bg-[#395756] shadow-sm dark:bg-[#10192E] mt-4">
       <input
         type="text"
         placeholder="Search workouts..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="p-[0.3rem] border text-sm border-gray-300 text-black placeholder:text-gray-300 placeholder:text-sm rounded-md pl-6 dark:bg-slate-700 focus:outline-none dark:text-white"
+        className="p-[0.3rem] border text-sm bg-[#395756] border-gray-300 placeholder:text-gray-300 placeholder:text-sm rounded-md pl-6 dark:bg-slate-700 focus:outline-none"
       />
       <FontAwesomeIcon
         icon={faMagnifyingGlass}
@@ -43,7 +43,7 @@ const WorkoutFilter = ({
       <select
         value={sortOption}
         onChange={(e) => setSortOption(e.target.value)}
-        className="border text-sm border-gray-300 rounded-md mx-2 pl-6 pr-2 focus:outline-none  text-black dark:bg-slate-700 dark:text-white"
+        className="border text-sm bg-[#395756] border-gray-300 rounded-md mx-2 pl-6 pr-2 focus:outline-none dark:bg-slate-700"
       >
         <option value="aToZ">A-Z</option>
         <option value="zToA">Z-A</option>

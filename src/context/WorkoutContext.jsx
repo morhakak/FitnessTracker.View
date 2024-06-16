@@ -182,7 +182,6 @@ export const WorkoutProvider = ({ children }) => {
 
   useEffect(() => {
     if (user && state.workouts.length > 0) {
-      // console.log("Saving workouts to local storage:", state.workouts);
       localStorage.setItem("workouts", JSON.stringify(state.workouts));
     }
   }, [state.workouts, user]);

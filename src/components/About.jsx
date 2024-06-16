@@ -1,10 +1,10 @@
 import { faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import image from "../assets/workoutImages/cables.jpg"; // Replace with the path to your image
+import highFiveImage from "../assets/workoutImages/good-vibes-at-gym.jpg";
 
 export default function About() {
   return (
-    <div className="max-w-4xl mt-8 mx-auto p-6 bg-white shadow-md rounded-md dark:bg-[#10192E] dark:text-white">
+    <div className="max-w-4xl text-white mt-8 mx-auto p-6 bg-[#395756] shadow-md rounded-md dark:bg-[#10192E]">
       <div className="flex flex-col md:flex-row mb-4">
         <div className="flex flex-col md:w-1/2">
           <h1 className="text-3xl font-bold mb-4">About Fitness Tracker</h1>
@@ -19,17 +19,14 @@ export default function About() {
             monitor your progress seamlessly.
           </p>
           <div className="flex items-center mt-6 gap-5">
-            <hr className="w-1/3 text-black dark:text-white" />
-            <FontAwesomeIcon
-              icon={faDumbbell}
-              className="text-xl text-black dark:text-white"
-            />
-            <hr className="w-1/3 text-black dark:text-white" />
+            <hr className="w-1/3 text-white" />
+            <FontAwesomeIcon icon={faDumbbell} className="text-xl text-white" />
+            <hr className="w-1/3 text-white" />
           </div>
         </div>
         <img
-          src={image}
-          alt="A guy working out"
+          src={highFiveImage}
+          alt="Two girls giving high five at the gym"
           className="w-full md:w-1/2 rounded-md shadow-md mt-4 md:mt-0 md:ml-4"
         />
       </div>
@@ -65,34 +62,36 @@ export default function About() {
       <h2 className="text-2xl font-semibold mb-3">
         Why Choose Fitness Tracker?
       </h2>
-      <ul className="list-disc list-inside mb-4 space-y-2">
-        <li>
-          <strong>User-Friendly Interface:</strong> Our intuitive design makes
-          it easy for you to navigate through the app and quickly access the
-          features you need.
-        </li>
-        <li>
-          <strong>Comprehensive Strength Training Features:</strong> Fitness
-          Tracker offers a wide range of features that cater to all strength
-          training levels. Whether you&apos;re a beginner or an experienced
-          lifter, you&apos;ll find the tools you need to succeed.
-        </li>
-        <li>
-          <strong>Customizable Workouts:</strong> Tailor your workouts to match
-          your goals. Create routines that fit your schedule and adjust them as
-          you progress.
-        </li>
-        <li>
-          <strong>Progress Tracking:</strong> Keep a detailed log of your
-          workouts and exercises. Track your strength gains, endurance
-          improvements, and overall fitness journey.
-        </li>
-        <li>
-          <strong>Community Support:</strong> Join a community of strength
-          training enthusiasts. Share your progress, get tips, and stay
-          motivated by connecting with others who are on the same journey.
-        </li>
-      </ul>
+      <div className="flex">
+        <ul className="list-disc list-inside mb-4 space-y-2">
+          <li>
+            <strong>User-Friendly Interface:</strong> Our intuitive design makes
+            it easy for you to navigate through the app and quickly access the
+            features you need.
+          </li>
+          <li>
+            <strong>Comprehensive Strength Training Features:</strong> Fitness
+            Tracker offers a wide range of features that cater to all strength
+            training levels. Whether you&apos;re a beginner or an experienced
+            lifter, you&apos;ll find the tools you need to succeed.
+          </li>
+          <li>
+            <strong>Customizable Workouts:</strong> Tailor your workouts to
+            match your goals. Create routines that fit your schedule and adjust
+            them as you progress.
+          </li>
+          <li>
+            <strong>Progress Tracking:</strong> Keep a detailed log of your
+            workouts and exercises. Track your strength gains, endurance
+            improvements, and overall fitness journey.
+          </li>
+          <li>
+            <strong>Community Support:</strong> Join a community of strength
+            training enthusiasts. Share your progress, get tips, and stay
+            motivated by connecting with others who are on the same journey.
+          </li>
+        </ul>
+      </div>
 
       <h2 className="text-2xl font-semibold mb-3">Get Started Today</h2>
       <p>
