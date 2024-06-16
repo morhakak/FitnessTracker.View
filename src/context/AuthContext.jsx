@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,10 @@ const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getToken();
+  }, []);
 
   const getToken = () => {
     const tokenFromStorage = localStorage.getItem("token");
@@ -75,57 +79,6 @@ const AuthProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
-
-  // const login = async (userName, password) => {
-  //   resetErrors();
-  //   try {
-  //     setIsLoading(true);
-  //     const response = await axios.post(`${BASE_URL}/login`, {
-  //       userName,
-  //       password,
-  //     });
-
-  //     console.log("response:", response);
-
-  //     if (response.status >= 200 && response.status <= 300) {
-  //       const resData = response.data;
-  //       localStorage.setItem("token", resData.token);
-  //       setToken(resData.token);
-  //       setIsLoggedIn(true);
-  //       setUser({
-  //         username: resData.username,
-  //         email: resData.email,
-  //         isAdmin: resData.isAdmin,
-  //       });
-  //       navigate("/");
-  //       toast.success(`${userName} logged in successfully`);
-  //     }
-  //   } catch (error) {
-  //     if (error.response) {
-  //       if (error.response.status === 404) {
-  //         addError(`Failed to login: User not found`);
-  //         toast.error("Failed to login: User not found");
-  //       } else {
-  //         addError(
-  //           `Failed to login: ${
-  //             error.response.data.Message || error.response.statusText
-  //           }`
-  //         );
-  //         toast.error(
-  //           `Failed to login: ${
-  //             error.response.data.Message || error.response.statusText
-  //           }`
-  //         );
-  //       }
-  //     } else {
-  //       addError(`Failed to login: ${error.message}`);
-  //       toast.error(`Failed to login: ${error.message}`);
-  //     }
-  //     console.error("Failed to login", error.message);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   const login = async (userName, password) => {
     resetErrors();
