@@ -54,6 +54,7 @@ function App() {
                 <Route path="/welcome" element={<WelcomeView />} />
                 <Route path="/Dashboard" element={<DashboardView />} />
                 <Route path="/Dashboard/users" element={<ManageUsersView />} />
+                <Route path="/Dashboard/workout" element={<WorkoutsView />} />
               </Routes>
               <Toaster visibleToasts={1} richColors position="bottom-right" />
             </WorkoutProvider>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import DarkModeToggle from "../components/DarkModeToggle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +7,16 @@ import { useAuth } from "../context/AuthContext.jsx";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoggedIn, user, logout } = useAuth();
+  const { isLoggedIn, user, logout, getToken } = useAuth();
+
+  useEffect(() => {
+    console.log("get token called from nav");
+    getToken();
+  }, []);
+
+  useEffect(() => {
+    console.log("user", user);
+  }, [user]);
 
   const navigate = useNavigate();
   const toggleMenu = () => {

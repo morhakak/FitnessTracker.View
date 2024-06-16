@@ -7,6 +7,7 @@ import Modal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import WorkoutFilter from "../components/WorkoutFilter";
+import { useAuth } from "../context/AuthContext";
 
 Modal.setAppElement("#root");
 
@@ -18,6 +19,12 @@ export default function WorkoutsView() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showLikedOnly, setShowLikedOnly] = useState(false);
   const [sortOption, setSortOption] = useState("createdDate");
+  const { user, getToken } = useAuth();
+
+  useEffect(() => {
+    console.log("get token called from workouts view");
+    getToken();
+  }, []);
 
   useEffect(() => {
     if (loader.loadWorkouts) {
@@ -105,10 +112,14 @@ export default function WorkoutsView() {
     }
   });
 
+  const isAdmin = user && user.role == "Admin";
+
+  if (loader.loadWorkouts) return <p>Loading workouts...</p>;
+
   return (
     <div className="relative flex flex-col justify-center items-center w-full h-full">
       <div className="h-[300px] bg-center flex flex-col items-center bg-[url('./assets/workoutImages/athlete-with-weights.jpg')] bg-cover w-full">
-        <CreateWorkoutForm />
+        {user && !isAdmin && <CreateWorkoutForm />}
         <WorkoutFilter
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -119,7 +130,11 @@ export default function WorkoutsView() {
         />
       </div>
       <div className="justify-start rounded-md pt-4 grid grid-cols-2 px-4 gap-4 mt-8 mb-6 sm:grid-cols-2 md:grid-cols-3">
-        {sortedWorkouts.length > 0 && errors.length === 0 ? (
+        {loader.loadWorkouts ? (
+          <p className="text-xl mt-4 dark:text-white col-span-3">
+            Loading workouts...
+          </p>
+        ) : sortedWorkouts.length > 0 && errors.length === 0 ? (
           sortedWorkouts.map((workout) => (
             <WorkoutCard
               key={workout.workoutId}

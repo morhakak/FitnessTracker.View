@@ -1,13 +1,24 @@
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserCircle,
+  faTrashCan,
+  faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const UserCard = ({ user, onDeleteUser }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const handleDeleteClick = () => {
+  console.log("user", user);
+
+  const handleDeleteClick = (userId) => {
+    if (user && user.userId == userId) {
+      toast.error("You cannot delete yourself.");
+      return;
+    }
     setModalIsOpen(true);
   };
 
@@ -17,20 +28,27 @@ const UserCard = ({ user, onDeleteUser }) => {
   };
 
   return (
-    <div className="flex items-center justify-around h-20 w-[400px] sm:w-[500px] shadow-md hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md">
-      <div className="flex items-center">
+    <div className="flex items-center justify-between h-20 w-[400px] sm:w-[500px] shadow-md hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md p-4">
+      <div className="flex items-center flex-1 space-x-4">
         <FontAwesomeIcon
           icon={faUserCircle}
-          className="text-xl text-gray-500 dark:text-blue-100 mr-2"
+          className="text-xl text-gray-500 dark:text-blue-100"
         />
-        <p className="w-36 truncate">{user.email}</p>
+        <p className="truncate">{user.userName}</p>
       </div>
-      <div className="flex items-center">
-        <p className="w-36 truncate">{user.roles.join(", ")}</p>
+      <div className="flex items-center flex-1 space-x-4">
+        <FontAwesomeIcon
+          icon={faEnvelope}
+          className="text-xl text-gray-500 dark:text-blue-100"
+        />
+        <p className="truncate">{user.email}</p>
+      </div>
+      <div className="flex items-center flex-1 justify-end space-x-4">
+        <p className="truncate">{user.roles.join(", ")}</p>
         <FontAwesomeIcon
           icon={faTrashCan}
-          className="text-xl text-gray-500 dark:text-blue-100 ml-2"
-          onClick={() => handleDeleteClick()}
+          className="text-xl text-gray-500 dark:text-blue-100 cursor-pointer"
+          onClick={() => handleDeleteClick(user.userId)}
         />
       </div>
       {modalIsOpen && (
@@ -76,6 +94,7 @@ const UserCard = ({ user, onDeleteUser }) => {
 
 UserCard.propTypes = {
   user: PropTypes.shape({
+    userName: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     roles: PropTypes.arrayOf(PropTypes.string).isRequired,
     userId: PropTypes.string.isRequired,

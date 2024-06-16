@@ -21,7 +21,7 @@ const DashboardView = () => {
         <p className="mt-14 text-lg">Manage Users</p>
       </div>
       <div
-        onClick={() => console.log("home")}
+        onClick={() => navigate("/Dashboard/workout")}
         className="p-4 h-40 w-40 flex justify-center text-white bg-[#395756] items-center shadow-lg hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md"
       >
         <FontAwesomeIcon

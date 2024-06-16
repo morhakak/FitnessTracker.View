@@ -150,7 +150,9 @@ export const WorkoutProvider = ({ children }) => {
 
     try {
       setIsLoader((prev) => ({ ...prev, loadWorkouts: true }));
-      const res = await axios.get(`${BASE_URL}/user`, {
+      console.log("is admin", user?.isAdmin);
+      const url = user && user.isAdmin ? "" : "/user";
+      const res = await axios.get(`${BASE_URL}/workout${url}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -191,7 +193,7 @@ export const WorkoutProvider = ({ children }) => {
         name,
       };
       try {
-        const postRes = await axios.post(`${BASE_URL}`, newWorkout, {
+        const postRes = await axios.post(`${BASE_URL}/workout`, newWorkout, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -219,7 +221,7 @@ export const WorkoutProvider = ({ children }) => {
         console.log("Exercise id is null or undefined");
       }
       try {
-        const res = await axios.delete(`${BASE_URL}/${workoutId}`, {
+        const res = await axios.delete(`${BASE_URL}/workout/${workoutId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -242,7 +244,7 @@ export const WorkoutProvider = ({ children }) => {
     async (workoutId) => {
       try {
         const res = await axios.put(
-          `${BASE_URL}/${workoutId}/toggle-like`,
+          `${BASE_URL}/workout/${workoutId}/toggle-like`,
           {},
           {
             headers: {
@@ -273,7 +275,7 @@ export const WorkoutProvider = ({ children }) => {
 
       try {
         const res = await axios.post(
-          `${BASE_URL}/${workoutId}/add-exercise`,
+          `${BASE_URL}/workout/${workoutId}/add-exercise`,
           newExercise,
           {
             headers: {
@@ -303,11 +305,14 @@ export const WorkoutProvider = ({ children }) => {
         console.log("Exercise id is null or undefined");
       }
       try {
-        const res = await axios.delete(`${BASE_URL}/exercise/${exerciseId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await axios.delete(
+          `${BASE_URL}/workout/exercise/${exerciseId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (res.status >= 200 && res.status <= 300) {
           await fetchWorkouts();
         } else {
@@ -326,7 +331,7 @@ export const WorkoutProvider = ({ children }) => {
       setIsLoader((prev) => ({ ...prev, addSet: true }));
       try {
         const res = await axios.post(
-          `${BASE_URL}/exercise/add-set`,
+          `${BASE_URL}/workout/exercise/add-set`,
           { workoutId, exerciseId },
           {
             headers: {
@@ -356,7 +361,7 @@ export const WorkoutProvider = ({ children }) => {
       }
       try {
         const res = await axios.delete(
-          `${BASE_URL}/exercise/delete-set/${setId}`,
+          `${BASE_URL}/workout/exercise/delete-set/${setId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -413,7 +418,7 @@ export const WorkoutProvider = ({ children }) => {
       setIsLoader((prev) => ({ ...prev, save: true }));
       console.log("Updating exercise in DB with updates:", updates); // Debug log
       try {
-        await axios.put(`${BASE_URL}/exercise/${exerciseId}`, updates, {
+        await axios.put(`${BASE_URL}/workout/exercise/${exerciseId}`, updates, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -433,7 +438,7 @@ export const WorkoutProvider = ({ children }) => {
       setIsLoader((prev) => ({ ...prev, save: true }));
       console.log("Saving workout to DB:", workout); // Debug log
       try {
-        await axios.put(`${BASE_URL}/${workout.workoutId}`, workout, {
+        await axios.put(`${BASE_URL}/workout/${workout.workoutId}`, workout, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
