@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import WorkoutFilter from "../components/WorkoutFilter";
 import { useAuth } from "../context/AuthContext";
+import spinner from "../assets/spinner.gif";
 
 Modal.setAppElement("#root");
 
@@ -114,8 +115,6 @@ export default function WorkoutsView() {
 
   const isAdmin = user && user.role == "Admin";
 
-  if (loader.loadWorkouts) return <p>Loading workouts...</p>;
-
   return (
     <div className="relative flex flex-col justify-center items-center w-full h-full">
       <div className="h-[300px] bg-center flex flex-col items-center bg-[url('./assets/workoutImages/athlete-with-weights.jpg')] bg-cover w-full">
@@ -131,9 +130,10 @@ export default function WorkoutsView() {
       </div>
       <div className="justify-start rounded-md pt-4 grid grid-cols-2 px-4 gap-4 mt-8 mb-6 sm:grid-cols-2 md:grid-cols-3">
         {loader.loadWorkouts ? (
-          <p className="text-xl mt-4 dark:text-white col-span-3">
+          <div className="text-xl flex mt-4 dark:text-white col-span-3">
+            <img src={spinner} alt="spinner" className="w-6 mr-2" />
             Loading workouts...
-          </p>
+          </div>
         ) : sortedWorkouts.length > 0 && errors.length === 0 ? (
           sortedWorkouts.map((workout) => (
             <WorkoutCard
