@@ -23,7 +23,6 @@ export default function WorkoutsView() {
   const { user, getToken } = useAuth();
 
   useEffect(() => {
-    console.log("get token called from workouts view");
     getToken();
   }, []);
 

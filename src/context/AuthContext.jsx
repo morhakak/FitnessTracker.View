@@ -42,7 +42,13 @@ const AuthProvider = ({ children }) => {
           "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
         ];
 
-      setUser((prev) => ({ ...prev, username, email, role }));
+      setUser((prev) => ({
+        ...prev,
+        username,
+        email,
+        role,
+        isAdmin: role == "admin",
+      }));
     }
     setIsLoading(false);
   };

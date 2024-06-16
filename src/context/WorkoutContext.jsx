@@ -148,29 +148,30 @@ export const WorkoutProvider = ({ children }) => {
       return;
     }
 
-    try {
-      setIsLoader((prev) => ({ ...prev, loadWorkouts: true }));
-      console.log("is admin", user?.isAdmin);
-      const url = user && user.isAdmin ? "" : "/user";
-      const res = await axios.get(`${BASE_URL}/workout${url}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    if (user) {
+      try {
+        setIsLoader((prev) => ({ ...prev, loadWorkouts: true }));
+        const url = user && user.isAdmin ? "" : "/user";
+        const res = await axios.get(`${BASE_URL}/workout${url}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      if (res.status >= 200 && res.status <= 300) {
-        dispatch({ type: "SET_WORKOUTS", payload: res.data });
-      } else {
-        addError(`Failed to load workouts: ${res.data.message}`);
-        console.error(`Failed to load workouts. ${res.data.message}`);
+        if (res.status >= 200 && res.status <= 300) {
+          dispatch({ type: "SET_WORKOUTS", payload: res.data });
+        } else {
+          addError(`Failed to load workouts: ${res.data.message}`);
+          console.error(`Failed to load workouts. ${res.data.message}`);
+        }
+      } catch (error) {
+        addError(`Failed to load workouts: ${error.message}`);
+        console.error(`Failed to load workouts. ${error.message}`);
+      } finally {
+        setIsLoader((prev) => ({ ...prev, loadWorkouts: false }));
       }
-    } catch (error) {
-      addError(`Failed to load workouts: ${error.message}`);
-      console.error(`Failed to load workouts. ${error.message}`);
-    } finally {
-      setIsLoader((prev) => ({ ...prev, loadWorkouts: false }));
     }
-  }, [token]);
+  }, [token, user]);
 
   useEffect(() => {
     async function fetchData() {
