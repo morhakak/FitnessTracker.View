@@ -17,6 +17,8 @@ import ManageUsersView from "./views/ManageUsersView";
 import StatisticsView from "./views/StatisticsView";
 import { DashboardProvider } from "./context/DashboardContext";
 import Layout from "./components/Layout";
+import GuestRoute from "./components/GuestRoute";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 function App() {
   useEffect(() => {
@@ -39,8 +41,14 @@ function App() {
                   path="/"
                   element={<ProtectedRoute component={WorkoutsView} />}
                 />
-                <Route path="/register" element={<RegisterView />} />
-                <Route path="/login" element={<LoginView />} />
+                <Route
+                  path="/register"
+                  element={<GuestRoute component={RegisterView} />}
+                />
+                <Route
+                  path="/login"
+                  element={<GuestRoute component={LoginView} />}
+                />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route
@@ -52,10 +60,22 @@ function App() {
                   element={<ProtectedRoute component={WorkoutView} />}
                 />
                 <Route path="/welcome" element={<WelcomeView />} />
-                <Route path="/Dashboard" element={<DashboardView />} />
-                <Route path="/Dashboard/users" element={<ManageUsersView />} />
-                <Route path="/Dashboard/workout" element={<WorkoutsView />} />
-                <Route path="/Dashboard/stats" element={<StatisticsView />} />
+                <Route
+                  path="/Dashboard"
+                  element={<ProtectedAdminRoute component={DashboardView} />}
+                />
+                <Route
+                  path="/Dashboard/users"
+                  element={<ProtectedAdminRoute component={ManageUsersView} />}
+                />
+                <Route
+                  path="/Dashboard/workout"
+                  element={<ProtectedAdminRoute component={WorkoutsView} />}
+                />
+                <Route
+                  path="/Dashboard/stats"
+                  element={<ProtectedAdminRoute component={StatisticsView} />}
+                />
               </Routes>
             </Layout>
             <Toaster visibleToasts={1} richColors position="bottom-right" />

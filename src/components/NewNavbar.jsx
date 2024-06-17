@@ -26,7 +26,10 @@ const Header = () => {
     <header className="bg-[#395756] relative sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-slate-300  dark:bg-[#10192E]">
       <div className="flex items-center justify-between px-4 py-3 sm:p-0">
         <h1
-          onClick={() => navigate("/workouts")}
+          onClick={() => {
+            if (!user) return;
+            navigate("/workouts");
+          }}
           className="text-white text-2xl cursor-pointer"
         >
           <FontAwesomeIcon icon={faDumbbell} className="text-white mr-2" />
