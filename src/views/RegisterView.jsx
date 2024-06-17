@@ -12,6 +12,7 @@ import {
   faCheckCircle as solidCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthContext";
+import { Helmet } from "react-helmet-async";
 
 const RegisterView = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -115,137 +116,142 @@ const RegisterView = () => {
   };
 
   return (
-    <div className="relative">
-      <div className="max-w-md mx-auto shadow-lg mt-10 rounded-md md:max-w-lg lg:max-w-xl p-4 relative bg-[#395756] dark:bg-[#10192E]  dark:shadow-slate-700">
-        <form
-          className="flex flex-col relative justify-center"
-          onSubmit={handleSubmit}
-          autoComplete="off"
-        >
-          <div className="flex items-center relative">
-            <FontAwesomeIcon
-              icon={faUser}
-              className="text-md text-white mb-4 absolute dark:text-blue-100"
-            />
-            <input
-              className="text-white h-10 mb-4 focus:outline-none pl-6 w-full border-b-2 bg-[#395756] dark:bg-[#10192E]"
-              value={formData.username}
-              onChange={(e) => handleChange(e)}
-              type="text"
-              placeholder="User Name"
-              name="username"
-              autoComplete="off"
-            />
-          </div>
-          {formErrors.username && (
-            <p className="text-red-500 text-xs absolute top-[42px]">
-              {formErrors.username}
-            </p>
-          )}
-          <div className="flex items-center relative">
-            <FontAwesomeIcon
-              icon={faEnvelope}
-              className="text-md text-white mb-4 absolute dark:text-blue-100"
-            />
-            <input
-              className="text-white h-10 mb-4 focus:outline-none pl-6 w-full border-b-2 bg-[#395756] dark:bg-[#10192E]"
-              value={formData.email}
-              onChange={(e) => handleChange(e)}
-              type="email"
-              placeholder="Email"
-              name="email"
-              autoComplete="off"
-            />
-          </div>
-          {formData.email.length > 0 && (
-            <p className="text-red-500 text-xs absolute top-[100px]">
-              {formErrors.email}
-            </p>
-          )}
-          <div className="flex items-center relative">
-            <FontAwesomeIcon
-              icon={faLock}
-              className="text-md text-white mb-4 absolute dark:text-blue-100"
-            />
-            <input
-              className="text-white h-10 mb-4 focus:outline-none pl-6 pr-6 w-full border-b-2 bg-[#395756] dark:bg-[#10192E] "
-              value={formData.password}
-              onChange={(e) => handleChange(e)}
-              type={isPasswordVisible ? "text" : "password"}
-              placeholder="Password"
-              name="password"
-            />
-            <FontAwesomeIcon
-              icon={passwordVisibilityIcon()}
-              onClick={togglePasswordVisibility}
-              className="text-md text-white mb-4 absolute left-[96%] dark:text-blue-100"
-            />
-          </div>
-          <div className="text-xs mb-4">
-            <ul>
-              <li
-                className={`mb-1 transition duration-200 ease-in ${
-                  isValidPasswordLength()
-                    ? "text-green-500"
-                    : "text-white  dark:text-gray-200"
-                }`}
-              >
-                <FontAwesomeIcon icon={passwordLengthIcon()} />
-                &nbsp;At least 8 characters
-              </li>
-              <li
-                className={` mb-1 transition duration-200 ease-in ${
-                  hasUppercaseAndLowercase()
-                    ? "text-green-500"
-                    : "text-white  dark:text-gray-200"
-                }`}
-              >
-                <FontAwesomeIcon icon={letterCaseIcon()} />
-                &nbsp;Lowercase (a-z) and uppercase (A-Z)
-              </li>
-              <li
-                className={`mb-1 transition duration-200 ease-in ${
-                  hasNumberAndSpecialChar()
-                    ? "text-green-500"
-                    : "text-white dark:text-gray-200"
-                }`}
-              >
-                <FontAwesomeIcon icon={numberAndSymbolIcon()} />
-                &nbsp;At least one number (0-9) and one symbol
-              </li>
-            </ul>
-          </div>
-          <button
-            className="hover:cursor-pointer h-10 bg-[#639796] dark:bg-[#0D2247] dark:hover:bg-[#2f354d] text-white mb-14 hover:bg-[#7abbba] disabled:bg-[#4a6063] w-full dark:disabled:bg-[#63666c]"
-            disabled={!isValidInputs()}
-            type="submit"
+    <>
+      <Helmet>
+        <title>Register - Fitness Tracker</title>
+      </Helmet>
+      <div className="relative">
+        <div className="max-w-md mx-auto shadow-lg mt-10 rounded-md md:max-w-lg lg:max-w-xl p-4 relative bg-[#395756] dark:bg-[#10192E]  dark:shadow-slate-700">
+          <form
+            className="flex flex-col relative justify-center"
+            onSubmit={handleSubmit}
+            autoComplete="off"
           >
-            {isLoading && (
+            <div className="flex items-center relative">
               <FontAwesomeIcon
-                className="w-6 h-6 inline-block absolute left-10"
-                icon={faSpinner}
-                alt="loading"
+                icon={faUser}
+                className="text-md text-white mb-4 absolute dark:text-blue-100"
               />
+              <input
+                className="text-white h-10 mb-4 focus:outline-none pl-6 w-full border-b-2 bg-[#395756] dark:bg-[#10192E]"
+                value={formData.username}
+                onChange={(e) => handleChange(e)}
+                type="text"
+                placeholder="User Name"
+                name="username"
+                autoComplete="off"
+              />
+            </div>
+            {formErrors.username && (
+              <p className="text-red-500 text-xs absolute top-[42px]">
+                {formErrors.username}
+              </p>
             )}
-            Register
-          </button>
-        </form>
-        {errors.length > 0 && (
-          <p className="text-red-500 text-sm font-semibold absolute px-2 bottom-10">
-            Registration failed: {errors[0]}
+            <div className="flex items-center relative">
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className="text-md text-white mb-4 absolute dark:text-blue-100"
+              />
+              <input
+                className="text-white h-10 mb-4 focus:outline-none pl-6 w-full border-b-2 bg-[#395756] dark:bg-[#10192E]"
+                value={formData.email}
+                onChange={(e) => handleChange(e)}
+                type="email"
+                placeholder="Email"
+                name="email"
+                autoComplete="off"
+              />
+            </div>
+            {formData.email.length > 0 && (
+              <p className="text-red-500 text-xs absolute top-[100px]">
+                {formErrors.email}
+              </p>
+            )}
+            <div className="flex items-center relative">
+              <FontAwesomeIcon
+                icon={faLock}
+                className="text-md text-white mb-4 absolute dark:text-blue-100"
+              />
+              <input
+                className="text-white h-10 mb-4 focus:outline-none pl-6 pr-6 w-full border-b-2 bg-[#395756] dark:bg-[#10192E] "
+                value={formData.password}
+                onChange={(e) => handleChange(e)}
+                type={isPasswordVisible ? "text" : "password"}
+                placeholder="Password"
+                name="password"
+              />
+              <FontAwesomeIcon
+                icon={passwordVisibilityIcon()}
+                onClick={togglePasswordVisibility}
+                className="text-md text-white mb-4 absolute left-[96%] dark:text-blue-100"
+              />
+            </div>
+            <div className="text-xs mb-4">
+              <ul>
+                <li
+                  className={`mb-1 transition duration-200 ease-in ${
+                    isValidPasswordLength()
+                      ? "text-green-500"
+                      : "text-white  dark:text-gray-200"
+                  }`}
+                >
+                  <FontAwesomeIcon icon={passwordLengthIcon()} />
+                  &nbsp;At least 8 characters
+                </li>
+                <li
+                  className={` mb-1 transition duration-200 ease-in ${
+                    hasUppercaseAndLowercase()
+                      ? "text-green-500"
+                      : "text-white  dark:text-gray-200"
+                  }`}
+                >
+                  <FontAwesomeIcon icon={letterCaseIcon()} />
+                  &nbsp;Lowercase (a-z) and uppercase (A-Z)
+                </li>
+                <li
+                  className={`mb-1 transition duration-200 ease-in ${
+                    hasNumberAndSpecialChar()
+                      ? "text-green-500"
+                      : "text-white dark:text-gray-200"
+                  }`}
+                >
+                  <FontAwesomeIcon icon={numberAndSymbolIcon()} />
+                  &nbsp;At least one number (0-9) and one symbol
+                </li>
+              </ul>
+            </div>
+            <button
+              className="hover:cursor-pointer h-10 bg-[#639796] dark:bg-[#0D2247] dark:hover:bg-[#2f354d] text-white mb-14 hover:bg-[#7abbba] disabled:bg-[#4a6063] w-full dark:disabled:bg-[#63666c]"
+              disabled={!isValidInputs()}
+              type="submit"
+            >
+              {isLoading && (
+                <FontAwesomeIcon
+                  className="w-6 h-6 inline-block absolute left-10"
+                  icon={faSpinner}
+                  alt="loading"
+                />
+              )}
+              Register
+            </button>
+          </form>
+          {errors.length > 0 && (
+            <p className="text-red-500 text-sm font-semibold absolute px-2 bottom-10">
+              Registration failed: {errors[0]}
+            </p>
+          )}
+          <p className="text-center font-medium text-xs text-gray-300">
+            Already registered?{" "}
+            <Link
+              to="/login"
+              className=" text-white font-semibold hover:cursor-pointer"
+            >
+              Login
+            </Link>
           </p>
-        )}
-        <p className="text-center font-medium text-xs text-gray-300">
-          Already registered?{" "}
-          <Link
-            to="/login"
-            className=" text-white font-semibold hover:cursor-pointer"
-          >
-            Login
-          </Link>
-        </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -9,6 +9,7 @@ import { faCircleCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import WorkoutFilter from "../components/WorkoutFilter";
 import { useAuth } from "../context/AuthContext";
 import spinner from "../assets/spinner.gif";
+import { Helmet } from "react-helmet-async";
 
 Modal.setAppElement("#root");
 
@@ -112,81 +113,84 @@ export default function WorkoutsView() {
     }
   });
 
-  const isAdmin = user && user.role == "Admin";
-
   return (
-    <div className="relative flex flex-col justify-center items-center w-full h-full">
-      <div className="h-[300px] bg-center flex flex-col items-center bg-[url('./assets/workoutImages/athlete-with-weights.jpg')] bg-cover w-full">
-        {user && !isAdmin && <CreateWorkoutForm />}
-        <WorkoutFilter
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          showLikedOnly={showLikedOnly}
-          setShowLikedOnly={setShowLikedOnly}
-          sortOption={sortOption}
-          setSortOption={setSortOption}
-        />
-      </div>
-      <div className="justify-start rounded-md pt-4 grid grid-cols-2 px-4 gap-4 mt-8 mb-6 sm:grid-cols-2 md:grid-cols-3">
-        {loader.loadWorkouts ? (
-          <div className="text-xl flex mt-4 dark:text-white col-span-3">
-            <img src={spinner} alt="spinner" className="w-6 mr-2" />
-            Loading workouts...
-          </div>
-        ) : sortedWorkouts.length > 0 && errors.length === 0 ? (
-          sortedWorkouts.map((workout) => (
-            <WorkoutCard
-              key={workout.workoutId}
-              workout={workout}
-              onToggleLiked={handleToggleLiked}
-              onRemoveWorkout={() => handleRemoveWorkout(workout)}
-              className="flex-shrink-0"
-            />
-          ))
-        ) : (
-          <p className="text-xl mt-4 dark:text-white col-span-3">
-            You don&rsquo;t have any workouts yet.
-          </p>
+    <>
+      <Helmet>
+        <title>Workouts - Fitness Tracker</title>
+      </Helmet>
+      <div className="relative flex flex-col justify-center items-center w-full h-full">
+        <div className="h-[300px] bg-center flex flex-col items-center bg-[url('./assets/workoutImages/athlete-with-weights.jpg')] bg-cover w-full">
+          {user && !user.isAdmin && <CreateWorkoutForm />}
+          <WorkoutFilter
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            showLikedOnly={showLikedOnly}
+            setShowLikedOnly={setShowLikedOnly}
+            sortOption={sortOption}
+            setSortOption={setSortOption}
+          />
+        </div>
+        <div className="justify-start rounded-md pt-4 grid grid-cols-2 px-4 gap-4 mt-8 mb-6 sm:grid-cols-2 md:grid-cols-3">
+          {loader.loadWorkouts ? (
+            <div className="text-xl flex mt-4 dark:text-white col-span-3">
+              <img src={spinner} alt="spinner" className="w-6 mr-2" />
+              Loading workouts...
+            </div>
+          ) : sortedWorkouts.length > 0 && errors.length === 0 ? (
+            sortedWorkouts.map((workout) => (
+              <WorkoutCard
+                key={workout.workoutId}
+                workout={workout}
+                onToggleLiked={handleToggleLiked}
+                onRemoveWorkout={() => handleRemoveWorkout(workout)}
+                className="flex-shrink-0"
+              />
+            ))
+          ) : (
+            <p className="text-xl mt-4 dark:text-white col-span-3">
+              You don&rsquo;t have any workouts yet.
+            </p>
+          )}
+        </div>
+        {modalIsOpen && (
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={() => setModalIsOpen(false)}
+            className="h-[12rem] w-[20rem] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:text-white dark:bg-[#10192E] p-2 rounded shadow-md flex flex-col justify-between"
+            overlayClassName="fixed inset-0 bg-black z-20 bg-opacity-50"
+          >
+            <div className="flex justify-end">
+              <button
+                className="px-2 font-bold"
+                onClick={() => setModalIsOpen(false)}
+              >
+                X
+              </button>
+            </div>
+            <div className="flex-grow flex flex-col justify-center">
+              <h2 className="text-center text-md px-8 mb-2">
+                Delete workout{" "}
+                <span className="italic">{workoutToDelete?.name}</span>
+              </h2>
+              <p className="text-lg text-center">Are you sure?</p>
+            </div>
+            <div className="flex justify-center gap-2 ">
+              <button
+                onClick={() => setModalIsOpen(false)}
+                className="bg-blue-500 hover:bg-blue-400 dark:bg-[#0D2247] text-white px-2 py-1 rounded mt-2 text-sm dark:hover:bg-[#0E2855]"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="bg-red-500 text-white px-2 py-1 rounded mt-2 text-sm hover:bg-red-400"
+              >
+                Delete
+              </button>
+            </div>
+          </Modal>
         )}
       </div>
-      {modalIsOpen && (
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={() => setModalIsOpen(false)}
-          className="h-[12rem] w-[20rem] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:text-white dark:bg-[#10192E] p-2 rounded shadow-md flex flex-col justify-between"
-          overlayClassName="fixed inset-0 bg-black z-20 bg-opacity-50"
-        >
-          <div className="flex justify-end">
-            <button
-              className="px-2 font-bold"
-              onClick={() => setModalIsOpen(false)}
-            >
-              X
-            </button>
-          </div>
-          <div className="flex-grow flex flex-col justify-center">
-            <h2 className="text-center text-md px-8 mb-2">
-              Delete workout{" "}
-              <span className="italic">{workoutToDelete?.name}</span>
-            </h2>
-            <p className="text-lg text-center">Are you sure?</p>
-          </div>
-          <div className="flex justify-center gap-2 ">
-            <button
-              onClick={() => setModalIsOpen(false)}
-              className="bg-blue-500 hover:bg-blue-400 dark:bg-[#0D2247] text-white px-2 py-1 rounded mt-2 text-sm dark:hover:bg-[#0E2855]"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={confirmDelete}
-              className="bg-red-500 text-white px-2 py-1 rounded mt-2 text-sm hover:bg-red-400"
-            >
-              Delete
-            </button>
-          </div>
-        </Modal>
-      )}
-    </div>
+    </>
   );
 }

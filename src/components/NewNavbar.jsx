@@ -52,7 +52,7 @@ const Header = () => {
       <nav
         className={`px-4 pt-2 pb-4 sm:flex items-center sm:p-0 sm:static sm:top-0 sm:shadow-none dark:bg-[#10192E] dark:shadow-slate-700 ${
           isOpen
-            ? "block absolute top-18 bg-blue-500 z-10 w-full sm:w-auto shadow-slate-400 shadow-lg"
+            ? "block absolute top-18 bg-[#395756] z-10 w-full sm:w-auto shadow-slate-400 shadow-lg"
             : "hidden"
         }`}
       >
@@ -115,7 +115,7 @@ const Header = () => {
             className="block px-2 mb-2 text-sm text-gray-300 hover:text-white sm:px-0 sm:mb-0"
             to="/"
           >
-            Log-out
+            Log out
           </NavLink>
         )}
       </nav>

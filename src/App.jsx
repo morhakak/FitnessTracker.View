@@ -19,6 +19,7 @@ import { DashboardProvider } from "./context/DashboardContext";
 import Layout from "./components/Layout";
 import GuestRoute from "./components/GuestRoute";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   useEffect(() => {
@@ -30,59 +31,63 @@ function App() {
     }
   });
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <DashboardProvider>
-          <WorkoutProvider>
-            <Initializer />
-            <Layout>
-              <Routes>
-                <Route
-                  path="/"
-                  element={<ProtectedRoute component={WorkoutsView} />}
-                />
-                <Route
-                  path="/register"
-                  element={<GuestRoute component={RegisterView} />}
-                />
-                <Route
-                  path="/login"
-                  element={<GuestRoute component={LoginView} />}
-                />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route
-                  path="/workouts"
-                  element={<ProtectedRoute component={WorkoutsView} />}
-                />
-                <Route
-                  path="/workouts/:id"
-                  element={<ProtectedRoute component={WorkoutView} />}
-                />
-                <Route path="/welcome" element={<WelcomeView />} />
-                <Route
-                  path="/Dashboard"
-                  element={<ProtectedAdminRoute component={DashboardView} />}
-                />
-                <Route
-                  path="/Dashboard/users"
-                  element={<ProtectedAdminRoute component={ManageUsersView} />}
-                />
-                <Route
-                  path="/Dashboard/workout"
-                  element={<ProtectedAdminRoute component={WorkoutsView} />}
-                />
-                <Route
-                  path="/Dashboard/stats"
-                  element={<ProtectedAdminRoute component={StatisticsView} />}
-                />
-              </Routes>
-            </Layout>
-            <Toaster visibleToasts={1} richColors position="bottom-right" />
-          </WorkoutProvider>
-        </DashboardProvider>
-      </AuthProvider>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <DashboardProvider>
+            <WorkoutProvider>
+              <Initializer />
+              <Layout>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={<ProtectedRoute component={WorkoutsView} />}
+                  />
+                  <Route
+                    path="/register"
+                    element={<GuestRoute component={RegisterView} />}
+                  />
+                  <Route
+                    path="/login"
+                    element={<GuestRoute component={LoginView} />}
+                  />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route
+                    path="/workouts"
+                    element={<ProtectedRoute component={WorkoutsView} />}
+                  />
+                  <Route
+                    path="/workouts/:id"
+                    element={<ProtectedRoute component={WorkoutView} />}
+                  />
+                  <Route path="/welcome" element={<WelcomeView />} />
+                  <Route
+                    path="/Dashboard"
+                    element={<ProtectedAdminRoute component={DashboardView} />}
+                  />
+                  <Route
+                    path="/Dashboard/users"
+                    element={
+                      <ProtectedAdminRoute component={ManageUsersView} />
+                    }
+                  />
+                  <Route
+                    path="/Dashboard/workout"
+                    element={<ProtectedAdminRoute component={WorkoutsView} />}
+                  />
+                  <Route
+                    path="/Dashboard/stats"
+                    element={<ProtectedAdminRoute component={StatisticsView} />}
+                  />
+                </Routes>
+              </Layout>
+              <Toaster visibleToasts={1} richColors position="bottom-right" />
+            </WorkoutProvider>
+          </DashboardProvider>
+        </AuthProvider>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
