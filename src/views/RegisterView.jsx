@@ -10,6 +10,7 @@ import {
   faUser,
   faSpinner,
   faCheckCircle as solidCircle,
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthContext";
 import { Helmet } from "react-helmet-async";
@@ -22,6 +23,7 @@ const RegisterView = () => {
     email: "",
     username: "",
     password: "",
+    imageUrl: "",
   });
   const [formErrors, setFormErrors] = useState({
     email: "",
@@ -167,6 +169,21 @@ const RegisterView = () => {
                 {formErrors.email}
               </p>
             )}
+            <div className="flex items-center relative">
+              <FontAwesomeIcon
+                icon={faImage}
+                className="text-md text-white mb-4 absolute dark:text-blue-100"
+              />
+              <input
+                className="text-white h-10 mb-4 focus:outline-none pl-6 w-full border-b-2 bg-[#395756] dark:bg-[#10192E]"
+                value={formData.imageUrl}
+                onChange={(e) => handleChange(e)}
+                type="text"
+                placeholder="Image URL"
+                name="imageUrl"
+                autoComplete="off"
+              />
+            </div>
             <div className="flex items-center relative">
               <FontAwesomeIcon
                 icon={faLock}

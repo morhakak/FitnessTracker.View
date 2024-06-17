@@ -42,12 +42,15 @@ const AuthProvider = ({ children }) => {
           "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
         ];
 
+      const imageUrl = decodedToken["image"];
+
       setUser((prev) => ({
         ...prev,
         username,
         email,
         role,
         isAdmin: role == "admin",
+        imageUrl,
       }));
     }
     setIsLoading(false);
@@ -71,6 +74,7 @@ const AuthProvider = ({ children }) => {
           "Content-Type": "application/json;charset=UTF-8",
         },
       });
+      console.log("response", response);
       if (response.status >= 200 && response.status <= 300) {
         return response.data;
       } else {
@@ -79,8 +83,11 @@ const AuthProvider = ({ children }) => {
         return null;
       }
     } catch (error) {
+      if (error.response) {
+        addError(error.response.data);
+      }
       console.log("register error, response.data:", error.message);
-      addError(`Failed to register: ${error.message}`);
+      addError(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -119,6 +126,7 @@ const AuthProvider = ({ children }) => {
         username: resData.username,
         email: resData.email,
         isAdmin: resData.isAdmin,
+        imageUrl: resData.imageUrl,
       });
       navigate("/");
       toast.success(`${userName} logged in successfully`);

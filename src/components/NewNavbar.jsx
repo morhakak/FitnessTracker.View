@@ -4,6 +4,7 @@ import DarkModeToggle from "../components/DarkModeToggle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDumbbell, faBars, faX } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthContext.jsx";
+import defaultImage from "../assets/user.png";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +62,7 @@ const Header = () => {
           <p className="block px-2 mb-2 text-sm text-gray-300 rounded sm:px-0 sm:mr-3 sm:mb-0">
             <img
               className="rounded-full w-10 inline-block mr-2"
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
+              src={user && user.imageUrl ? user.imageUrl : defaultImage}
             />
             Hi,&nbsp;
             <span className="font-semibold">{user.username}</span>
