@@ -8,11 +8,11 @@ import { Helmet } from "react-helmet-async";
 
 export default function WorkoutView() {
   const { id } = useParams();
-  const { state, loader } = useWorkouts();
+  const { workouts, workoutsLoading } = useWorkouts();
 
-  const workout = state.workouts.find((workout) => workout.workoutId === id);
+  const workout = workouts.find((workout) => workout.workoutId === id);
 
-  if (loader.loadWorkouts && !workout) {
+  if (workoutsLoading && !workout) {
     toast(
       <>
         <FontAwesomeIcon icon={faSpinner} className="text-md text-black " />

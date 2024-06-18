@@ -5,7 +5,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function AddWorkoutForm() {
   const [workoutName, setWorkoutName] = useState("");
-  const { createWorkout, loader } = useWorkouts();
+  const { createWorkout, workoutsLoading } = useWorkouts();
 
   const handleAddWorkout = (e) => {
     e.preventDefault();
@@ -30,7 +30,7 @@ export default function AddWorkoutForm() {
           onClick={handleAddWorkout}
           className="w-full relative bg-[#191C29] hover:bg-[#2f354d] text-white font-bold py-2 px-4 rounded-lg focus:outline-none  focus:ring-opacity-50 disabled:bg-slate-300 dark:bg-[#0D2247] hover:dark:bg-[#122e60] dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
         >
-          {loader.addWorkout && (
+          {workoutsLoading && (
             <FontAwesomeIcon
               icon={faSpinner}
               className="text-md text-black absolute left-3 top-3"

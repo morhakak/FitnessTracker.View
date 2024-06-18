@@ -6,7 +6,7 @@ import DashboardCard from "../components/dashboard/DashboardCard";
 import { useDashboard } from "../context/DashboardContext";
 
 const Stats = () => {
-  const { state } = useWorkouts();
+  const { workouts } = useWorkouts();
   const { users } = useDashboard();
 
   return (
@@ -27,14 +27,14 @@ const Stats = () => {
             <div className="flex flex-col items-center text-center">
               <p>Total Workouts</p>
               <FontAwesomeIcon icon={faDumbbell} className="text-3xl mb-2" />
-              <p>{state?.workouts.length}</p>
+              <p>{workouts.length}</p>
             </div>
           </DashboardCard>
           <DashboardCard>
             <div className="flex flex-col items-center text-center">
               <p>Liked Workouts</p>
               <FontAwesomeIcon icon={faHeart} className="text-3xl mb-2" />
-              <p>{state?.workouts.filter((w) => w.isLiked).length}</p>
+              <p>{workouts.filter((w) => w.isLiked).length}</p>
             </div>
           </DashboardCard>
         </div>

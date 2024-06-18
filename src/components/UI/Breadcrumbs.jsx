@@ -6,14 +6,15 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function Breadcrumbs() {
   const location = useLocation();
-  const { state } = useWorkouts();
-  const [loading, setLoading] = useState(true);
+  const { workouts } = useWorkouts();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (state.workouts.length > 0) {
+    setLoading(true);
+    if (workouts.length > 0) {
       setLoading(false);
     }
-  }, [state.workouts]);
+  }, [workouts]);
 
   let currentLink = "";
 
@@ -22,7 +23,7 @@ export default function Breadcrumbs() {
   }
 
   const getWorkoutName = (id) => {
-    const workout = state.workouts.find((w) => w.workoutId === id);
+    const workout = workouts.find((w) => w.workoutId === id);
     return workout ? workout.name : id;
   };
 

@@ -8,12 +8,12 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useWorkouts } from "../../context/WorkoutContext";
 import { format } from "date-fns";
-import { useContext, useEffect, useState } from "react";
-import { DashboardContext } from "../../context/DashboardContext";
+import { useEffect, useState } from "react";
+import { useDashboard } from "../../context/DashboardContext";
 import { useAuth } from "../../context/AuthContext";
 
 const WorkoutCard = ({ workout, onRemoveWorkout }) => {
-  const { users } = useContext(DashboardContext);
+  const { users } = useDashboard();
   const { user } = useAuth();
   const [userToDisplay, setUserToDisplay] = useState(null);
 

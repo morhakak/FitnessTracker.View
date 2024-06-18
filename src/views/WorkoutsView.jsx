@@ -15,8 +15,14 @@ import { DashboardContext } from "../context/DashboardContext";
 Modal.setAppElement("#root");
 
 export default function WorkoutsView() {
-  const { state, updateWorkout, fetchWorkouts, errors, deleteWorkout, loader } =
-    useWorkouts();
+  const {
+    workouts,
+    updateWorkout,
+    fetchWorkouts,
+    errors,
+    deleteWorkout,
+    workoutsLoading,
+  } = useWorkouts();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,7 +36,7 @@ export default function WorkoutsView() {
   }, []);
 
   useEffect(() => {
-    if (loader.loadWorkouts) {
+    if (workoutsLoading) {
       toast(
         <>
           <FontAwesomeIcon icon={faSpinner} className="text-md text-black " />
@@ -40,7 +46,7 @@ export default function WorkoutsView() {
         </>,
         { duration: 1500 }
       );
-    } else if (!loader.loadWorkouts && state.workouts.length > 0) {
+    } else if (!workoutsLoading && workouts.length > 0) {
       toast(
         <>
           <FontAwesomeIcon
@@ -54,7 +60,7 @@ export default function WorkoutsView() {
         { duration: 1500 }
       );
     }
-  }, [loader.loadWorkouts]);
+  }, [workoutsLoading, workouts.length]);
 
   useEffect(() => {
     async function fetch() {
@@ -70,9 +76,7 @@ export default function WorkoutsView() {
   }, [errors]);
 
   const handleToggleLiked = (id) => {
-    let updatedWorkout = state.workouts.find(
-      (workout) => workout.workoutId === id
-    );
+    let updatedWorkout = workouts.find((workout) => workout.workoutId === id);
     updatedWorkout = {
       ...updatedWorkout,
       isLiked: !updatedWorkout.isLiked,
@@ -99,24 +103,29 @@ export default function WorkoutsView() {
     }
   };
 
-  const filteredWorkouts = state.workouts
-    .filter((workout) =>
-      workout.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((workout) => (showLikedOnly ? workout.isLiked : true));
+  const filteredWorkouts =
+    workouts.length > 0 &&
+    workouts
+      .filter((workout) =>
+        workout.name?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .filter((workout) => (showLikedOnly ? workout.isLiked : true));
 
-  const sortedWorkouts = filteredWorkouts.sort((a, b) => {
-    if (sortOption === "aToZ") {
-      return a.name.localeCompare(b.name);
-    } else if (sortOption === "zToA") {
-      return b.name.localeCompare(a.name);
-    } else if (sortOption === "createdDate") {
-      return new Date(a.createdAt) - new Date(b.createdAt);
-    } else {
-      return a.userId.localeCompare(b.userId);
-    }
-  });
+  const sortedWorkouts =
+    filteredWorkouts.length > 0 &&
+    filteredWorkouts.sort((a, b) => {
+      if (sortOption === "aToZ") {
+        return a.name.localeCompare(b.name);
+      } else if (sortOption === "zToA") {
+        return b.name.localeCompare(a.name);
+      } else if (sortOption === "createdDate") {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      } else {
+        return a.userId.localeCompare(b.userId);
+      }
+    });
 
+  console.log(sortedWorkouts);
   return (
     <>
       <Helmet>
@@ -135,7 +144,7 @@ export default function WorkoutsView() {
           />
         </div>
         <div className="justify-start rounded-md pt-4 grid grid-cols-2 px-4 gap-4 mt-8 mb-6 sm:grid-cols-2 md:grid-cols-3">
-          {loader.loadWorkouts || usersLoading ? (
+          {workoutsLoading || usersLoading ? (
             <div className="text-xl flex mt-4 dark:text-white col-span-3">
               <img src={spinner} alt="spinner" className="w-6 mr-2" />
               Loading workouts...

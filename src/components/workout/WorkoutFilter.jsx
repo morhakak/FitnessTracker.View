@@ -18,16 +18,17 @@ const WorkoutFilter = ({
   sortOption,
   setSortOption,
 }) => {
-  const { state } = useWorkouts();
+  const { workouts } = useWorkouts();
   const [hasLiked, setHasLiked] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
-    if (state.workouts.length == 0) return;
-    {
-      setHasLiked(state.workouts.filter((w) => w.isLiked).length > 0);
-    }
-  }, [state.workouts]);
+    if (workouts.length == 0) return;
+
+    setHasLiked(
+      workouts.length > 0 && workouts.filter((w) => w.isLiked).length > 0
+    );
+  }, [workouts]);
 
   return (
     <div

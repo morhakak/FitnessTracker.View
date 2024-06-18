@@ -6,20 +6,20 @@ import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faWeightHanging } from "@fortawesome/free-solid-svg-icons";
 
 export default function ExercisesList({ workoutId }) {
-  const { state, saveWorkoutToDB } = useWorkouts();
+  const { workouts, saveWorkoutToDB } = useWorkouts();
   const [isChanged, setIsChanged] = useState(false);
   const [workout, setWorkout] = useState(null);
   const [exerciseName, setExerciseName] = useState("");
   const originalWorkoutRef = useRef(null);
 
   useEffect(() => {
-    const existingWorkout = state.workouts.find(
+    const existingWorkout = workouts.find(
       (workout) => workout.workoutId === workoutId
     );
 
     setWorkout({ ...existingWorkout });
     originalWorkoutRef.current = { ...existingWorkout };
-  }, [state.workouts, workoutId]);
+  }, [workouts, workoutId]);
 
   const handleDiscardChanges = () => {
     setWorkout({ ...originalWorkoutRef.current });

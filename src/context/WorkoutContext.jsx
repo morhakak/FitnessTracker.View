@@ -1,7 +1,6 @@
 import {
   createContext,
   useContext,
-  useReducer,
   useEffect,
   useCallback,
   useState,
@@ -13,30 +12,11 @@ import BASE_URL from "../appConfig";
 
 const WorkoutContext = createContext();
 
-const initialState = {
-  workouts: [],
-};
-
-const workoutReducer = (state, action) => {
-  switch (action.type) {
-    case "SET_WORKOUTS":
-      return { ...state, workouts: action.payload };
-    default:
-      return state;
-  }
-};
-
 export const WorkoutProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(workoutReducer, initialState);
   const { user, token } = useAuth();
+  const [workouts, setWorkouts] = useState([]);
   const [errors, setErrors] = useState([]);
-  const [loader, setIsLoader] = useState({
-    addWorkout: false,
-    addExercise: false,
-    addSet: false,
-    loadWorkouts: false,
-    save: false,
-  });
+  const [workoutsLoading, setWorkoutsLoading] = useState(false);
 
   const addError = (error) => {
     setErrors((prevErrors) => [...prevErrors, error]);
@@ -49,7 +29,7 @@ export const WorkoutProvider = ({ children }) => {
 
     if (user) {
       try {
-        setIsLoader((prev) => ({ ...prev, loadWorkouts: true }));
+        setWorkoutsLoading(true);
         const url = user && user.isAdmin ? "" : "/user";
         const res = await axios.get(`${BASE_URL}/workout${url}`, {
           headers: {
@@ -58,7 +38,7 @@ export const WorkoutProvider = ({ children }) => {
         });
 
         if (res.status >= 200 && res.status <= 300) {
-          dispatch({ type: "SET_WORKOUTS", payload: res.data });
+          setWorkouts([...res.data]);
         } else {
           addError(`Failed to load workouts: ${res.data.message}`);
           console.error(`Failed to load workouts. ${res.data.message}`);
@@ -67,7 +47,7 @@ export const WorkoutProvider = ({ children }) => {
         addError(`Failed to load workouts: ${error.message}`);
         console.error(`Failed to load workouts. ${error.message}`);
       } finally {
-        setIsLoader((prev) => ({ ...prev, loadWorkouts: false }));
+        setWorkoutsLoading(false);
       }
     }
   }, [token, user]);
@@ -80,14 +60,14 @@ export const WorkoutProvider = ({ children }) => {
   }, [user, fetchWorkouts]);
 
   useEffect(() => {
-    if (user && state.workouts.length > 0) {
-      localStorage.setItem("workouts", JSON.stringify(state.workouts));
+    if (user && workouts.length > 0) {
+      localStorage.setItem("workouts", JSON.stringify(workouts));
     }
-  }, [state.workouts, user]);
+  }, [workouts, user]);
 
   const createWorkout = useCallback(
     async (name) => {
-      setIsLoader((prev) => ({ ...prev, addWorkout: true }));
+      setWorkoutsLoading(true);
       const newWorkout = {
         name,
       };
@@ -107,7 +87,7 @@ export const WorkoutProvider = ({ children }) => {
         addError(`Failed to save workouts: ${error.message}`);
         console.error("Failed to save workout", error);
       } finally {
-        setIsLoader((prev) => ({ ...prev, addWorkout: false }));
+        setWorkoutsLoading(false);
       }
     },
     [token, fetchWorkouts]
@@ -166,14 +146,12 @@ export const WorkoutProvider = ({ children }) => {
 
   const saveWorkout = useCallback(
     async (workoutId) => {
-      console.log("Workouts from save workout:", state.workouts);
-      const workout = state.workouts.find(
+      const workout = workouts.find(
         (workout) => workout.workoutId === workoutId
       );
       if (!workout) return;
 
       try {
-        console.log("Workout to save:", workout);
         await axios.put(`${BASE_URL}/${workoutId}`, workout, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -184,12 +162,12 @@ export const WorkoutProvider = ({ children }) => {
         console.error("Failed to save workout", error);
       }
     },
-    [state.workouts, token]
+    [workouts, token]
   );
 
   const saveWorkoutToDB = useCallback(
     async (workout) => {
-      setIsLoader((prev) => ({ ...prev, save: true }));
+      setWorkoutsLoading(true);
       try {
         await axios.put(`${BASE_URL}/workout/${workout.workoutId}`, workout, {
           headers: {
@@ -201,7 +179,7 @@ export const WorkoutProvider = ({ children }) => {
         addError(`Failed to save workout: ${error.message}`);
         console.error("Failed to save workout to DB", error);
       } finally {
-        setIsLoader((prev) => ({ ...prev, save: false }));
+        setWorkoutsLoading(false);
       }
     },
     [token, fetchWorkouts]
@@ -210,7 +188,7 @@ export const WorkoutProvider = ({ children }) => {
   return (
     <WorkoutContext.Provider
       value={{
-        state,
+        workouts,
         createWorkout,
         deleteWorkout,
         toggleLikeWorkout,
@@ -218,7 +196,7 @@ export const WorkoutProvider = ({ children }) => {
         fetchWorkouts,
         saveWorkoutToDB,
         errors,
-        loader,
+        workoutsLoading,
       }}
     >
       {children}
