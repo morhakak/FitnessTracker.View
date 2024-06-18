@@ -8,9 +8,9 @@ export default function WelcomeView() {
       <Helmet>
         <title>Welcome - Fitness Tracker</title>
       </Helmet>
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-[#0a0f1d]">
+      <div className="flex items-center justify-center sm:h-[400px] mt-6 bg-gray-100 dark:bg-[#0a0f1d]">
         <div className="bg-white shadow-md rounded-md overflow-hidden flex flex-col md:flex-row md:max-w-4xl w-full m-4">
-          <div className="md:w-1/2 w-full">
+          <div className="md:w-1/2 w-full ">
             <img
               src={image}
               alt="Fitness illustration"
@@ -18,19 +18,19 @@ export default function WelcomeView() {
             />
           </div>
           <div className="md:w-1/2 w-full p-8 flex flex-col items-center justify-center dark:bg-[#191C29]">
-            <h1 className="text-4xl font-bold mb-4 dark:text-white">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 dark:text-white text-center">
               Welcome to{" "}
-              <span className="first-letter:text-[#395756] first-letter:text-5xl inline-block dark:first-letter:text-[#1e2e55]">
+              <span className="text-[#395756] dark:text-[#1e2e55]">
                 Fitness
               </span>{" "}
-              <span className="first-letter:text-[#395756] first-letter:text-5xl inline-block dark:first-letter:text-[#1e2e55]">
+              <span className="text-[#395756] dark:text-[#1e2e55]">
                 Tracker
               </span>
             </h1>
-            <h2 className="text-2xl mb-6 dark:text-gray-300">
+            <h2 className="text-xl md:text-2xl mb-6 dark:text-gray-300 text-center">
               Achieve your strength training goals with ease.
             </h2>
-            <div className="flex space-x-4">
+            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">
               <Link
                 to="/register"
                 className="relative inline-block px-4 py-2 font-medium text-lg text-white group"

@@ -116,7 +116,7 @@ const Navbar = () => {
           <NavLink
             onClick={logout}
             className="block px-2 mb-2 text-sm text-gray-300 hover:text-white sm:px-0 sm:mb-0"
-            to="/"
+            to="/welcome"
           >
             Log out
           </NavLink>
