@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import DarkModeToggle from "../components/DarkModeToggle.jsx";
+import DarkModeToggle from "./DarkModeToggle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDumbbell, faBars, faX } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "../context/AuthContext.jsx";
-import defaultImage from "../assets/user.png";
+import { useAuth } from "../../context/AuthContext.jsx";
+import defaultImage from "../../assets/user.png";
 
-const Header = () => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoggedIn, user, logout, getToken } = useAuth();
 
@@ -120,4 +120,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Navbar;

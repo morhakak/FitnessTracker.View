@@ -1,4 +1,4 @@
-import About from "./components/About";
+import About from "./views/About";
 import Contact from "./components/Contact";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import WorkoutsView from "./views/WorkoutsView";

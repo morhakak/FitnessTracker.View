@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import "../DarkModeToggle.css";
+import "../../DarkModeToggle.css";
 
 const DarkModeToggle = () => {
   const [isDark, setIsDark] = useState(localStorage.getItem("theme") == "dark");
