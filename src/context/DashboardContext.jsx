@@ -17,6 +17,7 @@ export const DashboardProvider = ({ children }) => {
       setUsers(response.data);
     } catch (error) {
       console.error("Failed to fetch users", error);
+      toast.error("Failed to fetch users");
     } finally {
       setUsersLoading(false);
     }
@@ -24,8 +25,6 @@ export const DashboardProvider = ({ children }) => {
 
   const deleteUser = async (userId) => {
     const existingUser = users.find((u) => u.userId === userId);
-    console.log("user to delete:", existingUser);
-    console.log("user id to delete:", userId);
 
     try {
       await axios.delete(`${BASE_URL}/dashboard/${userId}`);
@@ -34,6 +33,7 @@ export const DashboardProvider = ({ children }) => {
       await getUsers();
     } catch (error) {
       console.error("Failed to delete user", error);
+      toast.error("Failed to delete user");
     }
   };
 

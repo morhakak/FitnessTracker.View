@@ -1,9 +1,19 @@
 import { Link, useLocation } from "react-router-dom";
 import { useWorkouts } from "../../context/WorkoutContext";
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function Breadcrumbs() {
   const location = useLocation();
   const { state } = useWorkouts();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (state.workouts.length > 0) {
+      setLoading(false);
+    }
+  }, [state.workouts]);
 
   let currentLink = "";
 
@@ -35,9 +45,9 @@ export default function Breadcrumbs() {
           <div className="flex items-center" key={crumb}>
             <Link
               to={currentLink}
-              className="dark:text-gray-300 text-[#395756] hover:text-gray-500"
+              className="dark:text-gray-300 text-sm border-b-[#395756] text-[#395756] hover:text-gray-500"
             >
-              {crumbLabel}
+              {firstLetterToUpperCase(crumbLabel)}
             </Link>
             {index < array.length - 1 && (
               <span className="mx-2 text-gray-400">&gt;</span>
@@ -45,6 +55,15 @@ export default function Breadcrumbs() {
           </div>
         );
     });
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl ml-4 my-5 flex items-center">
+        <FontAwesomeIcon icon={faSpinner} className="mr-2" />
+        Loading...
+      </div>
+    );
+  }
 
   return <div className="max-w-4xl ml-4 my-5 flex ">{crumbs}</div>;
 }

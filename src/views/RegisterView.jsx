@@ -8,12 +8,12 @@ import {
   faEye,
   faEyeSlash,
   faUser,
-  faSpinner,
   faCheckCircle as solidCircle,
   faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthContext";
 import { Helmet } from "react-helmet-async";
+import spinner from "../assets/spinner.gif";
 
 const RegisterView = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -243,10 +243,10 @@ const RegisterView = () => {
               type="submit"
             >
               {isLoading && (
-                <FontAwesomeIcon
-                  className="w-6 h-6 inline-block absolute left-10"
-                  icon={faSpinner}
-                  alt="loading"
+                <img
+                  className="w-6 h-6 inline-block absolute left-2"
+                  src={spinner}
+                  alt="spinner"
                 />
               )}
               Register

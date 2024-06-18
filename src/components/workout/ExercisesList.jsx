@@ -3,16 +3,11 @@ import { useWorkouts } from "../../context/WorkoutContext";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-// import spinner from "../assets/spinner.gif";
-// import { toast } from "sonner";
+import { faWeightHanging } from "@fortawesome/free-solid-svg-icons";
 
 export default function ExercisesList({ workoutId }) {
   const { state, saveWorkoutToDB } = useWorkouts();
-
-  // const [localWorkout, setLocalWorkout] = useState(null);
   const [isChanged, setIsChanged] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const toastIdRef = useRef(null);
   const [workout, setWorkout] = useState(null);
   const [exerciseName, setExerciseName] = useState("");
   const originalWorkoutRef = useRef(null);
@@ -23,28 +18,13 @@ export default function ExercisesList({ workoutId }) {
     );
 
     setWorkout({ ...existingWorkout });
-    originalWorkoutRef.current = { ...existingWorkout }; // Store original state
-    // return () => {
-    //   toast.dismiss();
-    // };
+    originalWorkoutRef.current = { ...existingWorkout };
   }, [state.workouts, workoutId]);
 
-  // Step 2: Handle Discard Changes
   const handleDiscardChanges = () => {
-    setWorkout({ ...originalWorkoutRef.current }); // Revert to original state
+    setWorkout({ ...originalWorkoutRef.current });
     setIsChanged(false);
   };
-
-  // useEffect(() => {
-  //   const workout = state.workouts.find(
-  //     (workout) => workout.workoutId === workoutId
-  //   );
-  //   setLocalWorkout(workout ? { ...workout } : null);
-
-  //   return () => {
-  //     toast.dismiss();
-  //   };
-  // }, [state.workouts, workoutId]);
 
   const handleExerciseNameChange = (exerciseId, name) => {
     setWorkout((prevWorkout) => {
@@ -106,38 +86,6 @@ export default function ExercisesList({ workoutId }) {
     setIsChanged(true);
   }, []);
 
-  // const handleSave = useCallback(async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const promises = localWorkout.exercises.map((exercise) =>
-  //       updateExerciseInDB(exercise.exerciseId, exercise)
-  //     );
-  //     await Promise.all(promises);
-
-  //     await saveWorkoutToDB(localWorkout);
-  //     toast.success("Workout was saved successfully!");
-
-  //     // Update originalWorkout state after saving changes
-  //     setLocalWorkout((prev) => ({ ...prev }));
-  //   } catch (error) {
-  //     toast.error("Failed to save workout", error);
-  //     console.error("Failed to save workout", error);
-  //   } finally {
-  //     setIsLoading(false);
-  //     setIsChanged(false);
-  //     toast.dismiss(toastIdRef.current); // Dismiss the specific toast
-  //   }
-  // }, [localWorkout, saveWorkoutToDB, updateExerciseInDB]);
-
-  // const handleDiscard = useCallback(() => {
-  //   const originalWorkout = state.workouts.find(
-  //     (workout) => workout.workoutId === workoutId
-  //   );
-  //   setLocalWorkout(originalWorkout ? { ...originalWorkout } : null);
-  //   setIsChanged(false);
-  //   toast.dismiss(toastIdRef.current); // Dismiss the specific toast
-  // }, [state.workouts, workoutId]);
-
   const handleDeleteExercise = useCallback((exerciseId) => {
     setWorkout((prevWorkout) => {
       const updatedExercises = prevWorkout.exercises.filter(
@@ -148,45 +96,15 @@ export default function ExercisesList({ workoutId }) {
     setIsChanged(true);
   }, []);
 
-  // // Show toast only once when isChanged changes to true
-  // useEffect(() => {
-  //   if (isChanged) {
-  //     toastIdRef.current = toast(
-  //       <>
-  //         <button
-  //           className="w-[48%] py-2 px-2 bg-green-500 rounded-md text-center text-white hover:bg-green-300"
-  //           onClick={handleSave}
-  //         >
-  //           {isLoading && (
-  //             <img className="w-6 absolute top-[0.5rem] left-3" src={spinner} />
-  //           )}
-  //           Save Changes
-  //         </button>
-  //         <button
-  //           className="w-[48%] py-2 px-2 bg-red-500 rounded-md text-center text-white hover:bg-red-300"
-  //           onClick={handleDiscard}
-  //         >
-  //           Discard Changes
-  //         </button>
-  //       </>,
-  //       { duration: Infinity }
-  //     );
-  //   } else if (!isChanged && toastIdRef.current) {
-  //     toast.dismiss(toastIdRef.current);
-  //     toastIdRef.current = null;
-  //   }
-  // }, [handleSave, handleDiscard, isChanged, isLoading]);
-
   const handleAddExercise = useCallback(
     (e) => {
       e.preventDefault();
       setWorkout((prevWorkout) => {
         const newExercise = {
-          exerciseId: Date.now().toString() + "temp", // Unique ID for the new exercise
+          exerciseId: Date.now().toString() + "temp",
           name: exerciseName,
           sets: [],
           workoutId: workoutId,
-          // createdAt: new Date().toISOString(),
         };
         return {
           ...prevWorkout,
@@ -202,14 +120,6 @@ export default function ExercisesList({ workoutId }) {
   if (!workout) {
     return null;
   }
-
-  // if (!localWorkout && isLoading) {
-  //   return (
-  //     <div>
-  //       <img className="w-4 absolute top-1" src={spinner} />
-  //     </div>
-  //   );
-  // }
 
   return (
     <>
@@ -274,7 +184,7 @@ export default function ExercisesList({ workoutId }) {
                   Reps
                 </span>
                 <span className="ml-[20%] font-semibold text-sm text-white">
-                  Weight
+                  <FontAwesomeIcon icon={faWeightHanging} /> (Kg)
                 </span>
               </div>
               {exercise.sets.map((set) => (

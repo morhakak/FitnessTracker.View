@@ -14,11 +14,9 @@ const DarkModeToggle = () => {
     if (isDark) {
       localStorage.setItem("theme", "light");
       document.documentElement.classList.remove("dark");
-      // document.body.classList.remove("bg-[#03070F]");
     } else {
       localStorage.setItem("theme", "dark");
       document.documentElement.classList.add("dark");
-      // document.body.classList.add("bg-[#03070F]");
     }
   };
 

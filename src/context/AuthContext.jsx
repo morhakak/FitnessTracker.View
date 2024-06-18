@@ -86,7 +86,6 @@ const AuthProvider = ({ children }) => {
       if (response.status >= 200 && response.status <= 300) {
         return response.data;
       } else {
-        console.log("register error, response.data:", response.data);
         addError(`Failed to register: ${response.data}`);
         return null;
       }
@@ -94,7 +93,6 @@ const AuthProvider = ({ children }) => {
       if (error.response) {
         addError(error.response.data);
       }
-      console.log("register error, response.data:", error.message);
       addError(error.message);
     } finally {
       setIsLoading(false);

@@ -4,7 +4,6 @@ import WorkoutView from "../views/WorkoutView";
 import RegisterView from "../views/RegisterView";
 import LoginView from "../views/LoginView";
 import AboutView from "../views/AboutView";
-import ContactView from "../views/ContactView";
 import WelcomeView from "../views/WelcomeView";
 import DashboardView from "../views/DashboardView";
 import ManageUsersView from "../views/ManageUsersView";
@@ -23,7 +22,6 @@ const AppRoutes = () => {
       />
       <Route path="/login" element={<GuestRoute component={LoginView} />} />
       <Route path="/about" element={<AboutView />} />
-      <Route path="/contact" element={<ContactView />} />
       <Route
         path="/workouts"
         element={<ProtectedRoute component={WorkoutsView} />}
