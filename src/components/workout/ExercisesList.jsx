@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useWorkouts } from "../context/WorkoutContext";
+import { useWorkouts } from "../../context/WorkoutContext";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 // import spinner from "../assets/spinner.gif";
 // import { toast } from "sonner";
 
-export default function ExerciseList({ workoutId }) {
+export default function ExercisesList({ workoutId }) {
   const { state, saveWorkoutToDB } = useWorkouts();
 
   // const [localWorkout, setLocalWorkout] = useState(null);
@@ -362,6 +362,6 @@ export default function ExerciseList({ workoutId }) {
   );
 }
 
-ExerciseList.propTypes = {
+ExercisesList.propTypes = {
   workoutId: PropTypes.string.isRequired,
 };

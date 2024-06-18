@@ -16,7 +16,7 @@ import DashboardView from "./views/DashboardView";
 import ManageUsersView from "./views/ManageUsersView";
 import StatisticsView from "./views/StatisticsView";
 import { DashboardProvider } from "./context/DashboardContext";
-import Layout from "./components/Layout";
+import Layout from "./components/UI/Layout";
 import GuestRoute from "./components/GuestRoute";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import { HelmetProvider } from "react-helmet-async";

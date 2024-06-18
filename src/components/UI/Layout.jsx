@@ -1,5 +1,5 @@
-import Footer from "./UI/Footer";
-import Navbar from "./UI/Navbar";
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 import PropTypes from "prop-types";
 
 export default function Layout({ children }) {

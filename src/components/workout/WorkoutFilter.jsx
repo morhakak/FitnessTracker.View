@@ -6,9 +6,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import PropTypes from "prop-types";
-import { useWorkouts } from "../context/WorkoutContext";
+import { useWorkouts } from "../../context/WorkoutContext";
 import { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const WorkoutFilter = ({
   searchTerm,

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { useWorkouts } from "../context/WorkoutContext";
+import { useWorkouts } from "../../context/WorkoutContext";
 import { toast } from "sonner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";

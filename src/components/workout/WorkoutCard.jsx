@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { useWorkouts } from "../context/WorkoutContext";
+import { useWorkouts } from "../../context/WorkoutContext";
 import { format } from "date-fns";
 
 const WorkoutCard = ({ workout, onRemoveWorkout }) => {

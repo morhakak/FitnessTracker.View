@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import WorkoutCard from "../components/WorkoutCard";
+import WorkoutCard from "../components/workout/WorkoutCard";
 import { useWorkouts } from "../context/WorkoutContext";
-import CreateWorkoutForm from "../components/CreateWorkoutForm";
+import AddWorkoutForm from "../components/workout/AddWorkoutForm";
 import { toast } from "sonner";
 import Modal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import WorkoutFilter from "../components/WorkoutFilter";
+import WorkoutFilter from "../components/workout/WorkoutFilter";
 import { useAuth } from "../context/AuthContext";
 import spinner from "../assets/spinner.gif";
 import { Helmet } from "react-helmet-async";
@@ -120,7 +120,7 @@ export default function WorkoutsView() {
       </Helmet>
       <div className="relative flex flex-col justify-center items-center w-full h-full">
         <div className="h-[300px] bg-center flex flex-col items-center bg-[url('./assets/workoutImages/athlete-with-weights.jpg')] bg-cover w-full">
-          {user && !user.isAdmin && <CreateWorkoutForm />}
+          {user && !user.isAdmin && <AddWorkoutForm />}
           <WorkoutFilter
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
