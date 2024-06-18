@@ -14,10 +14,6 @@ const Header = () => {
     getToken();
   }, []);
 
-  useEffect(() => {
-    console.log("user", user);
-  }, [user]);
-
   const navigate = useNavigate();
   const toggleMenu = () => {
     setIsOpen(!isOpen);

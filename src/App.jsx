@@ -63,21 +63,21 @@ function App() {
                   />
                   <Route path="/welcome" element={<WelcomeView />} />
                   <Route
-                    path="/Dashboard"
+                    path="/dashboard"
                     element={<ProtectedAdminRoute component={DashboardView} />}
                   />
                   <Route
-                    path="/Dashboard/users"
+                    path="/dashboard/user-managament"
                     element={
                       <ProtectedAdminRoute component={ManageUsersView} />
                     }
                   />
                   <Route
-                    path="/Dashboard/workout"
+                    path="/dashboard/workout"
                     element={<ProtectedAdminRoute component={WorkoutsView} />}
                   />
                   <Route
-                    path="/Dashboard/stats"
+                    path="/dashboard/stats"
                     element={<ProtectedAdminRoute component={StatisticsView} />}
                   />
                 </Routes>

@@ -97,24 +97,24 @@ const RegisterView = () => {
     return containsSpecialCharacter && containsNumber;
   };
 
-  const passwordLengthIcon = () => {
+  const getPasswordLengthIcon = () => {
     return isValidPasswordLength() ? solidCircle : regularCircle;
   };
 
-  const letterCaseIcon = () => {
+  const getLetterCaseIcon = () => {
     return hasUppercaseAndLowercase() ? solidCircle : regularCircle;
   };
 
-  const numberAndSymbolIcon = () => {
+  const getNumberAndSymbolIcon = () => {
     return hasNumberAndSpecialChar() ? solidCircle : regularCircle;
+  };
+
+  const getPasswordVisibilityIcon = () => {
+    return isPasswordVisible ? faEye : faEyeSlash;
   };
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
-  };
-
-  const passwordVisibilityIcon = () => {
-    return isPasswordVisible ? faEye : faEyeSlash;
   };
 
   return (
@@ -198,7 +198,7 @@ const RegisterView = () => {
                 name="password"
               />
               <FontAwesomeIcon
-                icon={passwordVisibilityIcon()}
+                icon={getPasswordVisibilityIcon()}
                 onClick={togglePasswordVisibility}
                 className="text-md text-white mb-4 absolute left-[96%] dark:text-blue-100"
               />
@@ -212,7 +212,7 @@ const RegisterView = () => {
                       : "text-white  dark:text-gray-200"
                   }`}
                 >
-                  <FontAwesomeIcon icon={passwordLengthIcon()} />
+                  <FontAwesomeIcon icon={getPasswordLengthIcon()} />
                   &nbsp;At least 8 characters
                 </li>
                 <li
@@ -222,7 +222,7 @@ const RegisterView = () => {
                       : "text-white  dark:text-gray-200"
                   }`}
                 >
-                  <FontAwesomeIcon icon={letterCaseIcon()} />
+                  <FontAwesomeIcon icon={getLetterCaseIcon()} />
                   &nbsp;Lowercase (a-z) and uppercase (A-Z)
                 </li>
                 <li
@@ -232,7 +232,7 @@ const RegisterView = () => {
                       : "text-white dark:text-gray-200"
                   }`}
                 >
-                  <FontAwesomeIcon icon={numberAndSymbolIcon()} />
+                  <FontAwesomeIcon icon={getNumberAndSymbolIcon()} />
                   &nbsp;At least one number (0-9) and one symbol
                 </li>
               </ul>

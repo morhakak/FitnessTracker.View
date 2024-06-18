@@ -18,17 +18,17 @@ const DashboardView = () => {
         <DashboardCard
           text="Manage Users"
           icon={faUsers}
-          action={() => navigate("/Dashboard/users")}
+          action={() => navigate("/dashboard/user-managament")}
         />
         <DashboardCard
           text="Manage Workouts"
           icon={faDumbbell}
-          action={() => navigate("/Dashboard/workout")}
+          action={() => navigate("/dashboard/workout")}
         />
         <DashboardCard
           text="Statistics"
           icon={faChartPie}
-          action={() => navigate("/Dashboard/stats")}
+          action={() => navigate("/dashboard/stats")}
         />
       </div>
     </>

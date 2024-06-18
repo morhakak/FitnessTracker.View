@@ -4,9 +4,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { jwtDecode } from "jwt-decode";
+import BASE_URL from "../appConfig";
 
 const AuthContext = createContext();
-const BASE_URL = "https://localhost:7088/api/auth";
+const AUTH_BASE_URL = `${BASE_URL}/auth`;
 
 const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -74,13 +75,12 @@ const AuthProvider = ({ children }) => {
     resetErrors();
     try {
       setIsLoading(true);
-      const response = await axios.post(`${BASE_URL}/register`, userData, {
+      const response = await axios.post(`${AUTH_BASE_URL}/register`, userData, {
         headers: {
           Accept: "application/json, text/plain",
           "Content-Type": "application/json;charset=UTF-8",
         },
       });
-      console.log("response", response);
       if (response.status >= 200 && response.status <= 300) {
         return response.data;
       } else {
@@ -114,7 +114,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const sendLoginRequest = async (userName, password) => {
-    return await axios.post(`${BASE_URL}/login`, {
+    return await axios.post(`${AUTH_BASE_URL}/login`, {
       userName,
       password,
     });
@@ -126,7 +126,6 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem("token", resData.token);
       setToken(resData.token);
       setIsLoggedIn(true);
-      console.log("data", resData);
       setUser({
         userId: resData.userId,
         username: resData.username,

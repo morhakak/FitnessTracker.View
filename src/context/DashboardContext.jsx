@@ -12,7 +12,6 @@ export const DashboardProvider = ({ children }) => {
   const getUsers = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/dashboard/users`);
-      console.log("users:", response.data);
       setUsers(response.data);
     } catch (error) {
       console.error("Failed to fetch users", error);

@@ -8,6 +8,7 @@ import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import PropTypes from "prop-types";
 import { useWorkouts } from "../context/WorkoutContext";
 import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const WorkoutFilter = ({
   searchTerm,
@@ -19,6 +20,7 @@ const WorkoutFilter = ({
 }) => {
   const { state } = useWorkouts();
   const [hasLiked, setHasLiked] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (state.workouts.length == 0) return;
@@ -28,7 +30,11 @@ const WorkoutFilter = ({
   }, [state.workouts]);
 
   return (
-    <div className="relative flex justify-center text-white w-[25rem] rounded-md py-[10px] bg-[#395756] shadow-sm dark:bg-[#10192E] mt-4">
+    <div
+      className={`relative flex justify-center text-white w-[25rem] rounded-md py-[10px] bg-[#395756] shadow-sm dark:bg-[#10192E] ${
+        user && user.isAdmin ? "mt-[200px]" : "mt-4"
+      }`}
+    >
       <input
         type="text"
         placeholder="Search workouts..."

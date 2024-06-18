@@ -14,7 +14,7 @@ export default function DashboardCard({ action, icon, text }) {
 }
 
 DashboardCard.propTypes = {
-  action: PropTypes.string.isRequired,
-  icon: PropTypes.node.isRequired,
+  action: PropTypes.func.isRequired,
+  icon: PropTypes.any.isRequired,
   text: PropTypes.string.isRequired,
 };
