@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { toast } from "sonner";
@@ -8,13 +8,17 @@ export const DashboardContext = createContext();
 
 export const DashboardProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
+  const [usersLoading, setUsersLoading] = useState(false);
 
   const getUsers = async () => {
     try {
+      setUsersLoading(true);
       const response = await axios.get(`${BASE_URL}/dashboard/users`);
       setUsers(response.data);
     } catch (error) {
       console.error("Failed to fetch users", error);
+    } finally {
+      setUsersLoading(false);
     }
   };
 
@@ -34,10 +38,20 @@ export const DashboardProvider = ({ children }) => {
   };
 
   return (
-    <DashboardContext.Provider value={{ users, getUsers, deleteUser }}>
+    <DashboardContext.Provider
+      value={{ users, getUsers, deleteUser, usersLoading }}
+    >
       {children}
     </DashboardContext.Provider>
   );
+};
+
+export const useDashboard = () => {
+  const context = useContext(DashboardContext);
+  if (!context) {
+    throw new Error("useDashboard must be used within a DashboardProvider");
+  }
+  return context;
 };
 
 DashboardProvider.propTypes = {

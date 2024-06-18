@@ -1,20 +1,19 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 
-export default function DashboardCard({ action, icon, text }) {
+export default function DashboardCard({ action, children }) {
   return (
     <div
       onClick={action}
-      className="p-4 h-40 w-40 flex flex-col justify-center items-center shadow-lg hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:shadow-slate-800 rounded-md bg-[#395756]"
+      className={` p-4 h-40 w-40 flex flex-col text-white justify-center items-center shadow-lg  hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-[#10192E] dark:shadow-slate-800 rounded-md bg-[#395756] ${
+        action ? "hover:cursor-pointer" : ""
+      }`}
     >
-      <FontAwesomeIcon icon={icon} className="text-5xl mb-2" />
-      <p className="mt-4 text-lg text-center">{text}</p>
+      {children}
     </div>
   );
 }
 
 DashboardCard.propTypes = {
-  action: PropTypes.func.isRequired,
-  icon: PropTypes.any.isRequired,
-  text: PropTypes.string.isRequired,
+  action: PropTypes.func,
+  children: PropTypes.node,
 };

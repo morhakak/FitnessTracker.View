@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import WorkoutCard from "../components/workout/WorkoutCard";
 import { useWorkouts } from "../context/WorkoutContext";
 import AddWorkoutForm from "../components/workout/AddWorkoutForm";
@@ -10,6 +10,7 @@ import WorkoutFilter from "../components/workout/WorkoutFilter";
 import { useAuth } from "../context/AuthContext";
 import spinner from "../assets/spinner.gif";
 import { Helmet } from "react-helmet-async";
+import { DashboardContext } from "../context/DashboardContext";
 
 Modal.setAppElement("#root");
 
@@ -22,6 +23,7 @@ export default function WorkoutsView() {
   const [showLikedOnly, setShowLikedOnly] = useState(false);
   const [sortOption, setSortOption] = useState("createdDate");
   const { user, getToken } = useAuth();
+  const { usersLoading } = useContext(DashboardContext);
 
   useEffect(() => {
     getToken();
@@ -108,8 +110,10 @@ export default function WorkoutsView() {
       return a.name.localeCompare(b.name);
     } else if (sortOption === "zToA") {
       return b.name.localeCompare(a.name);
-    } else {
+    } else if (sortOption === "createdDate") {
       return new Date(a.createdAt) - new Date(b.createdAt);
+    } else {
+      return a.userId.localeCompare(b.userId);
     }
   });
 
@@ -131,7 +135,7 @@ export default function WorkoutsView() {
           />
         </div>
         <div className="justify-start rounded-md pt-4 grid grid-cols-2 px-4 gap-4 mt-8 mb-6 sm:grid-cols-2 md:grid-cols-3">
-          {loader.loadWorkouts ? (
+          {loader.loadWorkouts || usersLoading ? (
             <div className="text-xl flex mt-4 dark:text-white col-span-3">
               <img src={spinner} alt="spinner" className="w-6 mr-2" />
               Loading workouts...

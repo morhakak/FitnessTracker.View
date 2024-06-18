@@ -31,7 +31,7 @@ const UserCard = ({ userProp, onDeleteUser }) => {
   };
 
   return (
-    <div className="flex items-center rounded-md p-4 justify-between bg-[#395756] text-white h-12 w-[400px] sm:w-[500px] shadow-md hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-[#10192E] dark:shadow-slate-800 ">
+    <div className="flex items-center rounded-md p-4 justify-between bg-[#395756] text-white h-12 w-[400px] sm:w-[500px] shadow-md hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-[#10192E] dark:shadow-slate-800 ">
       <div className="flex items-center flex-1 space-x-4">
         <FontAwesomeIcon icon={faUserCircle} className="text-xl" />
         <p className="truncate">{userProp.userName}</p>

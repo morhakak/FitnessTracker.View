@@ -54,6 +54,7 @@ const WorkoutFilter = ({
         <option value="aToZ">A-Z</option>
         <option value="zToA">Z-A</option>
         <option value="createdDate">Created Date</option>
+        {user?.isAdmin && <option value="user">User</option>}
       </select>
       <FontAwesomeIcon
         icon={faArrowUpAZ}
