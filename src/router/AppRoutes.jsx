@@ -10,13 +10,18 @@ import DashboardView from "../views/DashboardView";
 import ManageUsersView from "../views/ManageUsersView";
 import StatisticsView from "../views/StatisticsView";
 import ProtectedRoute from "./ProtectedRoute";
+import ProtectedAdminRoute from "./ProtectedAdminRoute";
+import GuestRoute from "./GuestRoute";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<ProtectedRoute component={WorkoutsView} />} />
-      <Route path="/register" element={<RegisterView />} />
-      <Route path="/login" element={<LoginView />} />
+      <Route
+        path="/register"
+        element={<GuestRoute component={RegisterView} />}
+      />
+      <Route path="/login" element={<GuestRoute component={LoginView} />} />
       <Route path="/about" element={<AboutView />} />
       <Route path="/contact" element={<ContactView />} />
       <Route
@@ -28,10 +33,22 @@ const AppRoutes = () => {
         element={<ProtectedRoute component={WorkoutView} />}
       />
       <Route path="/welcome" element={<WelcomeView />} />
-      <Route path="/dashboard" element={<DashboardView />} />
-      <Route path="/dashboard/user-managament" element={<ManageUsersView />} />
-      <Route path="/dashboard/workouts" element={<WorkoutsView />} />
-      <Route path="/dashboard/stats" element={<StatisticsView />} />
+      <Route
+        path="/dashboard"
+        element={<ProtectedAdminRoute component={DashboardView} />}
+      />
+      <Route
+        path="/dashboard/user-managament"
+        element={<ProtectedAdminRoute component={ManageUsersView} />}
+      />
+      <Route
+        path="/dashboard/workouts"
+        element={<ProtectedAdminRoute component={WorkoutsView} />}
+      />
+      <Route
+        path="/dashboard/stats"
+        element={<ProtectedAdminRoute component={StatisticsView} />}
+      />
     </Routes>
   );
 };
