@@ -8,8 +8,22 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useWorkouts } from "../../context/WorkoutContext";
 import { format } from "date-fns";
+import { useContext, useEffect, useState } from "react";
+import { DashboardContext } from "../../context/DashboardContext";
+import { useAuth } from "../../context/AuthContext";
 
 const WorkoutCard = ({ workout, onRemoveWorkout }) => {
+  const { users } = useContext(DashboardContext);
+  const { user } = useAuth();
+  const [userToDisplay, setUserToDisplay] = useState(null);
+
+  useEffect(() => {
+    if (users.length > 0) {
+      const user = users.find((u) => u.userId === workout.userId);
+      setUserToDisplay(user);
+    }
+  }, [users, workout.userId]);
+
   const navigate = useNavigate();
   const { toggleLikeWorkout } = useWorkouts();
 
@@ -27,6 +41,11 @@ const WorkoutCard = ({ workout, onRemoveWorkout }) => {
     onRemoveWorkout(workout);
   };
 
+  const firstLetterToUpperCase = (string) => {
+    if (string)
+      return string[0]?.toUpperCase() + string?.slice(1).toLowerCase();
+  };
+
   const formattedDate = format(new Date(workout.createdAt), "dd-MM-yyyy HH:mm");
 
   return (
@@ -35,6 +54,11 @@ const WorkoutCard = ({ workout, onRemoveWorkout }) => {
         onClick={handleWorkoutSelection}
         className="card-content flex flex-col gap-2 h-full w-full"
       >
+        {user && user.isAdmin && (
+          <span className="absolute text-xs bg-white text-black rounded-full font-semibold px-2 bottom-5">
+            {firstLetterToUpperCase(userToDisplay?.userName)}
+          </span>
+        )}
         <p
           className={`text-lg flex-grow  font-semibold break-keep self-center`}
         >

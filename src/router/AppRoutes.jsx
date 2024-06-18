@@ -30,7 +30,7 @@ const AppRoutes = () => {
       <Route path="/welcome" element={<WelcomeView />} />
       <Route path="/dashboard" element={<DashboardView />} />
       <Route path="/dashboard/user-managament" element={<ManageUsersView />} />
-      <Route path="/dashboard/workout" element={<WorkoutsView />} />
+      <Route path="/dashboard/workouts" element={<WorkoutsView />} />
       <Route path="/dashboard/stats" element={<StatisticsView />} />
     </Routes>
   );

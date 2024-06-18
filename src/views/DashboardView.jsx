@@ -23,7 +23,7 @@ const DashboardView = () => {
         <DashboardCard
           text="Manage Workouts"
           icon={faDumbbell}
-          action={() => navigate("/dashboard/workout")}
+          action={() => navigate("/dashboard/workouts")}
         />
         <DashboardCard
           text="Statistics"

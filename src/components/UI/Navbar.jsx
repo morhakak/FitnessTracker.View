@@ -19,6 +19,10 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  function firstLetterToUpperCase(string) {
+    if (string) return string[0].toUpperCase() + string.slice(1).toLowerCase();
+  }
+
   return (
     <header className="bg-[#395756] relative sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3 shadow-slate-300  dark:bg-[#10192E]">
       <div className="flex items-center justify-between px-4 py-3 sm:p-0">
@@ -61,7 +65,9 @@ const Navbar = () => {
               src={user && user.imageUrl ? user.imageUrl : defaultImage}
             />
             Hi,&nbsp;
-            <span className="font-semibold">{user.username}</span>
+            <span className="font-semibold">
+              {firstLetterToUpperCase(user.username)}
+            </span>
             <span className="hidden sm:inline-block"> &nbsp; &nbsp;|</span>
           </p>
         )}

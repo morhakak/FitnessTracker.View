@@ -31,26 +31,20 @@ const UserCard = ({ userProp, onDeleteUser }) => {
   };
 
   return (
-    <div className="flex items-center justify-between h-12 w-[400px] sm:w-[500px] shadow-md hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-blue-950 dark:text-white dark:shadow-slate-800 rounded-md p-4">
+    <div className="flex items-center rounded-md p-4 justify-between bg-[#395756] text-white h-12 w-[400px] sm:w-[500px] shadow-md hover:cursor-pointer hover:shadow-lg transition-transform duration-300 hover:scale-105 dark:bg-[#10192E] dark:shadow-slate-800 ">
       <div className="flex items-center flex-1 space-x-4">
-        <FontAwesomeIcon
-          icon={faUserCircle}
-          className="text-xl text-gray-500 dark:text-blue-100"
-        />
+        <FontAwesomeIcon icon={faUserCircle} className="text-xl" />
         <p className="truncate">{userProp.userName}</p>
       </div>
       <div className="flex items-center flex-1 space-x-4">
-        <FontAwesomeIcon
-          icon={faEnvelope}
-          className="text-xl text-gray-500 dark:text-blue-100"
-        />
+        <FontAwesomeIcon icon={faEnvelope} className="text-xl" />
         <p className="truncate">{userProp.email}</p>
       </div>
       <div className="flex items-center flex-1 justify-end space-x-4">
         <p className="truncate">{userProp.roles.join(", ")}</p>
         <FontAwesomeIcon
           icon={faTrashCan}
-          className="text-xl text-gray-500 dark:text-blue-100 cursor-pointer"
+          className="text-xl cursor-pointer"
           onClick={() => handleDeleteClick(userProp.userId)}
         />
       </div>
