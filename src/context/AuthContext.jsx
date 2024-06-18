@@ -48,6 +48,7 @@ const AuthProvider = ({ children }) => {
           "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
         ];
 
+      const createdAt = decodedToken["createdAt"];
       const imageUrl = decodedToken["image"];
 
       setUser((prev) => ({
@@ -58,6 +59,7 @@ const AuthProvider = ({ children }) => {
         role,
         isAdmin: role == "admin",
         imageUrl,
+        createdAt,
       }));
     }
     setIsLoading(false);
@@ -132,6 +134,7 @@ const AuthProvider = ({ children }) => {
         email: resData.email,
         isAdmin: resData.isAdmin,
         imageUrl: resData.imageUrl,
+        createdAt: resData.createdAt,
       });
       navigate("/");
       toast.success(`${userName} logged in successfully`);
