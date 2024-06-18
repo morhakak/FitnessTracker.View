@@ -1,5 +1,5 @@
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import UserCard from "../components/UserCard";
+import UserCard from "../components/dashboard/UserCard";
 import { DashboardContext } from "../context/DashboardContext";
 import { useContext, useEffect } from "react";
 import { Helmet } from "react-helmet-async";

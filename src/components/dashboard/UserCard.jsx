@@ -8,7 +8,7 @@ import {
 import Modal from "react-modal";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const UserCard = ({ userProp, onDeleteUser }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
