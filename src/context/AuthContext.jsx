@@ -28,6 +28,11 @@ const AuthProvider = ({ children }) => {
 
       const decodedToken = jwtDecode(tokenFromStorage);
 
+      const userId =
+        decodedToken[
+          "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+        ];
+
       const username =
         decodedToken[
           "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
@@ -46,6 +51,7 @@ const AuthProvider = ({ children }) => {
 
       setUser((prev) => ({
         ...prev,
+        userId,
         username,
         email,
         role,

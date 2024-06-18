@@ -26,7 +26,7 @@ const UserManagement = () => {
                 timeout={400}
                 classNames="userslist"
               >
-                <UserCard user={user} onDeleteUser={deleteUser} />
+                <UserCard userProp={user} onDeleteUser={deleteUser} />
               </CSSTransition>
             ))}
           </TransitionGroup>

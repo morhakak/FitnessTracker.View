@@ -95,10 +95,9 @@ export default function About() {
 
       <h2 className="text-2xl font-semibold mb-3">Get Started Today</h2>
       <p>
-        Download Fitness Tracker and start your strength training journey with
-        us. Whether you&apos;re aiming to build muscle, increase strength, or
-        simply stay active, our app is here to support you every step of the
-        way.
+        Create your account and start your strength training journey with us.
+        Whether you&apos;re aiming to build muscle, increase strength, or simply
+        stay active, our app is here to support you every step of the way.
       </p>
     </div>
   );

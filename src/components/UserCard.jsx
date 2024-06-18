@@ -8,11 +8,16 @@ import {
 import Modal from "react-modal";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useAuth } from "../context/AuthContext";
 
-const UserCard = ({ user, onDeleteUser }) => {
+const UserCard = ({ userProp, onDeleteUser }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const { user } = useAuth();
 
   const handleDeleteClick = (userId) => {
+    console.log("admin id:", user?.userId);
+    console.log("id to delete:", userId);
+    console.log("logged user:", user);
     if (user && user.userId == userId) {
       toast.error("You cannot delete yourself.");
       return;
@@ -21,7 +26,7 @@ const UserCard = ({ user, onDeleteUser }) => {
   };
 
   const confirmDelete = () => {
-    onDeleteUser(user.userId);
+    onDeleteUser(userProp.userId);
     setModalIsOpen(false);
   };
 
@@ -32,21 +37,21 @@ const UserCard = ({ user, onDeleteUser }) => {
           icon={faUserCircle}
           className="text-xl text-gray-500 dark:text-blue-100"
         />
-        <p className="truncate">{user.userName}</p>
+        <p className="truncate">{userProp.userName}</p>
       </div>
       <div className="flex items-center flex-1 space-x-4">
         <FontAwesomeIcon
           icon={faEnvelope}
           className="text-xl text-gray-500 dark:text-blue-100"
         />
-        <p className="truncate">{user.email}</p>
+        <p className="truncate">{userProp.email}</p>
       </div>
       <div className="flex items-center flex-1 justify-end space-x-4">
-        <p className="truncate">{user.roles.join(", ")}</p>
+        <p className="truncate">{userProp.roles.join(", ")}</p>
         <FontAwesomeIcon
           icon={faTrashCan}
           className="text-xl text-gray-500 dark:text-blue-100 cursor-pointer"
-          onClick={() => handleDeleteClick(user.userId)}
+          onClick={() => handleDeleteClick(userProp.userId)}
         />
       </div>
       {modalIsOpen && (
@@ -66,7 +71,7 @@ const UserCard = ({ user, onDeleteUser }) => {
           </div>
           <div className="flex-grow flex flex-col justify-center">
             <h2 className="text-center text-md px-8 mb-2">
-              Delete user <span className="italic">{user.email}</span>
+              Delete user <span className="italic">{userProp.email}</span>
             </h2>
             <p className="text-lg text-center">Are you sure?</p>
           </div>
@@ -91,7 +96,7 @@ const UserCard = ({ user, onDeleteUser }) => {
 };
 
 UserCard.propTypes = {
-  user: PropTypes.shape({
+  userProp: PropTypes.shape({
     userName: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     roles: PropTypes.arrayOf(PropTypes.string).isRequired,
