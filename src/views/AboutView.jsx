@@ -2,7 +2,7 @@ import { faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import highFiveImage from "../assets/workoutImages/good-vibes-at-gym.jpg";
 
-export default function About() {
+export default function AboutView() {
   return (
     <div className="max-w-4xl text-white mt-8 mx-auto p-6 bg-[#395756] shadow-md rounded-md dark:bg-[#10192E]">
       <div className="flex flex-col md:flex-row mb-4">
