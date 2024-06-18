@@ -4,7 +4,7 @@ import {
   faDumbbell,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import DashboardCard from "../components/DashboardCard";
+import DashboardCard from "../components/dashboard/DashboardCard";
 import { Helmet } from "react-helmet-async";
 
 const DashboardView = () => {
