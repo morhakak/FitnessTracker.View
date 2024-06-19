@@ -20,12 +20,9 @@ const UserCard = ({ userProp, onDeleteUser }) => {
     if (string) return string[0].toUpperCase() + string.slice(1).toLowerCase();
   }
 
-  console.log(user);
+  console.log(userProp);
 
   const handleDeleteClick = (userId) => {
-    console.log("admin id:", user?.userId);
-    console.log("id to delete:", userId);
-    console.log("logged user:", user);
     if (user && user.userId == userId) {
       toast.error("You cannot delete yourself.");
       return;
@@ -38,9 +35,11 @@ const UserCard = ({ userProp, onDeleteUser }) => {
     setModalIsOpen(false);
   };
 
+  const isAdmin = userProp.roles.includes("admin");
+
   return (
     <div className="relative flex flex-col justify-start items-start mb-4 py-4 h-[180px] gap-3 text-xs sm:text-sm rounded-md p-4 bg-[#395756] text-white w-[350px] sm:w-[400px] shadow-md dark:bg-[#10192E] dark:shadow-slate-800 ">
-      {user.userId == userProp.userId && (
+      {isAdmin && (
         <span className="bg-white absolute font-medium py-1 px-2 left-48 text-black rounded-full">
           Admin
         </span>

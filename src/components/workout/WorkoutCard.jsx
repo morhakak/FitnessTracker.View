@@ -62,7 +62,7 @@ const WorkoutCard = ({ workout, onRemoveWorkout }) => {
         <p
           className={`text-lg flex-grow  font-semibold break-keep self-center`}
         >
-          {workout.name}
+          {firstLetterToUpperCase(workout.name)}
         </p>
         <div className="flex gap-6 sm:w-full sm:justify-between">
           <p className="text-gray-200 text-[10px] italic dark:text-gray-200">

@@ -6,15 +6,15 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function Breadcrumbs() {
   const location = useLocation();
-  const { workouts } = useWorkouts();
+  const { workouts, workoutsLoading } = useWorkouts();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    if (workouts.length > 0) {
+    if (!workoutsLoading) {
       setLoading(false);
     }
-  }, [workouts]);
+  }, [workoutsLoading]);
 
   let currentLink = "";
 
