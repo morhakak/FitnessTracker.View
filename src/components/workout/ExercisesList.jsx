@@ -143,7 +143,7 @@ export default function ExercisesList({ workoutId }) {
             <button
               type="submit"
               disabled={!exerciseName}
-              className="px-2 bg-[#191C29] outline-style: solid bg-transparent border-2 hover:bg-white hover:text-[#395756] dark:hover:bg-white dark:hover:text-[#122e60]  text-white text-xl rounded-md transition duration-300  disabled:bg-slate-300 dark:bg-[#0D2247] hover:dark:bg-[#122e60] dark:disabled:bg-slate-500 disabled:cursor-not-allowed disabled:hover:text-white"
+              className="px-2 outline-style: solid bg-transparent border-2 hover:bg-white hover:text-[#395756] dark:hover:bg-white dark:hover:text-[#122e60] text-xl rounded-md transition duration-300  disabled:bg-slate-300 dark:bg-[#0D2247] dark:disabled:bg-slate-500 disabled:cursor-not-allowed disabled:hover:text-white"
             >
               +
             </button>
@@ -248,7 +248,7 @@ export default function ExercisesList({ workoutId }) {
             No exercises available
           </p>
         )}
-        {isChanged && (
+        {isChanged && workout.exercises.length > 0 && (
           <div className="bg-[#395756] text-white shadow-md rounded-md p-4 flex justify-center items-center mb-8 sticky right-20.5 bottom-6 sm:right-[8rem] sm:bottom-6 dark:bg-[#10192E] dark:shadow-slate-800">
             <button
               onClick={() => {

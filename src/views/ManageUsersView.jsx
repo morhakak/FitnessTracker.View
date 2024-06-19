@@ -11,7 +11,7 @@ const UserManagement = () => {
       <Helmet>
         <title>Users Managament - Fitness Tracker</title>
       </Helmet>
-      <div className="w-full gap-10 py-6 px-4 dark:text-white">
+      <div className="w-full gap-10 mt-12 py-6 px-4 dark:text-white">
         <div className="flex flex-col justify-center items-center gap-6">
           <TransitionGroup component="div" className="flex flex-col gap-4">
             {users.map((user) => (

@@ -15,7 +15,7 @@ const DashboardView = () => {
       <Helmet>
         <title>Dashboard - Fitness Tracker</title>
       </Helmet>
-      <div className="flex flex-col sm:flex-row text-white w-full sm:h-[400px] justify-center items-center gap-10 py-6 px-4 dark:text-white">
+      <div className="flex flex-col mt-12 sm:flex-row text-white w-full sm:h-[300px] justify-center items-center gap-10 py-6 px-4 dark:text-white">
         <DashboardCard action={() => navigate("/dashboard/user-managament")}>
           <div className="flex flex-col items-center text-center">
             <FontAwesomeIcon icon={faUsers} className="text-5xl mb-2" />

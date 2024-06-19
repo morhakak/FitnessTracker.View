@@ -57,7 +57,7 @@ export default function AddExerciseForm({ workoutId }) {
           <button
             type="submit"
             disabled={!exerciseName}
-            className="px-2 bg-[#191C29] hover:bg-[#2f354d] text-white text-xl rounded-md transition duration-300  disabled:bg-slate-300 dark:bg-[#0D2247] hover:dark:bg-[#122e60] dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
+            className="px-2 bg-[#191C29] dark:text-white hover:bg-[#2f354d] text-white text-xl rounded-md transition duration-300  disabled:bg-slate-300 dark:bg-[#0D2247] hover:dark:bg-[#122e60] dark:disabled:bg-slate-500 disabled:cursor-not-allowed"
           >
             +
           </button>

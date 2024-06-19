@@ -59,12 +59,18 @@ export default function Breadcrumbs() {
 
   if (loading) {
     return (
-      <div className="max-w-4xl ml-4 my-5 flex items-center">
-        <FontAwesomeIcon icon={faSpinner} className="mr-2" />
-        Loading...
+      <div className="absolute top-12">
+        <div className="max-w-4xl ml-4 my-5 flex items-center">
+          <FontAwesomeIcon icon={faSpinner} className="mr-2" />
+          Loading...
+        </div>
       </div>
     );
   }
 
-  return <div className="max-w-4xl ml-4 my-5 flex ">{crumbs}</div>;
+  return (
+    <div className="absolute top-12">
+      <div className="max-w-4xl ml-4 my-5 flex">{crumbs}</div>
+    </div>
+  );
 }

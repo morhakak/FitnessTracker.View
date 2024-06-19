@@ -1,16 +1,26 @@
 import ExercisesList from "../components/workout/ExercisesList";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useWorkouts } from "../context/WorkoutContext";
 import { toast } from "sonner";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Helmet } from "react-helmet-async";
+import { useEffect } from "react";
 
 export default function WorkoutView() {
   const { id } = useParams();
   const { workouts, workoutsLoading } = useWorkouts();
+  const navigate = useNavigate();
 
   const workout = workouts.find((workout) => workout.workoutId === id);
+
+  useEffect(() => {
+    if (!workoutsLoading && !workout) {
+      navigate("/404");
+    }
+  }, [workoutsLoading, workout, navigate]);
+
+  // const workout = workouts.find((workout) => workout.workoutId === id);
 
   if (workoutsLoading && !workout) {
     toast(

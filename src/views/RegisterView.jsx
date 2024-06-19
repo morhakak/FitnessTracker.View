@@ -123,7 +123,7 @@ const RegisterView = () => {
         <title>Register - Fitness Tracker</title>
       </Helmet>
       <div className="relative max-h-[90vh]">
-        <div className="max-w-md mx-auto shadow-lg mt-10 rounded-md md:max-w-lg lg:max-w-xl p-4 relative bg-[#395756] dark:bg-[#10192E]  dark:shadow-slate-700">
+        <div className="max-w-md mx-auto shadow-lg mt-[4rem] mb-[4rem] rounded-md md:max-w-lg lg:max-w-xl p-4 relative bg-[#395756] dark:bg-[#10192E]  dark:shadow-slate-700">
           <form
             className="flex flex-col relative justify-center"
             onSubmit={handleSubmit}

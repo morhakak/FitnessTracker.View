@@ -11,6 +11,7 @@ import StatisticsView from "../views/StatisticsView";
 import ProtectedRoute from "./ProtectedRoute";
 import ProtectedAdminRoute from "./ProtectedAdminRoute";
 import GuestRoute from "./GuestRoute";
+import NotFoundView from "../views/NotFoundView";
 
 const AppRoutes = () => {
   return (
@@ -47,6 +48,7 @@ const AppRoutes = () => {
         path="/dashboard/stats"
         element={<ProtectedAdminRoute component={StatisticsView} />}
       />
+      <Route path="*" element={<NotFoundView />} />
     </Routes>
   );
 };

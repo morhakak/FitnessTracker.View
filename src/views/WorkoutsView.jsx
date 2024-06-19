@@ -125,7 +125,6 @@ export default function WorkoutsView() {
       }
     });
 
-  console.log(sortedWorkouts);
   return (
     <>
       <Helmet>
@@ -143,7 +142,7 @@ export default function WorkoutsView() {
             setSortOption={setSortOption}
           />
         </div>
-        <div className="justify-start rounded-md pt-4 grid grid-cols-2 px-4 gap-4 mt-8 mb-6 sm:grid-cols-2 md:grid-cols-3">
+        <div className="justify-start rounded-md pt-4 grid grid-cols-2 px-4 gap-4 mt-8 sm:grid-cols-2 md:grid-cols-3">
           {workoutsLoading || usersLoading ? (
             <div className="text-xl flex mt-4 dark:text-white col-span-3">
               <img src={spinner} alt="spinner" className="w-6 mr-2" />

@@ -14,7 +14,7 @@ const Stats = () => {
       <Helmet>
         <title>Stats - Fitness Tracker</title>
       </Helmet>
-      <div className="flex flex-col w-full h-[300px] justify-center items-center gap-14 py-6 px-4 dark:text-white">
+      <div className="flex flex-col w-full mt-12 h-[300px] justify-center items-center gap-14 py-6 px-4 dark:text-white">
         <div className="flex flex-col sm:flex-row gap-10">
           <DashboardCard>
             <div className="flex flex-col items-center text-center">

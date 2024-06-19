@@ -73,7 +73,7 @@ const LoginView = () => {
       <Helmet>
         <title>Login - Fitness Tracker</title>
       </Helmet>
-      <div className="max-w-md mx-auto shadow-lg mt-10 rounded-md md:max-w-lg lg:max-w-xl p-4 relative shadow-slate-400 bg-[#395756] dark:bg-[#10192E] dark:shadow-slate-700">
+      <div className="max-w-md mx-auto shadow-lg mt-[5rem] rounded-md md:max-w-lg lg:max-w-xl p-4 relative shadow-slate-400 bg-[#395756] dark:bg-[#10192E] dark:shadow-slate-700">
         <form className="flex flex-col relative" onSubmit={loginHandler}>
           <div className="flex items-center relative mb-4">
             <FontAwesomeIcon
