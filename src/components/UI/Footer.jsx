@@ -1,4 +1,8 @@
-import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDumbbell,
+  faEnvelope,
+  faPhone,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Footer() {
@@ -6,8 +10,13 @@ export default function Footer() {
     <footer className="bg-[#395756] sm:h-[65px] h-[160px] mt-5 pb-3 sm:py-10 text-center text-xs w-full text-white dark:bg-[#10192E]">
       <div className="flex flex-col justify-center items-center w-full h-full">
         <p className="text-sm mb-2">
-          &copy; {new Date().getFullYear()} Fitness Tracker | All rights
-          reserved to Mor Hakak
+          <span className="inline-block">
+            <FontAwesomeIcon className="mr-2" icon={faDumbbell} />
+            Fitness Tracker
+          </span>
+          <span className="mr-2 ml-1">
+            &copy; {new Date().getFullYear()} | All rights reserved to Mor Hakak
+          </span>
         </p>
         <div className="flex gap-2">
           <div className="flex text-sm justify-center items-center gap-1">
