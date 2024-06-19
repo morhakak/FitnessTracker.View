@@ -95,13 +95,13 @@ Usage
 
 **Register:**
 
-- Open the application in your browser: http://localhost:3000
-- Click on the "Sign Up" button and create a new account.
+- Open the application in your browser: http://localhost:{your current port}
+- Click on the "Register" button and create a new account.
 
 **Login**
 
-- Click on the "Login" button and enter your credentials.
-  If you are an admin, you will have additional privileges.
+- On "Login" enter your credentials.
+  If you are an admin, you will have additional privileges (see Admin section).
 
 - Managing Workouts and Exercises
   After logging in, navigate to the "Workouts" section.
@@ -114,8 +114,8 @@ Admin Credentials:
 Username: _admin_
 Password: _AdminPassword123!_
 
-- When logged in as an Admin you can see all the users workouts, each work out with his username creator tag.
-- You will have an Admin dashboard view so you can manage users, manage workouts and see app statistics.
+- When logged in as an Admin, you can see all users' workouts, each tagged with the username of its creator.
+- You will have an Admin dashboard view, allowing you to manage users, manage workouts, and view app statistics.
 
 **API Endpoints**
 
