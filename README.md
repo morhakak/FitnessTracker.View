@@ -106,7 +106,16 @@ Usage
 - Managing Workouts and Exercises
   After logging in, navigate to the "Workouts" section.
   Create, update, or delete workouts, exercises, and sets.
-  Use the like/dislike feature to set favirote workouts.
+  Use the like/dislike feature to set favorite workouts.
+
+Admin
+
+Admin Credentials:
+Username: _admin_
+Password: _AdminPassword123!_
+
+- When logged in as an Admin you can see all the users workouts, each work out with his username creator tag.
+- You will have an Admin dashboard view so you can manage users, manage workouts and see app statistics.
 
 **API Endpoints**
 
